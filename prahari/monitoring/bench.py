@@ -128,17 +128,16 @@ def rca_bench(settings: Settings, workdir: Path) -> dict:
     return res
 
 
-def _fast_load_kpi(engine, net: NetworkModel, start, end) -> KpiStore:
+def _fast_load_kpi(engine, net: NetworkModel, start, end, cross: bool = True) -> KpiStore:
     """Same tensor as ``load_kpi`` but with a raw DBAPI cursor and vectorised timestamp parsing."""
     cols = ", ".join(f"k.{c}" for c in KPI_COLUMNS)
     sql = (
-        f"SELECT k.ts, k.node_id, {cols} FROM nodes n JOIN kpi_samples k "  # noqa: S608
+        f"SELECT k.ts, k.node_id, {cols} FROM nodes n {'CROSS JOIN' if cross else 'JOIN'} kpi_samples k "  # noqa: S608
         "ON k.node_id = n.node_id WHERE k.ts >= ? AND k.ts < ?"
     )
-    fmt = "%Y-%m-%d %H:%M:%S.%f"
     conn = engine.raw_connection()
     try:
-        rows = conn.cursor().execute(sql, (start.strftime(fmt), end.strftime(fmt))).fetchall()
+        rows = conn.cursor().execute(sql, (start.to_pydatetime(), end.to_pydatetime())).fetchall()
     finally:
         conn.close()
     ts = np.array([r[0] for r in rows], dtype="datetime64[us]").astype("datetime64[m]")
@@ -183,19 +182,24 @@ def pipeline_profile(settings: Settings) -> dict:
         and a.values.shape == b.values.shape
         and np.allclose(a.values, b.values, equal_nan=True)
     )
-    before = _pct(_time(lambda: load_kpi(engine, net, lo, hi), 60, 5))
-    after = _pct(_time(lambda: _fast_load_kpi(engine, net, lo, hi), 60, 5))
+    plain = lambda lo_, hi_: _fast_load_kpi(engine, net, lo_, hi_, cross=False)  # noqa: E731
+    cross = lambda lo_, hi_: _fast_load_kpi(engine, net, lo_, hi_)  # noqa: E731
     long_lo, long_hi = wins[3][0], wins[3][0] + pd.Timedelta(days=1)
-    before_d = _pct(_time(lambda: load_kpi(engine, net, long_lo, long_hi), 8, 1))
-    after_d = _pct(_time(lambda: _fast_load_kpi(engine, net, long_lo, long_hi), 8, 1))
+    t_ = {}
+    for key, fn, (l_, h_), n_ in (
+        ("plain", plain, (lo, hi), 8),
+        ("stock", lambda a_, b_: load_kpi(engine, net, a_, b_), (lo, hi), 40),
+        ("raw", cross, (lo, hi), 40),
+        ("plain_day", plain, (long_lo, long_hi), 4),
+        ("stock_day", lambda a_, b_: load_kpi(engine, net, a_, b_), (long_lo, long_hi), 6),
+        ("raw_day", cross, (long_lo, long_hi), 6),
+    ):
+        t_[key] = _pct(_time(lambda fn=fn, l_=l_, h_=h_: fn(l_, h_), n_, 1))
     full = _pct(_time(lambda: feats(), 40, 3))
     return {
         "profile_top": top,
         "identical": same,
-        "before_ms": before,
-        "after_ms": after,
-        "before_day_ms": before_d,
-        "after_day_ms": after_d,
+        "t": t_,
         "serve_features_ms": full,
     }
 
@@ -253,21 +257,25 @@ def write_report(rca: dict, prof: dict, e2e: tuple[float, float], path: Path) ->
         "```",
         "",
         f"Whole call: p50 {prof['serve_features_ms'][0]:.1f} ms, p95 {prof['serve_features_ms'][1]:.1f} ms.",
-        "Top hotspot: loading KPI rows (`load_kpi`: `pd.read_sql` through SQLAlchemy, which builds a "
-        "Python row object per sample before pandas converts it).",
+        "Top hotspot: the KPI query in `load_kpi` (SQLite `fetchall` plus SQLAlchemy row objects).",
         "",
-        "Speed-up tried (here in `prahari/monitoring/bench.py`, pipeline code untouched): a raw DBAPI "
-        "cursor, vectorised timestamp parsing and direct tensor fill.",
-        f"Output identical to `load_kpi`: {prof['identical']}.",
+        "Speed-up (A1 has already applied it in `load_kpi`: `CROSS JOIN` so SQLite drives the join from "
+        "`nodes` and uses the `(node_id, ts)` index instead of scanning all 15M rows). Before = the same "
+        "query with a plain `JOIN`, measured through a raw cursor here; after = stock `load_kpi`. "
+        "A raw cursor with vectorised parsing (`_fast_load_kpi`, `prahari/monitoring/bench.py`) is "
+        f"shown as a further variant. Outputs identical to `load_kpi`: {prof['identical']}.",
         "",
-        "| window | before p50 / p95 ms | after p50 / p95 ms | speed-up |",
-        "|---|---|---|---|",
-        f"| 75 min (serving window incl. baseline) | {prof['before_ms'][0]:.1f} / {prof['before_ms'][1]:.1f} | "
-        f"{prof['after_ms'][0]:.1f} / {prof['after_ms'][1]:.1f} | {prof['before_ms'][0] / prof['after_ms'][0]:.2f}x |",
-        f"| 24 h (drift window) | {prof['before_day_ms'][0]:.0f} / {prof['before_day_ms'][1]:.0f} | "
-        f"{prof['after_day_ms'][0]:.0f} / {prof['after_day_ms'][1]:.0f} | {prof['before_day_ms'][0] / prof['after_day_ms'][0]:.2f}x |",
-        "",
+        "| window | plain JOIN p50 / p95 ms | stock `load_kpi` p50 / p95 ms | raw cursor + CROSS JOIN p50 / p95 ms | speed-up plain to stock |",
+        "|---|---|---|---|---|",
     ]
+    t = prof["t"]
+    for lab, k in (("75 min (serving window incl. baseline)", ""), ("24 h (drift window)", "_day")):
+        p_, s_, r_ = t["plain" + k], t["stock" + k], t["raw" + k]
+        L.append(
+            f"| {lab} | {p_[0]:.0f} / {p_[1]:.0f} | {s_[0]:.0f} / {s_[1]:.0f} | "
+            f"{r_[0]:.0f} / {r_[1]:.0f} | {p_[0] / s_[0]:.1f}x |"
+        )
+    L.append("")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(L))
 
