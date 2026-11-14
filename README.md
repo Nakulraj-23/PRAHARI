@@ -1,12 +1,31 @@
-# PRAHARI
+<div align="center">
 
-PRAHARI (प्रहरी, "sentinel") is a human-in-the-loop network-operations copilot for telecom operators.
-It validates alarms, finds the root cause of an alarm storm with a graph neural network, proposes a fix,
-and passes every proposal through a 10-check governance gate before a human approves it.
+# PRAHARI · प्रहरी
 
-**All data is synthetic.** It comes from a simulator in this repo. No result here is real-network accuracy.
+**A human-in-the-loop network-operations copilot for telecom.**
+It filters noise alarms, finds the root cause of an alarm storm with a graph neural network,
+proposes a fix, and asks a human before it acts.
+
+[![CI](https://github.com/Nakulraj-23/prahari/actions/workflows/ci.yml/badge.svg)](https://github.com/Nakulraj-23/prahari/actions)
+![Python](https://img.shields.io/badge/python-3.11-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-GNN-ee4c2c)
+![FastAPI](https://img.shields.io/badge/FastAPI-REST-009688)
+![React](https://img.shields.io/badge/React-dashboard-61dafb)
+![Tests](https://img.shields.io/badge/tests-175%20passing-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 ![Alarm storm and RCA](docs/screens/02-alarm-storm-rca.png)
+
+</div>
+
+> **In plain words:** when a cable is cut, dozens of devices send alarms at once and most are noise.
+> PRAHARI ignores the noise, works out which device is the real source, suggests a fix with a reason
+> (in English or Hindi), runs 10 safety checks, and lets a person press Approve.
+> **All data is synthetic**, produced by a simulator in this repo. No result here is real-network accuracy.
+
+**Contents:** [What it does](#what-it-does) · [Quickstart](#quickstart) · [Results](#results-seed-42-chronological-test-split-synthetic-data) ·
+[Architecture](#architecture) · [Screenshots](#screenshots) · [Limitations](#limitations-honest-list) ·
+[Docs](#documentation) · [Live demo](#live-demo-free-vercel)
 
 ## What it does
 
@@ -125,3 +144,23 @@ report) from `web/demo-data/`. The buttons do not change a backend. The full sys
 Deploy: Vercel, Add New Project, import this repo, set **Root Directory** to `web`, Deploy.
 `web/vercel.json` already sets the build command. Or from `web/`: `npx vercel --prod`.
 Local preview: `cd web && DEMO_DATA=1 VITE_MOCK=1 VITE_DEMO=1 npm run build && npx vite preview`.
+
+## Documentation
+
+| Read this | For |
+|---|---|
+| [docs/EXPLAIN_LIKE_IM_5.md](docs/EXPLAIN_LIKE_IM_5.md) | The whole project in plain language, with test results per component |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Components, data flow, design decisions and rejected alternatives |
+| [docs/INTERVIEW_GUIDE.md](docs/INTERVIEW_GUIDE.md) | Concepts from first principles and a 67-question bank |
+| [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) | Every failed attempt and what was learned |
+| [docs/bench.md](docs/bench.md) · [docs/loadtest.md](docs/loadtest.md) | Latency, model size and load-test numbers |
+
+## Audit and fix loop
+
+Three independent reviews (data, models, system) found real problems that were fixed and re-tested:
+a too-easy simulator, an anomaly baseline that absorbed lasting faults, a governance gap that let a
+low-confidence fault type through, and database locking under load. Details in `docs/handoffs/` and `docs/EXPERIMENTS.md`.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
