@@ -294,6 +294,8 @@ class Scoring:
     ):
         """RCA for a window, cached 30 s per (window, model version); one compute per window."""
         model = self.reg.get("rca")
+        if not self.db.has_kpi(start, end):
+            raise ApiError(422, "no KPI telemetry in the requested window", "no_data")
         key = (start, end, valid, noise, str(model.version))
         with self._lock:
             lock = self._rca_locks.setdefault(key, threading.Lock())

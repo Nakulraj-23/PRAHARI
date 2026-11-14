@@ -23,8 +23,11 @@ from prahari.serving.data import Db, audit, naive
 from prahari.serving.incidents import Incidents
 from prahari.serving.obs import ApiError
 from prahari.serving.services import Registry, Scoring, latency_stats
+from prahari.sim.constants import ALARM_TYPES
 
 LOG = logging.getLogger("prahari.api")
+MAX_RCA_WINDOW = timedelta(hours=6)
+MAX_VALIDATE_BATCH = 1000
 KPI_MAX_POINTS = 5000
 KPI_DEFAULT_MIN = 120
 
@@ -33,7 +36,7 @@ def _default_drift_runner(settings: Settings) -> Any:
     """A6's ``run_drift`` if present; it stores its report in ``drift_reports``."""
     from prahari.monitoring import run_drift  # type: ignore[attr-defined]
 
-    return run_drift()
+    return run_drift(settings=settings)
 
 
 def create_app(
@@ -147,6 +150,17 @@ def create_app(
     @app.post("/v1/alarms/validate", response_model=sc.ValidateResponse)
     def validate(body: sc.ValidateRequest, request: Request):
         st = S(request)
+        if len(body.alarms) > MAX_VALIDATE_BATCH:
+            raise ApiError(
+                422, f"at most {MAX_VALIDATE_BATCH} alarms per request", "validation_error"
+            )
+        ids = [a.alarm_id for a in body.alarms]
+        dup = sorted({i for i in ids if ids.count(i) > 1})
+        if dup:
+            raise ApiError(422, f"duplicate alarm_id(s): {dup[:5]}", "validation_error")
+        unknown = sorted({a.alarm_type for a in body.alarms} - set(ALARM_TYPES))
+        if unknown:
+            raise ApiError(422, f"unknown alarm_type(s): {unknown}", "validation_error")
         nodes = {n["node_id"] for n in st["db"].topology()["nodes"]}
         bad = sorted({a.node_id for a in body.alarms} - nodes)
         if bad:
@@ -213,6 +227,8 @@ def create_app(
     def rca(body: sc.WindowRequest, request: Request):
         if body.start >= body.end:
             raise ApiError(422, "start must be before end", "validation_error")
+        if body.end - body.start > MAX_RCA_WINDOW:
+            raise ApiError(422, f"window longer than {MAX_RCA_WINDOW}", "validation_error")
         return S(request)["scoring"].rca(naive(body.start), naive(body.end))
 
     @app.get("/v1/models", response_model=sc.ModelsResponse)

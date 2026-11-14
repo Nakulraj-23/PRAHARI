@@ -66,6 +66,38 @@ class Db:
             out[n] = seen
         return out
 
+    def descendants(self, node_id: str) -> set[str]:
+        """Nodes strictly downstream of ``node_id`` (reachable through deeper tiers only)."""
+        depth = {"core": 0, "agg": 1, "access": 2, "cell": 3}
+        topo = self.topology()
+        d = {n["node_id"]: depth[n["node_type"]] for n in topo["nodes"]}
+        adj: dict[str, set[str]] = {}
+        for lk in topo["links"]:
+            adj.setdefault(lk["src"], set()).add(lk["dst"])
+            adj.setdefault(lk["dst"], set()).add(lk["src"])
+        seen, stack = {node_id}, [node_id]
+        while stack:
+            cur = stack.pop()
+            for n in adj.get(cur, ()):
+                if n not in seen and d[n] > d[cur]:
+                    seen.add(n)
+                    stack.append(n)
+        return seen - {node_id}
+
+    def has_kpi(self, start: datetime, end: datetime) -> bool:
+        """Any KPI sample in [start, end)? Probes one node so the (node_id, ts) index is used."""
+        with self.engine.connect() as c:
+            return (
+                c.execute(
+                    text(
+                        "SELECT 1 FROM kpi_samples WHERE node_id = "
+                        "(SELECT MIN(node_id) FROM nodes) AND ts >= :s AND ts < :e LIMIT 1"
+                    ),
+                    {"s": start, "e": end},
+                ).first()
+                is not None
+            )
+
     # ---- alarms -----------------------------------------------------------------------
     def alarms(self, where: str = "", params: dict | None = None, tail: str = "") -> pd.DataFrame:
         sql = f"SELECT {ALARM_COLS} FROM alarms {where} {tail}"  # noqa: S608

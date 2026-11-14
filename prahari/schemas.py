@@ -196,7 +196,7 @@ class RunbookCitation(BaseModel):
 
 
 class DecisionRequest(BaseModel):
-    user: str
+    user: str = Field(min_length=1, max_length=64)
     note: str = ""
 
 

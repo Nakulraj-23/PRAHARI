@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import sqlite3
+import time
 from typing import Any
 
 from sqlalchemy.engine import Engine
@@ -99,6 +100,9 @@ def _authorizer(action: int, arg1: Any, arg2: Any, *_: Any) -> int:
     return sqlite3.SQLITE_DENY
 
 
+TIMEOUT_S = 2.0  # wall-clock limit for one agent query (sqlite progress handler)
+
+
 def run_sql(engine: Engine, sql: str, limit: int = MAX_ROWS) -> dict:
     """Validate and execute a query; returns columns and at most `limit` rows."""
     clean = validate_sql(sql)
@@ -109,6 +113,8 @@ def run_sql(engine: Engine, sql: str, limit: int = MAX_ROWS) -> dict:
         if isinstance(conn, sqlite3.Connection):
             conn.execute("PRAGMA query_only = ON")
             conn.set_authorizer(_authorizer)  # defence in depth: parser is the first layer
+            deadline = time.monotonic() + TIMEOUT_S
+            conn.set_progress_handler(lambda: int(time.monotonic() > deadline), 10_000)
         cur = raw.cursor()
         try:
             cur.execute(clean)
@@ -117,6 +123,7 @@ def run_sql(engine: Engine, sql: str, limit: int = MAX_ROWS) -> dict:
         finally:
             cur.close()
             if isinstance(conn, sqlite3.Connection):
+                conn.set_progress_handler(None, 0)
                 conn.set_authorizer(None)
                 conn.execute("PRAGMA query_only = OFF")
     except sqlite3.DatabaseError as e:
