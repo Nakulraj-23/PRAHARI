@@ -31,15 +31,15 @@ from prahari.sim.topology import NetworkModel
 
 NAME = "anomaly_iforest"
 BASE = 60  # baseline minutes
-GAP = 5  # baseline ends GAP minutes before t
+GAP = 75  # baseline ends GAP minutes before t (> longest fault, 70 min)
 STEP = 5  # evaluation grid (minutes)
 NEED = BASE + GAP  # minutes of history needed before t
 RECENT = (5, 15)
 
 
 def feature_names() -> list[str]:
-    """Order of the 12 features: z5 for each KPI then z15 for each KPI."""
-    return [f"z{w}_{k}" for w in RECENT for k in KPI_COLUMNS]
+    """Order of the 14 features: z5 per KPI, z15 per KPI, then max|z5| and max|z15|."""
+    return [f"z{w}_{k}" for w in RECENT for k in KPI_COLUMNS] + [f"zmax{w}" for w in RECENT]
 
 
 def _window_sum(c: np.ndarray, hi: np.ndarray, w: int) -> np.ndarray:
@@ -48,11 +48,12 @@ def _window_sum(c: np.ndarray, hi: np.ndarray, w: int) -> np.ndarray:
 
 
 def rolling_features(values: np.ndarray, idx: np.ndarray) -> np.ndarray:
-    """Features at grid indices ``idx`` of a (T, N, 6) tensor -> (len(idx), N, 12).
+    """Features at grid indices ``idx`` of a (T, N, 6) tensor -> (len(idx), N, 14).
 
     Requires ``idx >= NEED - 1``. NaN samples are ignored in means and stds.
     """
-    out = np.zeros((len(idx), values.shape[1], 2 * values.shape[2]), dtype=np.float32)
+    nk = values.shape[2]
+    out = np.zeros((len(idx), values.shape[1], 2 * nk + len(RECENT)), dtype=np.float32)
     for k in range(values.shape[2]):
         v = values[:, :, k].astype(np.float64)
         ok = ~np.isnan(v)
@@ -70,7 +71,9 @@ def rolling_features(values: np.ndarray, idx: np.ndarray) -> np.ndarray:
             n_c = _window_sum(cn, idx, w)
             cur = _window_sum(cs, idx, w) / np.maximum(n_c, 1)
             z5 = np.where(n_c > 0, (cur - mu) / sd, 0.0)
-            out[:, :, j * values.shape[2] + k] = np.clip(z5, -50, 50)
+            out[:, :, j * nk + k] = np.clip(z5, -50, 50)
+    for j in range(len(RECENT)):
+        out[:, :, 2 * nk + j] = np.abs(out[:, :, j * nk : (j + 1) * nk]).max(axis=2)
     return out
 
 
@@ -157,29 +160,37 @@ def load(version: str | None = None, settings: Settings | None = None) -> Anomal
     return AnomalyPredictor(obj["model"], obj["threshold"], obj["node_ids"], v)
 
 
-def _targets(engine, net, store, idx) -> np.ndarray:
-    """Evaluation targets (ground truth): True where minute t lies in an incident and the node
-    is the root or raised a true alarm in it. Never used as a feature."""
+VISIBLE = 0.15  # simulated KPI effect (impact x gain) at or above this counts as KPI-visible
+
+
+def _targets(engine, net, store, idx, seed: int = 42) -> tuple[np.ndarray, np.ndarray]:
+    """Evaluation targets from ground truth (never a feature).
+
+    y is True where minute t lies in an incident and the node's SIMULATED KPI effect
+    (propagation impact x per-node gain) is >= ``VISIBLE``; KPI-silent nodes are negatives
+    because nothing in the KPIs could reveal them. ``since`` holds minutes since the incident
+    start for positives (-1 elsewhere).
+    """
+    from prahari.sim.faults import fault_gain, propagate
+
     inc = pd.read_sql(
-        "SELECT incident_id, start_ts, end_ts, root_node_id FROM incidents",
+        "SELECT incident_id, start_ts, end_ts, root_node_id, fault_type FROM incidents",
         engine,
         parse_dates=["start_ts", "end_ts"],
     )
-    nodes = pd.read_sql(
-        "SELECT DISTINCT label_incident_id AS incident_id, node_id FROM alarms "
-        "WHERE label_is_true = 1 AND label_incident_id IS NOT NULL",
-        engine,
-    )
-    by_inc = nodes.groupby("incident_id")["node_id"].apply(set).to_dict()
     y = np.zeros((len(idx), net.n), dtype=bool)
+    since = np.full(y.shape, -1, dtype=np.int32)
     for r in inc.itertuples():
-        affected = by_inc.get(r.incident_id, set()) | {r.root_node_id}
-        a = int(np.searchsorted(idx, store.minute_index(r.start_ts), side="left"))
+        ri = net.index[r.root_node_id]
+        eff = propagate(net, ri, r.fault_type) * fault_gain(net, r.incident_id, ri, seed)
+        cols = np.flatnonzero(eff >= VISIBLE)
+        a_min = store.minute_index(r.start_ts)
+        a = int(np.searchsorted(idx, a_min, side="left"))
         b = int(np.searchsorted(idx, store.minute_index(r.end_ts), side="right"))
-        if b > a:
-            cols = [net.index[n] for n in affected]
+        if b > a and len(cols):
             y[a:b, cols] = True
-    return y
+            since[a:b, cols] = (idx[a:b] - a_min)[:, None]
+    return y, since
 
 
 def _prf(y: np.ndarray, s: np.ndarray, thr: float) -> dict:
@@ -232,7 +243,7 @@ def train(settings: Settings | None = None, days: float | None = None) -> dict:
             np.arange(n) >= n * 0.8,
         )
     feats = rolling_features(store.values, idx)
-    y = _targets(engine, net, store, idx)
+    y, since = _targets(engine, net, store, idx, settings.seed)
     flat = lambda m: feats[m].reshape(-1, feats.shape[2])  # noqa: E731
     rng = np.random.default_rng(settings.seed)
     x_tr = flat(tr)
@@ -272,7 +283,23 @@ def train(settings: Settings | None = None, days: float | None = None) -> dict:
         "n_test_rows": int(len(y_te)),
         "val_f1_at_threshold": _prf(y_va, s_va, thr)["f1"],
     }
-    # incident-level: share of incidents with at least one flagged affected node-minute
+    since_te = since[te].reshape(-1)
+    bins = [(0, 5), (5, 15), (15, 30), (30, 60), (60, 999)]
+
+    def by_onset(sc, thr_):
+        out = {}
+        for lo, hi in bins:
+            m = (since_te >= lo) & (since_te < hi)
+            out[f"{lo}-{hi}min"] = {
+                "recall": round(float((sc[m] >= thr_).mean()), 4) if m.any() else None,
+                "n": int(m.sum()),
+            }
+        return out
+
+    metrics["recall_by_minutes_since_onset"] = {
+        "iforest": by_onset(s_te, thr),
+        "3sigma": by_onset(zmax_te, 3.0),
+    }
     version = new_version()
     card = {
         "name": NAME,
@@ -285,13 +312,18 @@ def train(settings: Settings | None = None, days: float | None = None) -> dict:
         "extra": {
             "baseline_sigma_tuned_on_val": metrics["baseline_sigma_tuned_on_val"],
             "grid_minutes": STEP,
+            "baseline_minutes": BASE,
+            "baseline_lag_minutes": GAP,
+            "recall_by_minutes_since_onset": metrics["recall_by_minutes_since_onset"],
             "seed": settings.seed,
         },
-        "intended_use": "Flag nodes whose recent KPIs depart from their own last-hour baseline; "
+        "intended_use": "Flag nodes whose recent KPIs depart from their own lagged baseline "
+        f"(an hour that ends {GAP} min earlier, so a lasting fault is not absorbed); "
         "an input signal to triage, not a root-cause decision.",
         "limitations": "Trained on synthetic simulator data. Target = minute lies inside an "
-        "incident and node raised a true alarm (or is the root); KPI-silent affected nodes count "
-        "as misses. Threshold maximises F1 on validation, so it is tuned to this fault density.",
+        f"incident and the node's simulated KPI effect is >= {VISIBLE}; KPI-silent nodes are "
+        "negatives. A node hit again within the lag window has a contaminated baseline. "
+        "Threshold maximises F1 on validation, so it is tuned to this fault density.",
     }
     save_artifact(
         settings, NAME, version, {"model": model, "threshold": thr, "node_ids": net.node_ids}, card

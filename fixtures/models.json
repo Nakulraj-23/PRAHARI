@@ -1,1 +1,75 @@
-{"models": [{"name": "rca_gnn", "version": "v1", "trained_at": "2026-03-01T08:00:00", "data_hash": "sha256:0000", "features": ["packet_loss_pct", "latency_ms"], "metrics": {"top1_root_accuracy": 0.0}, "baseline_metrics": {"top1_root_accuracy": 0.0}, "intended_use": "Rank root-cause nodes for alarm storms", "limitations": "Trained on simulated data only"}]}
+{
+ "models": [
+  {
+   "name": "rca_gnn",
+   "version": "20261114093826",
+   "trained_at": "2026-11-14T09:38:26.461330+00:00",
+   "data_hash": "625d1701b0131bb7",
+   "features": [
+    "alarm_total",
+    "d_packet_loss_pct"
+   ],
+   "metrics": {
+    "test.root_top1": 0.9659,
+    "test.fault_macro_f1": 0.9572
+   },
+   "baseline_metrics": {
+    "test.root_top1": 0.739
+   },
+   "intended_use": "Rank root-cause nodes for alarm storms",
+   "limitations": "Trained on simulated data only",
+   "latency": {
+    "count": 42,
+    "mean_ms": 712.4,
+    "p50_ms": 690.1,
+    "p95_ms": 980.5,
+    "max_ms": 1043.2
+   }
+  },
+  {
+   "name": "alarm_validator",
+   "version": "20261114T093946",
+   "trained_at": "2026-11-14T09:38:26.461330+00:00",
+   "data_hash": "625d1701b0131bb7",
+   "features": [
+    "alarm_total",
+    "d_packet_loss_pct"
+   ],
+   "metrics": {
+    "precision": 0.9623,
+    "recall": 0.9907
+   },
+   "baseline_metrics": {
+    "precision": 0.958
+   },
+   "intended_use": "Separate real alarms from noise",
+   "limitations": "Trained on simulated data only",
+   "latency": {
+    "count": 120,
+    "mean_ms": 85.2,
+    "p50_ms": 80.0,
+    "p95_ms": 130.9,
+    "max_ms": 201.4
+   }
+  },
+  {
+   "name": "anomaly_iforest",
+   "version": "20261114T093025",
+   "trained_at": "2026-11-14T09:38:26.461330+00:00",
+   "data_hash": "625d1701b0131bb7",
+   "features": [
+    "alarm_total",
+    "d_packet_loss_pct"
+   ],
+   "metrics": {
+    "pr_auc": 0.346
+   },
+   "baseline_metrics": {
+    "pr_auc": 0.193
+   },
+   "intended_use": "Flag anomalous node KPIs",
+   "limitations": "Trained on simulated data only",
+   "latency": null
+  }
+ ]
+}

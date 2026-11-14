@@ -50,9 +50,11 @@ def load_kpi(engine: Engine, net: NetworkModel, start=None, end=None) -> KpiStor
         where += " AND k.ts < :e"
         params["e"] = pd.Timestamp(end).to_pydatetime()
     cols = ", ".join(f"k.{c}" for c in KPI_COLUMNS)
-    # join from nodes so the (node_id, ts) index serves the time range
+    # Drive the join from nodes so the (node_id, ts) index serves the time range: SQLite's planner
+    # otherwise scans the whole index (1.4 s on 15M rows vs ~0.06 s). CROSS JOIN pins the order.
+    join = "CROSS JOIN" if engine.dialect.name == "sqlite" else "JOIN"
     sql = text(
-        f"SELECT k.ts, k.node_id, {cols} FROM nodes n JOIN kpi_samples k "  # noqa: S608
+        f"SELECT k.ts, k.node_id, {cols} FROM nodes n {join} kpi_samples k "  # noqa: S608
         f"ON k.node_id = n.node_id WHERE 1=1{where}"
     )
     df = pd.read_sql(sql, engine, params=params, parse_dates=["ts"])

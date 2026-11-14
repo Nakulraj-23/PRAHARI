@@ -40,14 +40,14 @@
     },
     "model": {
      "name": "rca_gnn",
-     "version": "v1"
+     "version": "20261114093826"
     },
     "latency_ms": 7.4
    },
    "action": {
     "action_id": "ACT-0001",
     "incident_ref": "INC-0001",
-    "proposed_action": "Reroute traffic via CORE-01 backup path and dispatch field crew to AGG-07 uplink",
+    "proposed_action": "reroute_traffic",
     "target_node_id": "AGG-07",
     "status": "proposed",
     "governance": {
@@ -61,9 +61,57 @@
       },
       {
        "id": "G2",
-       "name": "blast_radius",
+       "name": "top1_top2_margin",
+       "status": "pass",
+       "detail": "margin 0.74 >= 0.15"
+      },
+      {
+       "id": "G3",
+       "name": "groundedness",
+       "status": "pass",
+       "detail": "1 node ids and 5 numbers all in evidence"
+      },
+      {
+       "id": "G4",
+       "name": "action_allowlist_blast_radius",
        "status": "warn",
-       "detail": "affects 3 downstream nodes"
+       "detail": "reroute_traffic allowed; blast radius unknown"
+      },
+      {
+       "id": "G5",
+       "name": "pii_secret_redaction",
+       "status": "pass",
+       "detail": "clean"
+      },
+      {
+       "id": "G6",
+       "name": "drift_status",
+       "status": "pass",
+       "detail": "drift status green"
+      },
+      {
+       "id": "G7",
+       "name": "model_card_registered",
+       "status": "pass",
+       "detail": "card found for rca_gnn/20261114093826"
+      },
+      {
+       "id": "G8",
+       "name": "output_schema_valid",
+       "status": "pass",
+       "detail": "RCA and agent output valid"
+      },
+      {
+       "id": "G9",
+       "name": "no_duplicate_action",
+       "status": "pass",
+       "detail": "no action on AGG-07 in last 30 min"
+      },
+      {
+       "id": "G10",
+       "name": "severity_requires_human",
+       "status": "warn",
+       "detail": "severity unknown; human approval required"
       }
      ]
     },
@@ -81,9 +129,57 @@
      },
      {
       "id": "G2",
-      "name": "blast_radius",
+      "name": "top1_top2_margin",
+      "status": "pass",
+      "detail": "margin 0.74 >= 0.15"
+     },
+     {
+      "id": "G3",
+      "name": "groundedness",
+      "status": "pass",
+      "detail": "1 node ids and 5 numbers all in evidence"
+     },
+     {
+      "id": "G4",
+      "name": "action_allowlist_blast_radius",
       "status": "warn",
-      "detail": "affects 3 downstream nodes"
+      "detail": "reroute_traffic allowed; blast radius unknown"
+     },
+     {
+      "id": "G5",
+      "name": "pii_secret_redaction",
+      "status": "pass",
+      "detail": "clean"
+     },
+     {
+      "id": "G6",
+      "name": "drift_status",
+      "status": "pass",
+      "detail": "drift status green"
+     },
+     {
+      "id": "G7",
+      "name": "model_card_registered",
+      "status": "pass",
+      "detail": "card found for rca_gnn/20261114093826"
+     },
+     {
+      "id": "G8",
+      "name": "output_schema_valid",
+      "status": "pass",
+      "detail": "RCA and agent output valid"
+     },
+     {
+      "id": "G9",
+      "name": "no_duplicate_action",
+      "status": "pass",
+      "detail": "no action on AGG-07 in last 30 min"
+     },
+     {
+      "id": "G10",
+      "name": "severity_requires_human",
+      "status": "warn",
+      "detail": "severity unknown; human approval required"
      }
     ]
    }

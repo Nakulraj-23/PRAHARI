@@ -93,3 +93,38 @@ def test_incident_graphs_and_split(env):
     col = names.index("alarm_total")
     wins = sum(g[1][g[3], col] > np.median(g[1][:, col]) for g in graphs)
     assert wins > 0.6 * len(graphs)
+
+
+def test_window_features_with_no_alarms(env):
+    """An empty (even column-less) alarm frame gives a correctly shaped all-zero alarm block."""
+    from prahari.pipeline.features import _window_features
+
+    eng = get_engine(env)
+    net = NetworkModel.from_db(eng)
+    start = pd.Timestamp("2026-10-02 10:00")
+    store = load_kpi(eng, net, start - pd.Timedelta(minutes=120), start + pd.Timedelta(minutes=15))
+    full = _window_features(net, store, load_alarms(eng), start, start + pd.Timedelta(minutes=15))
+    for empty in (pd.DataFrame(), load_alarms(eng).iloc[0:0], load_alarms(eng, start, start)):
+        w = _window_features(net, store, empty, start, start + pd.Timedelta(minutes=15))
+        assert w.shape == full.shape and list(w.columns) == list(full.columns)
+        alarm_cols = [c for c in w.columns if c.startswith("alarm_")]
+        assert (w[alarm_cols] == 0).all().all() and (w["first_alarm_min"] == 15).all()
+        assert np.isfinite(w.to_numpy()).all()
+
+
+def test_iter_incident_graphs_is_chunk_invariant(env):
+    from prahari.pipeline.features import iter_incident_graphs
+
+    a = list(iter_incident_graphs(env, chunk_days=0.5))
+    b = build_incident_graphs(env, with_ids=True, chunk_days=100)
+    assert [x[0] for x in a] == [x[0] for x in b] and len(a) > 10
+    for x, y in zip(a, b, strict=True):
+        np.testing.assert_array_equal(x[1], y[1])
+        assert x[3:] == y[3:]
+    # split subsets get the same windows as the full run
+    test_ids = (
+        set(load_splits(env)["test"]) if (env.artifacts_dir / "splits.json").exists() else set()
+    )
+    for g in iter_incident_graphs(env, split="test") if test_ids else []:
+        ref = next(z for z in a if z[0] == g[0])
+        np.testing.assert_array_equal(g[1], ref[1])

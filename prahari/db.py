@@ -18,6 +18,8 @@ from sqlalchemy import (
     Integer,
     String,
     create_engine,
+    inspect,
+    text,
 )
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, sessionmaker
@@ -107,6 +109,27 @@ class Action(Base):
     governance_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     decided_by: Mapped[str | None] = mapped_column(String(64), nullable=True)
     decided_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    # wall-clock UTC time the action was proposed; feeds governance G9 (duplicate-action check)
+    created_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class DetectedIncident(Base):
+    """Incidents found by the serving-path detector (not ground truth; see ``Incident``)."""
+
+    __tablename__ = "detected_incidents"
+    incident_id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    detected_at: Mapped[datetime] = mapped_column(DateTime)
+    start_ts: Mapped[datetime] = mapped_column(DateTime)  # first valid alarm
+    end_ts: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    status: Mapped[str] = mapped_column(String(16))  # open/resolved
+    window_start: Mapped[datetime] = mapped_column(DateTime)
+    window_end: Mapped[datetime] = mapped_column(DateTime)
+    alarm_ids: Mapped[list] = mapped_column(JSON)  # valid alarms in the cluster
+    rca_json: Mapped[dict] = mapped_column(JSON)
+    agent_json: Mapped[dict] = mapped_column(JSON)  # {lang: AgentOutput}
+    governance_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    action_id: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    __table_args__ = (Index("ix_detected_start", "start_ts"),)
 
 
 class AuditLog(Base):
@@ -129,7 +152,8 @@ class DriftReport(Base):
 def get_engine(settings: Settings | None = None) -> Engine:
     """Create an engine from settings."""
     settings = settings or get_settings()
-    return create_engine(settings.db_url, future=True)
+    args = {"connect_args": {"timeout": 30}} if settings.db_url.startswith("sqlite") else {}
+    return create_engine(settings.db_url, future=True, **args)
 
 
 def get_sessionmaker(settings: Settings | None = None) -> sessionmaker:
@@ -137,8 +161,17 @@ def get_sessionmaker(settings: Settings | None = None) -> sessionmaker:
     return sessionmaker(get_engine(settings), expire_on_commit=False)
 
 
+def ensure_schema(engine: Engine) -> None:
+    """Create missing tables and add columns introduced after a DB was first seeded."""
+    Base.metadata.create_all(engine)
+    cols = {c["name"] for c in inspect(engine).get_columns("actions")}
+    if "created_at" not in cols:
+        with engine.begin() as c:
+            c.execute(text("ALTER TABLE actions ADD COLUMN created_at TIMESTAMP"))
+
+
 def init_db(settings: Settings | None = None) -> Engine:
     """Create all tables (idempotent) and return the engine."""
     engine = get_engine(settings)
-    Base.metadata.create_all(engine)
+    ensure_schema(engine)
     return engine

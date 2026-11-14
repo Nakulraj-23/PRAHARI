@@ -217,8 +217,56 @@ class ModelCard(BaseModel):
     limitations: str
 
 
+class LatencyStats(BaseModel):
+    """Inference latency over the most recent logged predictions of one model."""
+
+    count: int
+    mean_ms: float
+    p50_ms: float
+    p95_ms: float
+    max_ms: float
+
+
+class ModelInfo(ModelCard):
+    """A model card plus serving-side latency stats (None until the model has served a call)."""
+
+    latency: LatencyStats | None = None
+
+
 class ModelsResponse(BaseModel):
-    models: list[ModelCard]
+    models: list[ModelInfo]
+
+
+# ---- KPI time series (GET /v1/kpi) -------------------------------------------
+class KpiPoint(BaseModel):
+    ts: datetime
+    latency_ms: float | None = None
+    packet_loss_pct: float | None = None
+    throughput_mbps: float | None = None
+    cpu_pct: float | None = None
+    mem_pct: float | None = None
+    temp_c: float | None = None
+
+
+class KpiResponse(BaseModel):
+    """One node's KPI samples in [start, end], oldest first. Missing samples are absent."""
+
+    node_id: str
+    start: datetime
+    end: datetime
+    points: list[KpiPoint]
+
+
+# ---- errors ------------------------------------------------------------------
+class ErrorDetail(BaseModel):
+    type: str  # e.g. validation_error, not_found, conflict, model_unavailable
+    message: str
+    request_id: str | None = None
+    fields: list[dict[str, Any]] | None = None
+
+
+class ErrorResponse(BaseModel):
+    error: ErrorDetail
 
 
 # ---- drift -------------------------------------------------------------------

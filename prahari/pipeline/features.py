@@ -115,11 +115,14 @@ def _window_features(
     baseline_minutes: int = BASELINE_MINUTES,
 ) -> pd.DataFrame:
     """Per-node features for [start, end): alarm counts, KPI deltas and z vs a rolling baseline."""
-    a = alarms[(alarms["ts"] >= start) & (alarms["ts"] < end)]
+    if len(alarms):
+        a = alarms[(alarms["ts"] >= start) & (alarms["ts"] < end)]
+    else:  # no alarms at all (possibly a column-less frame): all-zero alarm features
+        a = pd.DataFrame({"ts": [], "node_id": [], "alarm_type": [], "severity": []})
     cols: dict[str, np.ndarray] = {}
-    nidx = a["node_id"].map(net.index).to_numpy()
-    for t in ALARM_TYPES:
-        cols[f"alarm_{t}"] = np.bincount(nidx[(a["alarm_type"] == t).to_numpy()], minlength=net.n)
+    nidx = a["node_id"].map(net.index).to_numpy().astype(np.int64)
+    for t_ in ALARM_TYPES:
+        cols[f"alarm_{t_}"] = np.bincount(nidx[(a["alarm_type"] == t_).to_numpy()], minlength=net.n)
     cols["alarm_total"] = np.bincount(nidx, minlength=net.n)
     cols["alarm_critical"] = np.bincount(
         nidx[(a["severity"] == "critical").to_numpy()], minlength=net.n
@@ -184,51 +187,78 @@ def feature_names() -> list[str]:
     )
 
 
+def iter_incident_graphs(
+    settings: Settings | None = None,
+    split: str | None = None,
+    window_minutes: int = 15,
+    with_ids: bool = True,
+    window_jitter_min: float = 10.0,
+    chunk_days: float = 8.0,
+):
+    """Yield ``(incident_id, X, A, y_root, y_fault)`` per ground-truth incident, memory-safe.
+
+    KPIs and alarms are loaded ``chunk_days`` of incidents at a time, so the 90-day DB never has
+    to fit in RAM at once. X is (N, F) node features for [start, start + window_minutes) (columns:
+    ``feature_names()``), A the symmetric (N, N) 0/1 adjacency, y_root the root node index (node
+    order = sorted node_id), y_fault the index into ``FAULT_TYPES``. ``split`` in train/val/test
+    restricts incidents using ``artifacts/splits.json``. Window starts are jittered
+    U(0, ``window_jitter_min``) min before the true start; the jitter is drawn once per incident
+    in start-time order from ``settings.seed``, so it is the same for any split and chunk size.
+    Ground truth is read only for the targets; X never contains labels. ``with_ids=False`` drops
+    the leading incident_id.
+    """
+    settings = settings or get_settings()
+    engine = get_engine(settings)
+    net = NetworkModel.from_db(engine)
+    inc = load_ground_truth_incidents(engine).sort_values(["start_ts", "incident_id"])
+    rng = np.random.default_rng([settings.seed, 8008])
+    jitter = rng.uniform(0, window_jitter_min * 60, len(inc))  # seconds, one per incident
+    inc = inc.assign(
+        win_start=[
+            (s - pd.Timedelta(seconds=float(j))).floor("s")
+            for s, j in zip(inc["start_ts"], jitter, strict=True)
+        ]
+    )
+    if split is not None:
+        inc = inc[inc["incident_id"].isin(set(load_splits(settings)[split]))]
+    inc = inc.reset_index(drop=True)
+    adj = net.adj.astype(np.float32)
+    names = feature_names()
+    win = pd.Timedelta(minutes=window_minutes)
+    i, n = 0, len(inc)
+    while i < n:
+        j = i
+        while j < n and inc["win_start"].iloc[j] < inc["win_start"].iloc[i] + pd.Timedelta(
+            days=chunk_days
+        ):
+            j += 1
+        lo = inc["win_start"].iloc[i:j].min() - pd.Timedelta(minutes=BASELINE_MINUTES + 1)
+        hi = inc["win_start"].iloc[i:j].max() + win
+        store, alarms = load_kpi(engine, net, lo, hi), load_alarms(engine, lo, hi)
+        for r in inc.iloc[i:j].itertuples():
+            x = _window_features(net, store, alarms, r.win_start, r.win_start + win)[names]
+            item = (
+                x.to_numpy(np.float32),
+                adj,
+                net.index[r.root_node_id],
+                FAULT_TYPES.index(r.fault_type),
+            )
+            yield (r.incident_id, *item) if with_ids else item
+        del store, alarms
+        i = j
+
+
 def build_incident_graphs(
     settings: Settings | None = None,
     split: str | None = None,
     window_minutes: int = 15,
     with_ids: bool = False,
     window_jitter_min: float = 10.0,
+    chunk_days: float = 8.0,
 ) -> list:
-    """Training graphs, one per ground-truth incident: ``(X, A, y_root, y_fault)``.
-
-    X is (N, F) node features for [start, start + window_minutes) (columns: ``feature_names()``),
-    A the symmetric (N, N) 0/1 adjacency, y_root the root node index (node order = sorted node_id),
-    y_fault the index into ``FAULT_TYPES``. ``split`` in train/val/test restricts incidents using
-    ``artifacts/splits.json``. With ``with_ids`` each item is prefixed by the incident_id.
-    Window starts are jittered U(0, ``window_jitter_min``) min before the true start (seeded).
-    Ground truth is read only for the targets; X never contains labels.
-    """
-    settings = settings or get_settings()
-    engine = get_engine(settings)
-    net = NetworkModel.from_db(engine)
-    inc = load_ground_truth_incidents(engine)
-    if split is not None:
-        inc = inc[inc["incident_id"].isin(set(load_splits(settings)[split]))]
-    if inc.empty:
-        return []
-    lo = inc["start_ts"].min() - pd.Timedelta(minutes=BASELINE_MINUTES + window_jitter_min + 1)
-    hi = inc["start_ts"].max() + pd.Timedelta(minutes=window_minutes)
-    store = load_kpi(engine, net, lo, hi)
-    alarms = load_alarms(engine, lo, hi)
-    adj = net.adj.astype(np.float32)
-    names = feature_names()
-    out = []
-    rng = np.random.default_rng([settings.seed, 8008])
-    for r in inc.itertuples():
-        # serving windows are not aligned to the fault start: begin U(0, jitter) min earlier
-        start = (
-            r.start_ts - pd.Timedelta(seconds=float(rng.uniform(0, window_jitter_min * 60)))
-        ).floor("s")
-        x = _window_features(
-            net, store, alarms, start, start + pd.Timedelta(minutes=window_minutes)
-        )[names]
-        item = (
-            x.to_numpy(np.float32),
-            adj,
-            net.index[r.root_node_id],
-            FAULT_TYPES.index(r.fault_type),
+    """List form of :func:`iter_incident_graphs`: ``(X, A, y_root, y_fault)`` per incident."""
+    return list(
+        iter_incident_graphs(
+            settings, split, window_minutes, with_ids, window_jitter_min, chunk_days
         )
-        out.append((r.incident_id, *item) if with_ids else item)
-    return out
+    )

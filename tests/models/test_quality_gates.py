@@ -31,7 +31,7 @@ GATES = {
         "precision": 0.95,
         "f1": 0.97,
     },  # .998 .991 .962 .976
-    "anomaly_iforest": {"pr_auc": 0.33, "f1": 0.40},  # .346 .421
+    "anomaly_iforest": {"pr_auc": 0.80, "f1": 0.76},  # .8135 .7793
     "rca_gnn": {"root_top1": 0.95, "root_top3": 0.99, "fault_macro_f1": 0.94},  # .966 1.0 .957
 }
 MAX_BRIER = 0.03  # validator .021
@@ -61,8 +61,12 @@ def test_card_anomaly_gates():
     c = _card("anomaly_iforest")
     for k, v in GATES["anomaly_iforest"].items():
         assert c["metrics"][k] >= v, (k, c["metrics"][k])
-    assert c["metrics"]["pr_auc"] > c["baseline_metrics"]["pr_auc"] + 0.1  # 3-sigma .193
-    assert c["metrics"]["f1"] > c["extra"]["baseline_sigma_tuned_on_val"]["f1"]  # .317
+    assert c["metrics"]["pr_auc"] > c["baseline_metrics"]["pr_auc"] + 0.05  # 3-sigma .745
+    # the baseline must not absorb a lasting fault: recall by minutes since onset
+    rec = c["extra"]["recall_by_minutes_since_onset"]["iforest"]
+    assert rec["5-15min"]["recall"] >= 0.77  # .796
+    assert rec["15-30min"]["recall"] >= 0.86  # .882
+    assert rec["30-60min"]["recall"] >= 0.76  # .780
 
 
 def test_card_rca_gates():
@@ -173,9 +177,9 @@ def test_live_anomaly_test_split():
     idx = np.arange(M.NEED - 1, off + st.n_minutes, M.STEP) - off
     idx = idx[(idx >= M.NEED - 1) & np.asarray(st.t0 + pd.to_timedelta(idx, unit="min") >= tva)]
     s, _ = p.score_matrix(st.values, idx)
-    y = M._targets(eng, net, st, idx)
+    y, _ = M._targets(eng, net, st, idx, S.seed)
     assert y.size == 407_640
-    assert average_precision_score(y.ravel(), s.ravel()) >= 0.33  # .346
+    assert average_precision_score(y.ravel(), s.ravel()) >= 0.80  # .8135
     pred = s >= p.threshold
     prec, rec = (pred & y).sum() / pred.sum(), (pred & y).sum() / y.sum()
-    assert 2 * prec * rec / (prec + rec) >= 0.40  # .421
+    assert 2 * prec * rec / (prec + rec) >= 0.76  # .779

@@ -19,6 +19,7 @@ def test_init_db(tmp_path):
         "actions",
         "audit_log",
         "drift_reports",
+        "detected_incidents",
     }
     assert any("node_id" in i["column_names"] for i in insp.get_indexes("kpi_samples"))
     assert any(i["column_names"] == ["ts"] for i in insp.get_indexes("alarms"))
