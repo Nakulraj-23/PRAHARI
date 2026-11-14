@@ -1,0 +1,4 @@
+{"id": 1, "ts": "2026-03-02T12:00:00", "status": "amber", "features": [
+ {"feature": "latency_ms", "psi": 0.18, "ks_pvalue": 0.01, "status": "amber"},
+ {"feature": "cpu_pct", "psi": 0.03, "ks_pvalue": 0.62, "status": "green"}],
+ "summary": "latency_ms shifted after vendor firmware rollout", "extra": {}}

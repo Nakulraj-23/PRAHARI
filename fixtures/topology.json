@@ -1,0 +1,11 @@
+{"nodes": [
+ {"node_id": "CORE-01", "node_type": "core", "region": "West", "vendor": "Nokia"},
+ {"node_id": "CORE-02", "node_type": "core", "region": "North", "vendor": "Huawei"},
+ {"node_id": "AGG-07", "node_type": "agg", "region": "West", "vendor": "Nokia"},
+ {"node_id": "ACC-21", "node_type": "access", "region": "West", "vendor": "Ericsson"},
+ {"node_id": "CELL-113", "node_type": "cell", "region": "West", "vendor": "Ericsson"}],
+ "links": [
+ {"link_id": "CORE-01--CORE-02", "src": "CORE-01", "dst": "CORE-02", "capacity_mbps": 100000},
+ {"link_id": "CORE-01--AGG-07", "src": "CORE-01", "dst": "AGG-07", "capacity_mbps": 40000},
+ {"link_id": "AGG-07--ACC-21", "src": "AGG-07", "dst": "ACC-21", "capacity_mbps": 10000},
+ {"link_id": "ACC-21--CELL-113", "src": "ACC-21", "dst": "CELL-113", "capacity_mbps": 1000}]}

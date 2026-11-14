@@ -1,0 +1,4 @@
+{"scores": [
+ {"alarm_id": "ALM-000412", "is_valid_pred": true, "valid_prob": 0.97},
+ {"alarm_id": "ALM-000419", "is_valid_pred": false, "valid_prob": 0.12}],
+ "model": {"name": "alarm_validator", "version": "v1"}, "latency_ms": 1.8}

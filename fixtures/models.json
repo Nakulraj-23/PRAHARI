@@ -1,0 +1,1 @@
+{"models": [{"name": "rca_gnn", "version": "v1", "trained_at": "2026-03-01T08:00:00", "data_hash": "sha256:0000", "features": ["packet_loss_pct", "latency_ms"], "metrics": {"top1_root_accuracy": 0.0}, "baseline_metrics": {"top1_root_accuracy": 0.0}, "intended_use": "Rank root-cause nodes for alarm storms", "limitations": "Trained on simulated data only"}]}
