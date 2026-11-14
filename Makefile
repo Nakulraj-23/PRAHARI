@@ -14,6 +14,7 @@ train:
 	$(BIN)/python -m prahari.models.validator.train
 	$(BIN)/python -m prahari.models.anomaly.train
 	$(BIN)/python -m prahari.models.rca.train
+	$(BIN)/python -m prahari.monitoring.drift build-reference
 serve:
 	$(BIN)/uvicorn prahari.serving.app:app --host 0.0.0.0 --port 8000
 web:

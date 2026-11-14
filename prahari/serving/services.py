@@ -6,6 +6,7 @@ import json
 import logging
 import re
 import threading
+import time
 from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -14,9 +15,11 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+from sqlalchemy.exc import OperationalError
 
 from prahari.config import Settings
-from prahari.serving.data import HISTORY, Db, log_prediction
+from prahari.serving.data import HISTORY, Db
+from prahari.serving.data import log_prediction as _log_prediction
 from prahari.serving.obs import ApiError
 
 LOG = logging.getLogger("prahari.api")
@@ -24,6 +27,23 @@ MODEL_NAMES = {"validator": "alarm_validator", "anomaly": "anomaly_iforest", "rc
 CONTEXT_MIN = 10  # validator flap/neighbour features look back this far
 ANOMALY_STEP = 5  # minutes between anomaly scoring points inside a window
 MAX_POINTS = 12
+RCA_TTL_S = 30.0
+
+
+def log_prediction(session, *args, **kw) -> None:
+    """Add a predictions row; lock contention on this audit write must not fail the request."""
+    try:
+        _log_prediction(session, *args, **kw)
+    except Exception as e:  # noqa: BLE001
+        LOG.warning("prediction log skipped: %s", e)
+
+
+def _safe_commit(session) -> None:
+    try:
+        session.commit()
+    except OperationalError as e:  # database is locked: drop this log row, serve the result
+        session.rollback()
+        LOG.warning("prediction log commit skipped: %s", e)
 
 
 def _loaders() -> dict[str, Any]:
@@ -122,6 +142,9 @@ class Scoring:
         self.cache: OrderedDict[str, Scored] = OrderedDict()
         self._lock = threading.Lock()
         self.cache_size = cache_size
+        self._rca_cache: OrderedDict[tuple, tuple[float, dict]] = OrderedDict()
+        self._rca_locks: dict[tuple, threading.Lock] = {}
+        self._rca_gate = threading.Semaphore(2)  # feature building is DB/CPU heavy
 
     def warmup(self) -> None:
         """Score one stored alarm so first-call library start-up cost is not in request latency."""
@@ -188,7 +211,7 @@ class Scoring:
                     {"n": len(scored), "n_valid": sum(x.is_valid for x in scored)},
                     res["latency_ms"],
                 )
-                s.commit()
+                _safe_commit(s)
         return scored, float(res["latency_ms"])
 
     def scores_for(self, alarms: pd.DataFrame) -> dict[str, Scored]:
@@ -253,7 +276,7 @@ class Scoring:
                 {"n_anomalous": sum(flag.values()), "n_nodes": len(flag)},
                 latency,
             )
-            s.commit()
+            _safe_commit(s)
         scores = [
             {"node_id": n, "score": best[n], "is_anomalous": flag[n]}
             for n in sorted(best, key=lambda k: -best[k])
@@ -269,8 +292,25 @@ class Scoring:
     def rca(
         self, start: datetime, end: datetime, valid: int | None = None, noise: int | None = None
     ):
-        """RCA contract dict for a window; valid/noise counts come from the validator."""
+        """RCA for a window, cached 30 s per (window, model version); one compute per window."""
         model = self.reg.get("rca")
+        key = (start, end, valid, noise, str(model.version))
+        with self._lock:
+            lock = self._rca_locks.setdefault(key, threading.Lock())
+        with lock:
+            hit = self._rca_cache.get(key)
+            if hit and time.monotonic() - hit[0] < RCA_TTL_S:
+                return json.loads(json.dumps(hit[1]))
+            with self._rca_gate:
+                out = self._rca(model, start, end, valid, noise)
+            with self._lock:
+                self._rca_cache[key] = (time.monotonic(), out)
+                while len(self._rca_cache) > 256:
+                    old, _ = self._rca_cache.popitem(last=False)
+                    self._rca_locks.pop(old, None)
+            return json.loads(json.dumps(out))
+
+    def _rca(self, model, start, end, valid, noise):
         if valid is None:
             al = self.db.alarms("WHERE ts >= :s AND ts < :e", {"s": start, "e": end})
             sc = self.scores_for(al) if len(al) else {}
@@ -298,5 +338,5 @@ class Scoring:
                 },
                 out["latency_ms"],
             )
-            s.commit()
+            _safe_commit(s)
         return out

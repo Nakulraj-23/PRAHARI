@@ -12,6 +12,7 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from prometheus_client import CollectorRegistry, Counter, Histogram
+from sqlalchemy.exc import OperationalError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 request_id_var: ContextVar[str | None] = ContextVar("request_id", default=None)
@@ -146,6 +147,15 @@ def install(app: FastAPI, metrics: Metrics) -> None:
     @app.exception_handler(StarletteHTTPException)
     async def _http(_: Request, e: StarletteHTTPException):
         return _error(e.status_code, STATUS_TYPES.get(e.status_code, "error"), str(e.detail))
+
+    @app.exception_handler(OperationalError)
+    async def _db(_: Request, e: OperationalError):
+        if "locked" in str(e).lower() or "busy" in str(e).lower():
+            r = _error(503, "database_busy", "database is busy; retry shortly")
+            r.headers["Retry-After"] = "1"
+            return r
+        LOG.exception("database error")
+        return _error(500, "internal_error", "database error")
 
     @app.exception_handler(Exception)
     async def _any(_: Request, e: Exception):
