@@ -12,3 +12,10 @@ artifacts/**
 !artifacts/.gitkeep
 !artifacts/**/*.card.json
 web/test-results/
+
+*.db-shm
+*.db-wal
+*_leak.json
+web/dist/
+web/test-results/
+.DS_Store
