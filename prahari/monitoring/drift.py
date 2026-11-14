@@ -1,7 +1,8 @@
 """Data and prediction drift: reference at training time, PSI/KS per feature, ``run_drift``.
 
 Reference (``artifacts/drift/reference.json``) is built from the *train* period of the DB
-(feature distributions) and the *validation* period (model outputs; the models never fit on it).
+(feature distributions) and the train+validation periods (model outputs, which are bimodal and
+so not very sensitive to over-fitting).
 KPIs are strongly seasonal, so reference proportions are kept per (hour of day, weekday/weekend)
 group and a window is compared with the mixture of groups it actually covers.
 Only the public KPI/alarm loaders and the model ``predict`` APIs are used; no label column is read.
@@ -98,7 +99,9 @@ def _ref_sample(grid: np.ndarray, w: np.ndarray, m: int = 5000) -> np.ndarray:
 
 def _days(start: pd.Timestamp, end: pd.Timestamp, n: int) -> list[pd.Timestamp]:
     first, last = start.normalize() + pd.Timedelta(days=1), end.normalize() - pd.Timedelta(days=1)
-    span = max((last - first).days, 0)
+    if last < first:  # tiny databases: fall back to the first day
+        return [start.normalize()]
+    span = (last - first).days
     idx = np.unique(np.linspace(0, span, n).round().astype(int))
     return [first + pd.Timedelta(days=int(i)) for i in idx]
 
@@ -138,7 +141,10 @@ def _model_outputs(settings: Settings, net: NetworkModel, start, end) -> dict:
 
 
 def build_reference(
-    settings: Settings | None = None, n_days: int = 20, n_val_days: int = 5, with_predictions=True
+    settings: Settings | None = None,
+    n_days: int = 20,
+    n_output_days: int = 30,
+    with_predictions=True,
 ) -> dict:
     """Compute and save reference statistics from the train (features) and val (outputs) periods."""
     settings = settings or get_settings()
@@ -184,7 +190,7 @@ def build_reference(
         "meta": {"n_days": n_days, "seed_free": True},
     }
     if with_predictions:
-        vdays = _days(t_end, v_end, n_val_days)
+        vdays = _days(pd.Timestamp(SIM_START), v_end, n_output_days)
         vp, rp, versions = [], [], {}
         for d in vdays:
             o = _model_outputs(settings, net, d, d + pd.Timedelta(days=1))
@@ -203,7 +209,7 @@ def build_reference(
                     "sample": np.quantile(a, np.linspace(0, 1, 1000)).round(5).tolist(),
                     "n": int(len(a)),
                 }
-        ref["output_period"] = [t_end.isoformat(), v_end.isoformat()]
+        ref["output_period"] = [str(SIM_START), v_end.isoformat()]
         ref["model_versions"] = versions
     path = reference_path(settings)
     path.parent.mkdir(parents=True, exist_ok=True)

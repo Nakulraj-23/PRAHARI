@@ -21,10 +21,19 @@ MODELS = ("alarm_validator", "anomaly_iforest", "rca_gnn")
 def base_db(tmp_path_factory) -> Path:
     path = tmp_path_factory.mktemp("apidb") / "base.db"
     subprocess.run(
-        [sys.executable, "-m", "prahari.sim.generate", "--days", "1", "--no-checks",
-         "--db-url", f"sqlite:///{path}"],
-        check=True, capture_output=True,
-    )  # fmt: skip
+        [
+            sys.executable,
+            "-m",
+            "prahari.sim.generate",
+            "--days",
+            "1",
+            "--no-checks",
+            "--db-url",
+            f"sqlite:///{path}",
+        ],
+        check=True,
+        capture_output=True,
+    )
     return path
 
 
@@ -40,9 +49,7 @@ def make_settings(tmp: Path, base_db: Path) -> Settings:
     art.mkdir()
     for m in MODELS:
         if (ROOT / "artifacts" / m).exists():
-            shutil.copytree(ROOT / "artifacts" / m, art / m, symlinks=True)
-            for card in (ROOT / "artifacts" / m).parent.glob(f"{m}/../{m}/*.card.json"):
-                pass
+            (art / m).symlink_to(ROOT / "artifacts" / m)
     return Settings(db_url=f"sqlite:///{db}", artifacts_dir=art, detector_enabled=False)
 
 
