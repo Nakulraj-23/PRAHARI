@@ -4,6 +4,8 @@ import topology from '@fixtures/topology.json'
 import incidents from '@fixtures/incidents.json'
 import incidentDetail from '@fixtures/incident_detail.json'
 import explain from '@fixtures/explain.json'
+const explainHiMods = import.meta.glob('@fixtures/explain_hi.json', { eager: true })
+const explainHi = Object.values(explainHiMods)[0]?.default
 import models from '@fixtures/models.json'
 import driftLatest from '@fixtures/drift_latest.json'
 import driftRun from '@fixtures/drift_run.json'
@@ -59,6 +61,7 @@ export const api = {
   explain: (id, lang) => call('POST', `/v1/incidents/${id}/explain?lang=${lang}`, null, () => {
     const e = clone(explain)
     e.lang = lang
+    if (lang === 'hi' && explainHi) return { ...clone(explainHi), lang }
     if (lang === 'hi') e.narrative = 'AGG-07 पर फाइबर कट की सबसे अधिक संभावना है (83% विश्वास)। बैकअप पथ से ट्रैफ़िक मोड़ें और क्रू भेजें।'
     return e
   }),

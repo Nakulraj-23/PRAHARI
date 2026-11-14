@@ -1,0 +1,15 @@
+{
+ "incident_id": "DET-00001",
+ "lang": "en",
+ "narrative": "A fibre cut is most likely on AGG-01 (100% confidence). 17 valid alarms and 3 noise alarms were seen across 13 alarmed nodes. throughput_mbps on AGG-01 changed by -2316.2. Per runbook RB-FIBRE-AGG, reroute traffic to the backup path. Proposed action: reroute_traffic on AGG-01.",
+ "runbook": {
+  "runbook_id": "RB-FIBRE-AGG",
+  "title": "Fibre cut on aggregation node",
+  "section": "Remediation",
+  "excerpt": "Shift traffic to the backup path or a sibling node using the pre-approved routing policy, then confirm packet loss falls below 1 percent. Applies to fibre cut at the aggregation tier."
+ },
+ "llm": {
+  "name": "none",
+  "version": "template-v1"
+ }
+}

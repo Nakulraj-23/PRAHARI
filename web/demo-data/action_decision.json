@@ -1,0 +1,76 @@
+{
+ "action": {
+  "action_id": "ACT-00001",
+  "incident_ref": "DET-00001",
+  "proposed_action": "reroute_traffic",
+  "target_node_id": "AGG-01",
+  "status": "proposed",
+  "governance": {
+   "decision": "needs_approval",
+   "checks": [
+    {
+     "id": "G1",
+     "name": "confidence_threshold",
+     "status": "pass",
+     "detail": "root 1.00 >= 0.70; fault_type 0.92 >= 0.60"
+    },
+    {
+     "id": "G2",
+     "name": "top1_top2_margin",
+     "status": "pass",
+     "detail": "margin 1.00 >= 0.15"
+    },
+    {
+     "id": "G3",
+     "name": "groundedness",
+     "status": "pass",
+     "detail": "1 node ids and 5 numbers all in evidence"
+    },
+    {
+     "id": "G4",
+     "name": "action_allowlist_blast_radius",
+     "status": "warn",
+     "detail": "affects 9 downstream nodes > 5"
+    },
+    {
+     "id": "G5",
+     "name": "pii_secret_redaction",
+     "status": "pass",
+     "detail": "clean"
+    },
+    {
+     "id": "G6",
+     "name": "drift_status",
+     "status": "pass",
+     "detail": "drift status green"
+    },
+    {
+     "id": "G7",
+     "name": "model_card_registered",
+     "status": "pass",
+     "detail": "card found for rca_gnn/20261114093826"
+    },
+    {
+     "id": "G8",
+     "name": "output_schema_valid",
+     "status": "pass",
+     "detail": "RCA and agent output valid"
+    },
+    {
+     "id": "G9",
+     "name": "no_duplicate_action",
+     "status": "pass",
+     "detail": "no action on AGG-01 in last 30 min"
+    },
+    {
+     "id": "G10",
+     "name": "severity_requires_human",
+     "status": "warn",
+     "detail": "severity critical requires human approval"
+    }
+   ]
+  },
+  "decided_by": null,
+  "decided_at": null
+ }
+}

@@ -1,0 +1,109 @@
+{
+ "id": 0,
+ "ts": "2026-11-30 06:00:00",
+ "status": "green",
+ "features": [
+  {
+   "feature": "latency_ms",
+   "psi": 0.0004,
+   "ks_pvalue": 0.7362284307081629,
+   "status": "green"
+  },
+  {
+   "feature": "packet_loss_pct",
+   "psi": 0.0007,
+   "ks_pvalue": 0.6811635656999905,
+   "status": "green"
+  },
+  {
+   "feature": "throughput_mbps",
+   "psi": 0.0002,
+   "ks_pvalue": 0.9970587174643718,
+   "status": "green"
+  },
+  {
+   "feature": "cpu_pct",
+   "psi": 0.0006,
+   "ks_pvalue": 0.9685684829813109,
+   "status": "green"
+  },
+  {
+   "feature": "mem_pct",
+   "psi": 0.0002,
+   "ks_pvalue": 0.9702886413524114,
+   "status": "green"
+  },
+  {
+   "feature": "temp_c",
+   "psi": 0.0004,
+   "ks_pvalue": 0.9850087836941104,
+   "status": "green"
+  },
+  {
+   "feature": "latency_ms_ma15",
+   "psi": 0.0004,
+   "ks_pvalue": 0.5312813363805744,
+   "status": "green"
+  },
+  {
+   "feature": "packet_loss_pct_ma15",
+   "psi": 0.0021,
+   "ks_pvalue": 0.3407911507348363,
+   "status": "green"
+  },
+  {
+   "feature": "pred_validator_prob",
+   "psi": 0.0,
+   "ks_pvalue": 0.06672181709746614,
+   "status": "green"
+  },
+  {
+   "feature": "pred_rca_top1_conf",
+   "psi": 0.0,
+   "ks_pvalue": 0.7513074377305994,
+   "status": "green"
+  }
+ ],
+ "summary": "No drift: largest PSI 0.002 (packet_loss_pct_ma15).",
+ "extra": {
+  "window": {
+   "start": "2026-11-30T00:00:00",
+   "end": "2026-11-30T06:00:00"
+  },
+  "n_kpi_rows": 43200,
+  "ks_statistic": {
+   "latency_ms": 0.0102,
+   "packet_loss_pct": 0.0107,
+   "throughput_mbps": 0.006,
+   "cpu_pct": 0.0074,
+   "mem_pct": 0.0073,
+   "temp_c": 0.0068,
+   "latency_ms_ma15": 0.0121,
+   "packet_loss_pct_ma15": 0.014,
+   "pred_validator_prob": 0.2693,
+   "pred_rca_top1_conf": 0.3907
+  },
+  "vendor_latency_psi": {
+   "Nexa": 0.0004,
+   "Orion": 0.0004,
+   "Zenith": 0.0389
+  },
+  "n_predictions": {
+   "pred_validator_prob": 24,
+   "pred_rca_top1_conf": 3
+  },
+  "notes": [
+   "pred_validator_prob: only 24 values (<100), not scored",
+   "pred_rca_top1_conf: only 3 values (<100), not scored"
+  ],
+  "thresholds": {
+   "amber": 0.1,
+   "red": 0.2
+  },
+  "reference_built_at": "2026-11-14T14:08:09.708405+00:00",
+  "reference_model_versions": {
+   "alarm_validator": "20261114T093946",
+   "rca_gnn": "20261114093826"
+  }
+ }
+}
