@@ -327,3 +327,49 @@ def test_source_has_no_ground_truth_references():
         )
         assert "label_" not in code.replace("`label_*`", ""), f.name
         assert not re.search(r"FROM\s+incidents|load_ground_truth", code), f.name
+
+
+# ---- concurrency / lock contention --------------------------------------------------------------
+def test_sqlite_pragmas(client):
+    with client.app.state.s["engine"].connect() as c:
+        assert c.exec_driver_sql("PRAGMA journal_mode").scalar() == "wal"
+        assert c.exec_driver_sql("PRAGMA busy_timeout").scalar() >= 10000
+
+
+def test_32_concurrent_clients_no_5xx_and_rca_cached(client):
+    from concurrent.futures import ThreadPoolExecutor
+
+    ts = client.get("/v1/alarms?limit=1").json()["alarms"][0]["ts"]
+    from datetime import datetime, timedelta
+
+    t = datetime.fromisoformat(ts)
+    wins = [
+        {
+            "start": (t - timedelta(minutes=5 + i % 4)).isoformat(),
+            "end": (t + timedelta(minutes=10)).isoformat(),
+        }
+        for i in range(8)
+    ]
+
+    def call(i):
+        if i % 3 == 0:
+            return client.get("/v1/alarms?limit=20").status_code
+        return client.post("/v1/rca", json=wins[i % len(wins)]).status_code
+
+    with ThreadPoolExecutor(32) as ex:
+        codes = list(ex.map(call, range(96)))
+    assert max(codes) < 500, sorted(set(codes))
+    n_rca = client.app.state.s["db"].latency_samples("rca_gnn")
+    assert len(n_rca) <= 4 + 1  # 4 distinct windows computed once each, not 64 times
+
+
+def test_lock_contention_is_503_with_retry_after(client, monkeypatch):
+    from sqlalchemy.exc import OperationalError
+
+    def boom(*a, **k):
+        raise OperationalError("SELECT 1", {}, Exception("database is locked"))
+
+    monkeypatch.setattr(client.app.state.s["db"], "topology", boom)
+    r = client.get("/v1/topology")
+    assert r.status_code == 503 and r.headers["retry-after"] == "1"
+    assert r.json()["error"]["type"] == "database_busy"

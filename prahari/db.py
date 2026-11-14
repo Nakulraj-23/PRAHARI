@@ -18,6 +18,7 @@ from sqlalchemy import (
     Integer,
     String,
     create_engine,
+    event,
     inspect,
     text,
 )
@@ -152,8 +153,20 @@ class DriftReport(Base):
 def get_engine(settings: Settings | None = None) -> Engine:
     """Create an engine from settings."""
     settings = settings or get_settings()
-    args = {"connect_args": {"timeout": 30}} if settings.db_url.startswith("sqlite") else {}
-    return create_engine(settings.db_url, future=True, **args)
+    if not settings.db_url.startswith("sqlite"):
+        return create_engine(settings.db_url, future=True)
+    engine = create_engine(settings.db_url, future=True, connect_args={"timeout": 30})
+
+    @event.listens_for(engine, "connect")
+    def _pragmas(dbapi_conn, _):
+        """WAL lets readers run during a write; busy_timeout waits instead of failing at once."""
+        cur = dbapi_conn.cursor()
+        cur.execute("PRAGMA journal_mode=WAL")
+        cur.execute("PRAGMA busy_timeout=30000")
+        cur.execute("PRAGMA synchronous=NORMAL")
+        cur.close()
+
+    return engine
 
 
 def get_sessionmaker(settings: Settings | None = None) -> sessionmaker:
