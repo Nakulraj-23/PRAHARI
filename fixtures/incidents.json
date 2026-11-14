@@ -1,0 +1,92 @@
+{
+ "incidents": [
+  {
+   "incident_id": "INC-0001",
+   "start_ts": "2026-03-02T10:14:05",
+   "end_ts": null,
+   "status": "open",
+   "rca": {
+    "window": {
+     "start": "2026-03-02T10:10:00",
+     "end": "2026-03-02T10:15:00"
+    },
+    "root_candidates": [
+     {
+      "node_id": "AGG-07",
+      "prob": 0.83
+     },
+     {
+      "node_id": "CORE-02",
+      "prob": 0.09
+     }
+    ],
+    "fault_type": {
+     "label": "fibre_cut",
+     "prob": 0.91
+    },
+    "evidence": {
+     "alarmed_nodes": [
+      "AGG-07",
+      "ACC-21",
+      "CELL-113"
+     ],
+     "valid_alarm_count": 41,
+     "noise_alarm_count": 12,
+     "kpi_deltas": {
+      "AGG-07": {
+       "packet_loss_pct": 38.2
+      }
+     }
+    },
+    "model": {
+     "name": "rca_gnn",
+     "version": "v1"
+    },
+    "latency_ms": 7.4
+   },
+   "action": {
+    "action_id": "ACT-0001",
+    "incident_ref": "INC-0001",
+    "proposed_action": "Reroute traffic via CORE-01 backup path and dispatch field crew to AGG-07 uplink",
+    "target_node_id": "AGG-07",
+    "status": "proposed",
+    "governance": {
+     "decision": "needs_approval",
+     "checks": [
+      {
+       "id": "G1",
+       "name": "confidence_threshold",
+       "status": "pass",
+       "detail": "0.83 >= 0.70"
+      },
+      {
+       "id": "G2",
+       "name": "blast_radius",
+       "status": "warn",
+       "detail": "affects 3 downstream nodes"
+      }
+     ]
+    },
+    "decided_by": null,
+    "decided_at": null
+   },
+   "governance": {
+    "decision": "needs_approval",
+    "checks": [
+     {
+      "id": "G1",
+      "name": "confidence_threshold",
+      "status": "pass",
+      "detail": "0.83 >= 0.70"
+     },
+     {
+      "id": "G2",
+      "name": "blast_radius",
+      "status": "warn",
+      "detail": "affects 3 downstream nodes"
+     }
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+# HELP prahari_requests_total Total API requests
+# TYPE prahari_requests_total counter
+prahari_requests_total{path="/v1/rca"} 12

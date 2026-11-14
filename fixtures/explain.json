@@ -1,0 +1,15 @@
+{
+ "incident_id": "INC-0001",
+ "lang": "en",
+ "narrative": "A fibre cut is most likely on AGG-07 (83% confidence). 41 valid alarms and 12 noise alarms were seen; packet loss on AGG-07 rose 38 points. Reroute via the backup path and dispatch a crew.",
+ "runbook": {
+  "runbook_id": "RB-FIBRE-01",
+  "title": "Fibre cut on aggregation uplink",
+  "section": "Immediate actions",
+  "excerpt": "Confirm loss of signal on both ends, reroute traffic to the backup path, raise a field ticket."
+ },
+ "llm": {
+  "name": "stub",
+  "version": "0"
+ }
+}

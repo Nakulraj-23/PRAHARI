@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: prahari
+      POSTGRES_PASSWORD: prahari
+      POSTGRES_DB: prahari
+    ports: ["5432:5432"]
+  api:
+    build: .
+    environment:
+      PRAHARI_DB_URL: postgresql+psycopg2://prahari:prahari@postgres:5432/prahari
+    ports: ["8000:8000"]
+    depends_on: [postgres]
+  web:
+    image: node:20-slim
+    working_dir: /app/web
+    volumes: ["./web:/app/web"]
+    command: sh -c "echo 'web: not built yet'; sleep infinity"
+    ports: ["5173:5173"]
+    depends_on: [api]

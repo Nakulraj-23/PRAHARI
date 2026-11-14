@@ -1,0 +1,28 @@
+{
+ "action": {
+  "action_id": "ACT-0001",
+  "incident_ref": "INC-0001",
+  "proposed_action": "Reroute traffic via CORE-01 backup path and dispatch field crew to AGG-07 uplink",
+  "target_node_id": "AGG-07",
+  "status": "approved",
+  "governance": {
+   "decision": "needs_approval",
+   "checks": [
+    {
+     "id": "G1",
+     "name": "confidence_threshold",
+     "status": "pass",
+     "detail": "0.83 >= 0.70"
+    },
+    {
+     "id": "G2",
+     "name": "blast_radius",
+     "status": "warn",
+     "detail": "affects 3 downstream nodes"
+    }
+   ]
+  },
+  "decided_by": "noc.operator",
+  "decided_at": "2026-03-02T10:20:00"
+ }
+}

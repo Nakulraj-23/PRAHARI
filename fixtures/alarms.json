@@ -1,0 +1,4 @@
+{"alarms": [
+ {"alarm_id": "ALM-000412", "ts": "2026-03-02T10:14:05", "node_id": "AGG-07", "alarm_type": "LINK_DOWN", "severity": "critical", "raw_text": "AGG-07 Gi0/1 link down, loss of signal", "is_valid_pred": true, "valid_prob": 0.97},
+ {"alarm_id": "ALM-000413", "ts": "2026-03-02T10:14:07", "node_id": "ACC-21", "alarm_type": "UPSTREAM_UNREACHABLE", "severity": "major", "raw_text": "ACC-21 upstream AGG-07 unreachable", "is_valid_pred": true, "valid_prob": 0.91},
+ {"alarm_id": "ALM-000419", "ts": "2026-03-02T10:14:30", "node_id": "CELL-113", "alarm_type": "HIGH_TEMP", "severity": "minor", "raw_text": "CELL-113 temperature threshold crossed (flap)", "is_valid_pred": false, "valid_prob": 0.12}]}

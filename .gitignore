@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+*.db
+node_modules/
+web/dist/
+artifacts/*
+!artifacts/.gitkeep
+!artifacts/**/*.card.json
