@@ -27,3 +27,8 @@ date, what was tried, result, what changed. Real measured numbers only.
 - Tried: `window_severity` comparing the RCA ISO window (`...T10:10`) as strings against SQLite `... 10:10`. Result: returned no alarms ('T' > ' '). Changed: bind datetimes.
 - scikit-learn is not installed in .venv here, so TF-IDF is hand-written in numpy. Retrieval top-1 on the 15 fault x tier queries: 15/15 (queries are built from the same words the runbooks use, so this is an easy test, not a retrieval benchmark).
 - LLM providers (anthropic, openai_compatible) were tested only against fake transports; never called a real API (no keys here).
+
+## 2026-11-14 — A3 RCA GNN
+- Tried: `build_incident_graphs(split=None)` on the 90-day DB. Result: process killed (OOM, 15 GB box, ~7 GB free) while loading 15M KPI rows. Changed: `train.build_graphs_chunked` loads KPIs 8 days at a time and reuses A1's `_window_features` with the same seeded jitter; whole data build 76 s.
+- Result (seed 42, 408/88/88 split, CPU): GNN test top-1 96.6% / top-3 100% / fault macro-F1 0.957; MLP without graph 95.5% / 100% / 0.938 (1 incident of 88 difference, within noise); upstream-alarmed rule 73.9%; most-alarms rule 58.0%. Alt topology (47 incidents): GNN 100%, MLP 97.9%, rules 83.0% / 48.9%.
+- Honest read: message passing adds about 1 point here; most of the gain over rules comes from KPI deltas that the node features already hold. Only a single seed and 88 test incidents were run, so no significance claim.

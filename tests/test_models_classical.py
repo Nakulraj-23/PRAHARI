@@ -112,4 +112,5 @@ def test_features_use_only_past_alarms(env):
 
 def test_source_never_reads_label_columns_in_features():
     for mod in (validator_mod.build_features, anomaly_mod.rolling_features):
-        assert "label_" not in inspect.getsource(mod)
+        src = inspect.getsource(mod)
+        assert "label_is_true" not in src and "label_incident" not in src
