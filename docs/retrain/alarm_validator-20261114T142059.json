@@ -1,0 +1,44 @@
+{
+ "model": "alarm_validator",
+ "old_version": "20261114T093946",
+ "new_version": "20261114T142059",
+ "tolerance": 0.002,
+ "metrics": [
+  {
+   "metric": "pr_auc",
+   "old": 0.9981,
+   "new": 0.9981,
+   "higher_is_better": true,
+   "delta_better": 0.0,
+   "worse": false
+  },
+  {
+   "metric": "f1",
+   "old": 0.9763,
+   "new": 0.9763,
+   "higher_is_better": true,
+   "delta_better": 0.0,
+   "worse": false
+  },
+  {
+   "metric": "recall",
+   "old": 0.9907,
+   "new": 0.9907,
+   "higher_is_better": true,
+   "delta_better": 0.0,
+   "worse": false
+  },
+  {
+   "metric": "brier",
+   "old": 0.0212,
+   "new": 0.0212,
+   "higher_is_better": false,
+   "delta_better": 0.0,
+   "worse": false
+  }
+ ],
+ "worse_metrics": [],
+ "promote": true,
+ "trained_at": "2026-11-14T14:19:14.311686+00:00",
+ "promoted": false
+}

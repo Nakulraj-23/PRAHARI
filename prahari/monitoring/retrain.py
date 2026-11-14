@@ -100,7 +100,7 @@ def render(cmp: dict, promoted: bool) -> str:
     L = [
         f"# Retrain {cmp['model']}: {cmp['old_version']} -> {cmp['new_version']}",
         "",
-        f"Decision: **{'promoted' if promoted else 'NOT promoted'}** "
+        f"Decision: **{'promoted' if promoted else 'would promote (dry run)' if cmp['promote'] else 'NOT promoted'}** "  # noqa: E501
         f"(promote when no metric is worse than the tolerance {cmp['tolerance']}).",
         "",
         "| metric | current | retrained | change (+ is better) | worse |",
