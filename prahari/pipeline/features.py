@@ -189,6 +189,7 @@ def build_incident_graphs(
     split: str | None = None,
     window_minutes: int = 15,
     with_ids: bool = False,
+    window_jitter_min: float = 10.0,
 ) -> list:
     """Training graphs, one per ground-truth incident: ``(X, A, y_root, y_fault)``.
 
@@ -196,6 +197,7 @@ def build_incident_graphs(
     A the symmetric (N, N) 0/1 adjacency, y_root the root node index (node order = sorted node_id),
     y_fault the index into ``FAULT_TYPES``. ``split`` in train/val/test restricts incidents using
     ``artifacts/splits.json``. With ``with_ids`` each item is prefixed by the incident_id.
+    Window starts are jittered U(0, ``window_jitter_min``) min before the true start (seeded).
     Ground truth is read only for the targets; X never contains labels.
     """
     settings = settings or get_settings()
@@ -206,15 +208,19 @@ def build_incident_graphs(
         inc = inc[inc["incident_id"].isin(set(load_splits(settings)[split]))]
     if inc.empty:
         return []
-    lo = inc["start_ts"].min() - pd.Timedelta(minutes=BASELINE_MINUTES)
+    lo = inc["start_ts"].min() - pd.Timedelta(minutes=BASELINE_MINUTES + window_jitter_min + 1)
     hi = inc["start_ts"].max() + pd.Timedelta(minutes=window_minutes)
     store = load_kpi(engine, net, lo, hi)
     alarms = load_alarms(engine, lo, hi)
     adj = net.adj.astype(np.float32)
     names = feature_names()
     out = []
+    rng = np.random.default_rng([settings.seed, 8008])
     for r in inc.itertuples():
-        start = r.start_ts
+        # serving windows are not aligned to the fault start: begin U(0, jitter) min earlier
+        start = (
+            r.start_ts - pd.Timedelta(seconds=float(rng.uniform(0, window_jitter_min * 60)))
+        ).floor("s")
         x = _window_features(
             net, store, alarms, start, start + pd.Timedelta(minutes=window_minutes)
         )[names]

@@ -59,7 +59,19 @@ def load_kpi(engine: Engine, net: NetworkModel, start=None, end=None) -> KpiStor
     if df.empty:
         t0 = pd.Timestamp(start) if start is not None else pd.Timestamp("1970-01-01")
         return KpiStore(t0, np.zeros((0, net.n, 6), dtype=np.float32), net.node_ids)
-    t0 = df["ts"].min().floor("min")
+    off = df["ts"] != df["ts"].dt.floor("min")
+    if off.any():  # never floor silently: that would overwrite a neighbouring minute
+        from prahari.pipeline.quality import DataQualityError
+
+        raise DataQualityError(
+            f"grid: {int(off.sum())} KPI timestamps are not on the 1-minute grid"
+        )
+    dup = df.duplicated(["ts", "node_id"])
+    if dup.any():
+        from prahari.pipeline.quality import DataQualityError
+
+        raise DataQualityError(f"duplicate: {int(dup.sum())} duplicate (ts, node_id) KPI rows")
+    t0 = df["ts"].min()
     t_idx = ((df["ts"] - t0) // _MIN).to_numpy()
     n_idx = df["node_id"].map(net.index).to_numpy()
     values = np.full((int(t_idx.max()) + 1, net.n, 6), np.nan, dtype=np.float32)

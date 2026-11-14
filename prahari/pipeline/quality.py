@@ -1,4 +1,5 @@
-"""Data-quality checks: null, range, duplicate, monotonic-timestamp, referential. Fails loudly."""
+"""Data-quality checks: null, range, duplicate, monotonic, referential, completeness, grid,
+flatline, time-bounds, label-consistency, topology sanity. Fails loudly."""
 
 from __future__ import annotations
 
@@ -154,7 +155,118 @@ def run_quality_checks(engine: Engine, raise_on_fail: bool = True) -> QualityRep
                 "WHERE a.label_incident_id IS NOT NULL AND i.incident_id IS NULL",
             ),
         )
+        _structural_checks(c, rep)
     if raise_on_fail and rep.failures:
         lines = [f"  {f['name']}: {f['bad_rows']} bad rows {f['detail']}" for f in rep.failures]
         raise DataQualityError("data quality checks failed:\n" + "\n".join(lines))
     return rep
+
+
+# KPIs whose real values are never exactly constant for an hour (throughput and loss can be 0)
+FLATLINE_KPIS = ["latency_ms", "cpu_pct", "mem_pct", "temp_c"]
+MAX_GAP_MIN = 15  # longest tolerated hole in a node's 1-minute KPI series
+MIN_COVERAGE = 0.90  # share of grid minutes a node must have samples for
+TIER_CAPACITY = {"core": 40000.0, "agg": 10000.0, "access": 2000.0, "cell": 300.0}
+THROUGHPUT_OVER_TIER = 2.0  # throughput above 2x the tier's nominal capacity is physically wrong
+
+
+def _minutes(c, later: str, earlier: str) -> str:
+    """SQL expression for ``later - earlier`` in minutes, per dialect."""
+    if c.dialect.name == "sqlite":
+        return f"((julianday({later}) - julianday({earlier})) * 1440.0)"
+    return f"(EXTRACT(EPOCH FROM ({later} - {earlier})) / 60.0)"
+
+
+def _structural_checks(c, rep: QualityReport) -> None:
+    """Completeness, grid, flatline, time-bounds, label-consistency and topology sanity."""
+    sqlite = c.dialect.name == "sqlite"
+    off_grid = "strftime('%f', ts) <> '00.000'" if sqlite else "EXTRACT(SECOND FROM ts) <> 0"
+    rep.add(
+        "grid:kpi_samples.ts not on the 1-minute grid",
+        _count(c, f"SELECT COUNT(*) FROM kpi_samples WHERE {off_grid}"),
+    )
+    span = _minutes(c, "s.b", "s.a")
+    rep.add(
+        "completeness:kpi_samples node coverage",
+        _count(
+            c,
+            "SELECT COUNT(*) FROM "
+            "(SELECT node_id, COUNT(*) n FROM kpi_samples GROUP BY node_id) x, "
+            "(SELECT MIN(ts) a, MAX(ts) b FROM kpi_samples) s "
+            f"WHERE x.n < {MIN_COVERAGE} * ({span} + 1)",
+        ),
+        f"each node needs >= {MIN_COVERAGE:.0%} of grid minutes",
+    )
+    gap = _minutes(c, "ts", "p")
+    rep.add(
+        "completeness:kpi_samples gap",
+        _count(
+            c,
+            "SELECT COUNT(*) FROM (SELECT ts, LAG(ts) OVER (PARTITION BY node_id ORDER BY ts) p "
+            f"FROM kpi_samples) x WHERE p IS NOT NULL AND {gap} > {MAX_GAP_MIN}",
+        ),
+        f"no hole longer than {MAX_GAP_MIN} min",
+    )
+    hour = "substr(CAST(ts AS VARCHAR), 1, 13)"
+    flat = " OR ".join(f"MIN({k}) = MAX({k})" for k in FLATLINE_KPIS)
+    rep.add(
+        "flatline:kpi_samples stuck sensor",
+        _count(
+            c,
+            f"SELECT COUNT(*) FROM (SELECT 1 FROM kpi_samples GROUP BY node_id, {hour} "
+            f"HAVING COUNT(*) >= 30 AND ({flat})) x",
+        ),
+        "an hour of identical readings on " + "/".join(FLATLINE_KPIS),
+    )
+    rep.add(
+        "time-bounds:alarms outside the KPI time range",
+        _count(
+            c,
+            "SELECT COUNT(*) FROM alarms a, (SELECT MIN(ts) lo, MAX(ts) hi FROM kpi_samples) k "
+            f"WHERE a.ts < k.lo OR {_minutes(c, 'a.ts', 'k.hi')} > 60",
+        ),
+    )
+    rep.add(
+        "time-bounds:incidents outside the KPI time range",
+        _count(
+            c,
+            "SELECT COUNT(*) FROM incidents i, (SELECT MIN(ts) lo, MAX(ts) hi FROM kpi_samples) k "
+            "WHERE i.start_ts < k.lo OR i.start_ts > k.hi OR "
+            f"{_minutes(c, 'i.end_ts', 'k.hi')} > 240",
+        ),
+    )
+    rep.add(
+        "label-consistency:true alarm without incident / noise alarm with incident",
+        _count(
+            c,
+            "SELECT COUNT(*) FROM alarms WHERE label_is_true IS NULL "
+            "OR (label_is_true AND label_incident_id IS NULL) "
+            "OR (NOT label_is_true AND label_incident_id IS NOT NULL)",
+        ),
+    )
+    rep.add(
+        "label-consistency:true alarm before its incident starts",
+        _count(
+            c,
+            "SELECT COUNT(*) FROM alarms a JOIN incidents i ON a.label_incident_id = i.incident_id "
+            "WHERE a.ts < i.start_ts",
+        ),
+    )
+    rep.add("topology:self-loop links", _count(c, "SELECT COUNT(*) FROM links WHERE src = dst"))
+    rep.add(
+        "range:links.capacity_mbps",
+        _count(
+            c, "SELECT COUNT(*) FROM links WHERE capacity_mbps < 100 OR capacity_mbps > 1000000"
+        ),
+        "[100, 1e6]",
+    )
+    cases = " ".join(f"WHEN '{k}' THEN {v}" for k, v in TIER_CAPACITY.items())
+    rep.add(
+        "range:kpi_samples.throughput_vs_tier_capacity",
+        _count(
+            c,
+            "SELECT COUNT(*) FROM kpi_samples k JOIN nodes n ON n.node_id = k.node_id "
+            f"WHERE k.throughput_mbps > {THROUGHPUT_OVER_TIER} * CASE n.node_type {cases} END",
+        ),
+        f"throughput <= {THROUGHPUT_OVER_TIER}x tier capacity",
+    )

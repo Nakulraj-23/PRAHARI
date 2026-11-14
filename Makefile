@@ -8,7 +8,7 @@ setup:
 	$(BIN)/pip install -q -e ".[dev]"
 
 seed:
-	$(BIN)/python -m prahari.sim.generate --days 30
+	$(BIN)/python -m prahari.sim.generate --days 90
 	$(BIN)/python -m prahari.sim.generate --alt --days 7
 train:
 	@echo "train: not built yet"

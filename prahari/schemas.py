@@ -1,4 +1,5 @@
 """Pydantic models for every API request/response and the shared RCA/governance contracts."""
+
 from __future__ import annotations
 
 from datetime import datetime

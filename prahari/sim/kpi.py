@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
+from scipy.signal import lfilter
 
 from prahari.sim.constants import KPI_COLUMNS
 from prahari.sim.topology import NetworkModel
@@ -22,6 +23,9 @@ _VENDOR = {
     "Orion": (1.12, 1.25, 5.0, 3.0, 0.95),
     "Zenith": (0.92, 0.85, -3.0, -2.0, 1.05),
 }
+AR_PHI = 0.7
+AR_BURN = 80
+MISSING_FRAC = 0.02  # share of (minute, node) samples that never arrive
 _NOISE_SD = np.array([0.04, 0.0, 0.05, 1.5, 0.6, 0.5])  # latency, throughput relative; others abs
 
 
@@ -58,7 +62,11 @@ def kpi_block(
 ) -> np.ndarray:
     """Baseline plus Gaussian noise, shape (T, N, 6), before fault effects are applied."""
     base = node_baselines(net, minutes, vendor_latency_mult)
-    noise = rng.standard_normal(base.shape, dtype=np.float32)
+    # AR(1) noise (unit variance, lag-1 autocorrelation AR_PHI); burn-in makes each block stationary
+    raw = rng.standard_normal((base.shape[0] + AR_BURN, *base.shape[1:]), dtype=np.float32)
+    noise = lfilter([np.sqrt(1 - AR_PHI**2)], [1, -AR_PHI], raw, axis=0)[AR_BURN:].astype(
+        np.float32
+    )
     out = base.copy()
     for k in (0, 2):  # relative noise
         out[:, :, k] = base[:, :, k] * (1 + _NOISE_SD[k] * noise[:, :, k])
@@ -68,15 +76,28 @@ def kpi_block(
     return out
 
 
+def drop_missing(
+    block: np.ndarray, rng: np.random.Generator, frac: float = MISSING_FRAC
+) -> np.ndarray:
+    """Mark a random ``frac`` of (minute, node) samples as missing (NaN) in place."""
+    block[rng.random(block.shape[:2]) < frac] = np.nan
+    return block
+
+
 def clip_kpis(block: np.ndarray) -> np.ndarray:
     """Clip to physical ranges in place."""
+    with np.errstate(invalid="ignore"):
+        _clip(block)
+    return block
+
+
+def _clip(block: np.ndarray) -> None:
     np.clip(block[:, :, 0], 0, None, out=block[:, :, 0])
     np.clip(block[:, :, 1], 0, 100, out=block[:, :, 1])
     np.clip(block[:, :, 2], 0, None, out=block[:, :, 2])
     for k in (3, 4):
         np.clip(block[:, :, k], 0, 100, out=block[:, :, k])
     np.clip(block[:, :, 5], -10, 120, out=block[:, :, 5])
-    return block
 
 
 def block_to_frame(net: NetworkModel, minutes: pd.DatetimeIndex, block: np.ndarray) -> pd.DataFrame:
@@ -85,4 +106,4 @@ def block_to_frame(net: NetworkModel, minutes: pd.DatetimeIndex, block: np.ndarr
     df = pd.DataFrame(block.reshape(t * n, 6).astype(np.float64), columns=KPI_COLUMNS)
     df.insert(0, "node_id", np.tile(np.array(net.node_ids, dtype=object), t))
     df.insert(0, "ts", np.repeat(minutes.to_numpy(), n))
-    return df
+    return df.dropna().reset_index(drop=True)  # missing samples are simply absent rows

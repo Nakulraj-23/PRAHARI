@@ -18,15 +18,23 @@ from sqlalchemy import text
 
 from prahari.config import Settings, get_settings
 from prahari.db import Base, get_engine
-from prahari.sim.alarms import assemble_alarms, noise_alarms
+from prahari.sim.alarms import apply_blips, assemble_alarms, noise_alarms, noise_blips
 from prahari.sim.constants import FAULT_TYPES, SIM_START, VENDORS
-from prahari.sim.faults import RAMP_DOWN, Fault, apply_fault, fault_alarms, propagate
-from prahari.sim.kpi import block_to_frame, clip_kpis, kpi_block
+from prahari.sim.faults import (
+    RAMP_DOWN,
+    ROOT_TIER_P,
+    Fault,
+    apply_fault,
+    fault_alarms,
+    new_fault,
+)
+from prahari.sim.kpi import block_to_frame, clip_kpis, drop_missing, kpi_block
 from prahari.sim.topology import NetworkModel
 
 OBSERVE_MIN = 10  # minutes of telemetry written when a fault is injected
 RECOVERY_MIN = RAMP_DOWN + 2
 DRIFT_MULT = 1.25
+ROOT_MISSING_FRAC = 0.15  # same as the offline generator
 _MIN = pd.Timedelta(minutes=1)
 
 
@@ -72,13 +80,14 @@ class LiveSimulator:
         )
         for r in df.itertuples():
             j = self.net.index[r.root_node_id]
-            self.active[r.incident_id] = Fault(
+            self.active[r.incident_id] = new_fault(
+                self.net,
                 r.incident_id,
                 r.fault_type,
                 j,
                 r.start_ts,
                 int((r.end_ts - r.start_ts) / _MIN),
-                propagate(self.net, j, r.fault_type),
+                int(self.seed),
             )
 
     def _save_state(self) -> None:
@@ -102,12 +111,15 @@ class LiveSimulator:
         rng: np.random.Generator,
         faults: list[Fault],
         early_end: dict[str, pd.Timestamp] | None = None,
+        blips: list[dict] | None = None,
     ) -> int:
         idx = pd.date_range(start, periods=minutes, freq="min")
         block = kpi_block(self.net, idx, rng, self.state["vendor_latency_mult"])
         for f in faults:
             apply_fault(block, start, f, self.net, (early_end or {}).get(f.incident_id))
+        apply_blips(block, start, blips or [])
         clip_kpis(block)
+        drop_missing(block, rng)
         df = block_to_frame(self.net, idx, block)
         df.to_sql("kpi_samples", self.engine, if_exists="append", index=False, chunksize=50_000)
         return len(df)
@@ -129,14 +141,8 @@ class LiveSimulator:
         with self._lock:
             rng = self._rng()
             if node_id is None:
-                tier = {
-                    "fibre_cut": "agg",
-                    "power_failure": "access",
-                    "congestion": "agg",
-                    "hardware_degradation": "access",
-                    "config_error": "agg",
-                }[fault_type]
-                cand = [i for i, t in enumerate(self.net.node_type) if t == tier]
+                tier = int(rng.choice(4, p=ROOT_TIER_P[fault_type]))
+                cand = np.nonzero(self.net.type_idx == tier)[0]
                 root = int(rng.choice(cand))
             elif node_id in self.net.index:
                 root = self.net.index[node_id]
@@ -144,13 +150,8 @@ class LiveSimulator:
                 raise ValueError(f"unknown node_id {node_id!r}")
             start = self.clock
             n = self._next_id("incidents", "incident_id", "INC-", 5)
-            fault = Fault(
-                f"INC-{n:05d}",
-                fault_type,
-                root,
-                start,
-                int(duration_min),
-                propagate(self.net, root, fault_type),
+            fault = new_fault(
+                self.net, f"INC-{n:05d}", fault_type, root, start, int(duration_min), int(self.seed)
             )
             pd.DataFrame(
                 [
@@ -165,11 +166,14 @@ class LiveSimulator:
             ).to_sql("incidents", self.engine, if_exists="append", index=False)
             self.active[fault.incident_id] = fault
             end = start + OBSERVE_MIN * _MIN
-            rows = fault_alarms(self.net, fault, rng)
+            rows = fault_alarms(
+                self.net, fault, rng, root_missing=bool(rng.random() < ROOT_MISSING_FRAC)
+            )
             n_true = len(rows)
             rows += noise_alarms(self.net, max(1, round(n_true / 3)), start, OBSERVE_MIN, rng)
+            blips = noise_blips(rows, rng)
             n_alarms = self._write_alarms(rows, rng, end)
-            self._write_kpis(start, OBSERVE_MIN, rng, list(self.active.values()))
+            self._write_kpis(start, OBSERVE_MIN, rng, list(self.active.values()), blips=blips)
             self._save_state()
             return dict(
                 incident_id=fault.incident_id,

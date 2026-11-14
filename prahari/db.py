@@ -3,6 +3,7 @@
 Columns prefixed ``label_`` and the ``incidents`` table are ground truth and must
 never be used as model features or read by the serving path.
 """
+
 from __future__ import annotations
 
 from datetime import datetime
