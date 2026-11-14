@@ -1,0 +1,1004 @@
+{
+ "alarms": [
+  {
+   "alarm_id": "ALM-0006314",
+   "ts": "2026-12-28T19:49:35",
+   "node_id": "CELL-010",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-28 19:49:35 ALM CELL-010 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=1/2/13",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006315",
+   "ts": "2026-12-28T19:49:36",
+   "node_id": "CELL-043",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "minor",
+   "raw_text": "2026-12-28 19:49:36 ALM CELL-043 SEV=MINOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=1/1/20",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006316",
+   "ts": "2026-12-28T19:49:44",
+   "node_id": "ACC-027",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-28 19:49:44 ALM ACC-027 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=3/1/16",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006317",
+   "ts": "2026-12-28T19:49:51",
+   "node_id": "CELL-012",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "minor",
+   "raw_text": "2026-12-28 19:49:51 ALM CELL-012 SEV=MINOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=3/1/5",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006318",
+   "ts": "2026-12-28T19:51:17",
+   "node_id": "CELL-040",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-28 19:51:17 ALM CELL-040 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=3/1/17",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006319",
+   "ts": "2026-12-28T19:52:58",
+   "node_id": "CELL-010",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "critical",
+   "raw_text": "2026-12-28 19:52:58 ALM CELL-010 SEV=CRITICAL CODE=THR_105 \"Throughput dropped below floor\" port=3/2/4",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006320",
+   "ts": "2026-12-28T20:11:51",
+   "node_id": "CORE-02",
+   "alarm_type": "LOSS_OF_SIGNAL",
+   "severity": "major",
+   "raw_text": "{\"src\":\"CORE-02\",\"evt\":\"LOSS_OF_SIGNAL\",\"sev\":3,\"epoch\":1798488711,\"desc\":\"Loss of signal on uplink port\",\"if\":\"3/2/17\"}",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006321",
+   "ts": "2026-12-28T21:24:14",
+   "node_id": "CORE-03",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "major",
+   "raw_text": "{\"src\":\"CORE-03\",\"evt\":\"HIGH_PACKET_LOSS\",\"sev\":3,\"epoch\":1798493054,\"desc\":\"Packet loss above threshold\",\"if\":\"1/1/5\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006322",
+   "ts": "2026-12-28T21:24:29",
+   "node_id": "CORE-03",
+   "alarm_type": "CONFIG_MISMATCH",
+   "severity": "major",
+   "raw_text": "{\"src\":\"CORE-03\",\"evt\":\"CONFIG_MISMATCH\",\"sev\":3,\"epoch\":1798493069,\"desc\":\"Running config differs from golden config\",\"if\":\"3/2/18\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006323",
+   "ts": "2026-12-28T21:25:02",
+   "node_id": "CORE-02",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CORE-02\",\"evt\":\"THROUGHPUT_DROP\",\"sev\":2,\"epoch\":1798493102,\"desc\":\"Throughput dropped below floor\",\"if\":\"3/2/6\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006324",
+   "ts": "2026-12-28T21:25:15",
+   "node_id": "CORE-04",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "2026-12-28 21:25:15 ALM CORE-04 SEV=MINOR CODE=THR_105 \"Throughput dropped below floor\" port=2/1/1",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006325",
+   "ts": "2026-12-28T21:25:23",
+   "node_id": "ACC-015",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=ACC-015*/ ALMID=6325 LEVEL=Minor NAME=ThroughputDrop LOC=3/1/8 RAISED=28-Dec-2026 21:25:23",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006326",
+   "ts": "2026-12-28T21:25:27",
+   "node_id": "ACC-012",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=ACC-012*/ ALMID=6326 LEVEL=Minor NAME=ThroughputDrop LOC=2/1/12 RAISED=28-Dec-2026 21:25:27",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006327",
+   "ts": "2026-12-28T21:25:30",
+   "node_id": "CORE-02",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CORE-02\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798493130,\"desc\":\"Latency above threshold\",\"if\":\"2/2/17\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006328",
+   "ts": "2026-12-28T21:25:38",
+   "node_id": "ACC-027",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-28 21:25:38 ALM ACC-027 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=2/1/18",
+   "is_valid_pred": true,
+   "valid_prob": 0.9231
+  },
+  {
+   "alarm_id": "ALM-0006329",
+   "ts": "2026-12-28T21:25:40",
+   "node_id": "CELL-014",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-014\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798493140,\"desc\":\"Latency above threshold\",\"if\":\"2/1/21\"}",
+   "is_valid_pred": true,
+   "valid_prob": 0.7946
+  },
+  {
+   "alarm_id": "ALM-0006330",
+   "ts": "2026-12-28T21:25:40",
+   "node_id": "CELL-030",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=CELL-030*/ ALMID=6330 LEVEL=Minor NAME=ThroughputDrop LOC=2/1/8 RAISED=28-Dec-2026 21:25:40",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006331",
+   "ts": "2026-12-28T21:25:48",
+   "node_id": "CELL-027",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-28 21:25:48 ALM CELL-027 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=1/2/21",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006332",
+   "ts": "2026-12-28T21:25:48",
+   "node_id": "ACC-024",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"ACC-024\",\"evt\":\"THROUGHPUT_DROP\",\"sev\":2,\"epoch\":1798493148,\"desc\":\"Throughput dropped below floor\",\"if\":\"1/2/11\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006333",
+   "ts": "2026-12-28T21:25:49",
+   "node_id": "AGG-09",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"AGG-09\",\"evt\":\"THROUGHPUT_DROP\",\"sev\":2,\"epoch\":1798493149,\"desc\":\"Throughput dropped below floor\",\"if\":\"2/1/5\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006334",
+   "ts": "2026-12-28T21:25:51",
+   "node_id": "ACC-030",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-28 21:25:51 ALM ACC-030 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=1/2/1",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006335",
+   "ts": "2026-12-28T21:25:56",
+   "node_id": "CELL-066",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-066\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798493156,\"desc\":\"Latency above threshold\",\"if\":\"1/1/8\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006336",
+   "ts": "2026-12-28T21:26:03",
+   "node_id": "CELL-023",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-28 21:26:03 ALM CELL-023 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=3/2/2",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006337",
+   "ts": "2026-12-28T21:26:14",
+   "node_id": "CELL-054",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "2026-12-28 21:26:14 ALM CELL-054 SEV=MINOR CODE=THR_105 \"Throughput dropped below floor\" port=2/1/8",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006338",
+   "ts": "2026-12-28T21:26:26",
+   "node_id": "CELL-044",
+   "alarm_type": "FAN_WARNING",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-044\",\"evt\":\"FAN_WARNING\",\"sev\":2,\"epoch\":1798493186,\"desc\":\"Fan speed out of range\",\"if\":\"1/2/1\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006339",
+   "ts": "2026-12-28T21:26:27",
+   "node_id": "CELL-060",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=CELL-060*/ ALMID=6339 LEVEL=Minor NAME=ThroughputDrop LOC=2/2/12 RAISED=28-Dec-2026 21:26:27",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006340",
+   "ts": "2026-12-28T21:26:32",
+   "node_id": "CELL-017",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-017\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798493192,\"desc\":\"Latency above threshold\",\"if\":\"3/1/4\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006341",
+   "ts": "2026-12-28T21:26:33",
+   "node_id": "CELL-057",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=CELL-057*/ ALMID=6341 LEVEL=Minor NAME=ThroughputDrop LOC=2/2/5 RAISED=28-Dec-2026 21:26:33",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006342",
+   "ts": "2026-12-28T21:26:53",
+   "node_id": "CELL-053",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-053\",\"evt\":\"THROUGHPUT_DROP\",\"sev\":2,\"epoch\":1798493213,\"desc\":\"Throughput dropped below floor\",\"if\":\"2/2/23\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006343",
+   "ts": "2026-12-28T21:26:59",
+   "node_id": "CELL-017",
+   "alarm_type": "CONFIG_MISMATCH",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-017\",\"evt\":\"CONFIG_MISMATCH\",\"sev\":2,\"epoch\":1798493219,\"desc\":\"Running config differs from golden config\",\"if\":\"2/1/19\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006344",
+   "ts": "2026-12-28T21:27:02",
+   "node_id": "CELL-066",
+   "alarm_type": "NTP_SYNC_LOST",
+   "severity": "major",
+   "raw_text": "{\"src\":\"CELL-066\",\"evt\":\"NTP_SYNC_LOST\",\"sev\":3,\"epoch\":1798493222,\"desc\":\"NTP synchronisation lost\",\"if\":\"2/2/12\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006345",
+   "ts": "2026-12-28T21:27:03",
+   "node_id": "CELL-066",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-066\",\"evt\":\"THROUGHPUT_DROP\",\"sev\":2,\"epoch\":1798493223,\"desc\":\"Throughput dropped below floor\",\"if\":\"1/2/9\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006346",
+   "ts": "2026-12-28T21:27:04",
+   "node_id": "CELL-052",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-28 21:27:04 ALM CELL-052 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=3/1/15",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006347",
+   "ts": "2026-12-28T21:27:12",
+   "node_id": "CELL-030",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=CELL-030*/ ALMID=6347 LEVEL=Minor NAME=HighLatency LOC=3/1/16 RAISED=28-Dec-2026 21:27:12",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006348",
+   "ts": "2026-12-28T21:27:33",
+   "node_id": "ACC-030",
+   "alarm_type": "HIGH_CPU",
+   "severity": "major",
+   "raw_text": "2026-12-28 21:27:33 ALM ACC-030 SEV=MAJOR CODE=HIG_107 \"CPU utilisation above threshold\" port=3/2/7",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006349",
+   "ts": "2026-12-28T21:27:43",
+   "node_id": "ACC-024",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"ACC-024\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798493263,\"desc\":\"Latency above threshold\",\"if\":\"2/2/19\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006350",
+   "ts": "2026-12-28T21:27:48",
+   "node_id": "CELL-045",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-28 21:27:48 ALM CELL-045 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=3/1/9",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006351",
+   "ts": "2026-12-28T21:28:15",
+   "node_id": "AGG-06",
+   "alarm_type": "NTP_SYNC_LOST",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"AGG-06\",\"evt\":\"NTP_SYNC_LOST\",\"sev\":2,\"epoch\":1798493295,\"desc\":\"NTP synchronisation lost\",\"if\":\"2/1/14\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006352",
+   "ts": "2026-12-28T22:17:38",
+   "node_id": "AGG-03",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "major",
+   "raw_text": "{\"src\":\"AGG-03\",\"evt\":\"HIGH_PACKET_LOSS\",\"sev\":3,\"epoch\":1798496258,\"desc\":\"Packet loss above threshold\",\"if\":\"2/1/5\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006353",
+   "ts": "2026-12-28T22:17:51",
+   "node_id": "ACC-002",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=ACC-002*/ ALMID=6353 LEVEL=Minor NAME=ThroughputDrop LOC=3/2/17 RAISED=28-Dec-2026 22:17:51",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006354",
+   "ts": "2026-12-28T22:17:53",
+   "node_id": "ACC-002",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=ACC-002*/ ALMID=6354 LEVEL=Minor NAME=HighLatency LOC=2/2/1 RAISED=28-Dec-2026 22:17:53",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006355",
+   "ts": "2026-12-28T22:18:06",
+   "node_id": "AGG-03",
+   "alarm_type": "CONFIG_MISMATCH",
+   "severity": "major",
+   "raw_text": "{\"src\":\"AGG-03\",\"evt\":\"CONFIG_MISMATCH\",\"sev\":3,\"epoch\":1798496286,\"desc\":\"Running config differs from golden config\",\"if\":\"3/1/18\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006356",
+   "ts": "2026-12-28T22:18:11",
+   "node_id": "ACC-020",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "2026-12-28 22:18:11 ALM ACC-020 SEV=MINOR CODE=THR_105 \"Throughput dropped below floor\" port=2/1/13",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006357",
+   "ts": "2026-12-28T22:19:03",
+   "node_id": "CELL-048",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=CELL-048*/ ALMID=6357 LEVEL=Minor NAME=HighLatency LOC=1/2/5 RAISED=28-Dec-2026 22:19:03",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006358",
+   "ts": "2026-12-28T22:19:07",
+   "node_id": "CELL-048",
+   "alarm_type": "HIGH_UTILISATION",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=CELL-048*/ ALMID=6358 LEVEL=Minor NAME=HighUtilisation LOC=2/2/20 RAISED=28-Dec-2026 22:19:07",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006359",
+   "ts": "2026-12-28T22:19:38",
+   "node_id": "CELL-018",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-018\",\"evt\":\"THROUGHPUT_DROP\",\"sev\":2,\"epoch\":1798496378,\"desc\":\"Throughput dropped below floor\",\"if\":\"1/2/14\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006360",
+   "ts": "2026-12-29T00:08:30",
+   "node_id": "ACC-005",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "major",
+   "raw_text": "2026-12-29 00:08:30 ALM ACC-005 SEV=MAJOR CODE=HIG_104 \"Latency above threshold\" port=3/2/4",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006361",
+   "ts": "2026-12-29T00:08:46",
+   "node_id": "CELL-038",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-29 00:08:46 ALM CELL-038 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=2/1/24",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006362",
+   "ts": "2026-12-29T00:09:20",
+   "node_id": "ACC-005",
+   "alarm_type": "HIGH_UTILISATION",
+   "severity": "major",
+   "raw_text": "2026-12-29 00:09:20 ALM ACC-005 SEV=MAJOR CODE=HIG_109 \"Link utilisation above 90 pct\" port=3/1/2",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006363",
+   "ts": "2026-12-29T00:10:52",
+   "node_id": "AGG-18",
+   "alarm_type": "HIGH_TEMP",
+   "severity": "major",
+   "raw_text": "{\"src\":\"AGG-18\",\"evt\":\"HIGH_TEMP\",\"sev\":3,\"epoch\":1798503052,\"desc\":\"Chassis temperature above threshold\",\"if\":\"3/1/23\"}",
+   "is_valid_pred": false,
+   "valid_prob": 0.0
+  },
+  {
+   "alarm_id": "ALM-0006364",
+   "ts": "2026-12-29T00:11:07",
+   "node_id": "CELL-008",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "2026-12-29 00:11:07 ALM CELL-008 SEV=MINOR CODE=THR_105 \"Throughput dropped below floor\" port=3/2/23",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006365",
+   "ts": "2026-12-29T00:36:31",
+   "node_id": "CORE-01",
+   "alarm_type": "LINK_DOWN",
+   "severity": "minor",
+   "raw_text": "2026-12-29 00:36:31 ALM CORE-01 SEV=MINOR CODE=LIN_101 \"Link down\" port=3/1/6",
+   "is_valid_pred": false,
+   "valid_prob": 0.0
+  },
+  {
+   "alarm_id": "ALM-0006366",
+   "ts": "2026-12-29T01:58:44",
+   "node_id": "ACC-002",
+   "alarm_type": "NTP_SYNC_LOST",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=ACC-002*/ ALMID=6366 LEVEL=Minor NAME=NtpSyncLost LOC=1/2/23 RAISED=29-Dec-2026 01:58:44",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006367",
+   "ts": "2026-12-29T02:30:07",
+   "node_id": "CORE-02",
+   "alarm_type": "HIGH_CPU",
+   "severity": "major",
+   "raw_text": "{\"src\":\"CORE-02\",\"evt\":\"HIGH_CPU\",\"sev\":3,\"epoch\":1798511407,\"desc\":\"CPU utilisation above threshold\",\"if\":\"2/1/8\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006368",
+   "ts": "2026-12-29T02:30:11",
+   "node_id": "CORE-02",
+   "alarm_type": "HIGH_TEMP",
+   "severity": "major",
+   "raw_text": "{\"src\":\"CORE-02\",\"evt\":\"HIGH_TEMP\",\"sev\":3,\"epoch\":1798511411,\"desc\":\"Chassis temperature above threshold\",\"if\":\"1/2/20\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006369",
+   "ts": "2026-12-29T02:30:13",
+   "node_id": "ACC-025",
+   "alarm_type": "HIGH_TEMP",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=ACC-025*/ ALMID=6369 LEVEL=Minor NAME=HighTemp LOC=3/2/11 RAISED=29-Dec-2026 02:30:13",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006370",
+   "ts": "2026-12-29T02:30:17",
+   "node_id": "CELL-002",
+   "alarm_type": "LINK_DOWN",
+   "severity": "major",
+   "raw_text": "%%01ALARM/*NE=CELL-002*/ ALMID=6370 LEVEL=Major NAME=LinkDown LOC=3/2/6 RAISED=29-Dec-2026 02:30:17",
+   "is_valid_pred": true,
+   "valid_prob": 0.1765
+  },
+  {
+   "alarm_id": "ALM-0006371",
+   "ts": "2026-12-29T02:31:07",
+   "node_id": "CELL-014",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-014\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798511467,\"desc\":\"Latency above threshold\",\"if\":\"1/1/11\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006372",
+   "ts": "2026-12-29T02:32:07",
+   "node_id": "CELL-007",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-29 02:32:07 ALM CELL-007 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=2/1/21",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006373",
+   "ts": "2026-12-29T02:33:02",
+   "node_id": "ACC-006",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"ACC-006\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798511582,\"desc\":\"Latency above threshold\",\"if\":\"2/2/4\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006374",
+   "ts": "2026-12-29T02:34:21",
+   "node_id": "CELL-023",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-29 02:34:21 ALM CELL-023 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=1/2/20",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006375",
+   "ts": "2026-12-29T02:40:03",
+   "node_id": "CELL-031",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=CELL-031*/ ALMID=6375 LEVEL=Minor NAME=UpstreamUnreachable LOC=1/1/1 RAISED=29-Dec-2026 02:40:03",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006376",
+   "ts": "2026-12-29T03:32:32",
+   "node_id": "CELL-042",
+   "alarm_type": "INTERFACE_FLAP",
+   "severity": "critical",
+   "raw_text": "2026-12-29 03:32:32 ALM CELL-042 SEV=CRITICAL CODE=INT_111 \"Interface state changed\" port=3/2/6",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006377",
+   "ts": "2026-12-29T07:27:38",
+   "node_id": "CELL-010",
+   "alarm_type": "LINK_DOWN",
+   "severity": "critical",
+   "raw_text": "2026-12-29 07:27:38 ALM CELL-010 SEV=CRITICAL CODE=LIN_101 \"Link down\" port=2/2/6",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006378",
+   "ts": "2026-12-29T07:29:53",
+   "node_id": "CELL-010",
+   "alarm_type": "POWER_FAILURE",
+   "severity": "critical",
+   "raw_text": "2026-12-29 07:29:53 ALM CELL-010 SEV=CRITICAL CODE=POW_106 \"Mains power failure, on battery\" port=1/2/23",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006379",
+   "ts": "2026-12-29T09:10:50",
+   "node_id": "ACC-009",
+   "alarm_type": "POWER_FAILURE",
+   "severity": "critical",
+   "raw_text": "{\"src\":\"ACC-009\",\"evt\":\"POWER_FAILURE\",\"sev\":5,\"epoch\":1798535450,\"desc\":\"Mains power failure, on battery\",\"if\":\"1/2/2\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006380",
+   "ts": "2026-12-29T09:11:12",
+   "node_id": "CELL-013",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "major",
+   "raw_text": "2026-12-29 09:11:12 ALM CELL-013 SEV=MAJOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=1/1/5",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006381",
+   "ts": "2026-12-29T09:11:51",
+   "node_id": "CELL-043",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "major",
+   "raw_text": "2026-12-29 09:11:51 ALM CELL-043 SEV=MAJOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=1/2/20",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006382",
+   "ts": "2026-12-29T15:05:03",
+   "node_id": "ACC-013",
+   "alarm_type": "NTP_SYNC_LOST",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=ACC-013*/ ALMID=6382 LEVEL=Minor NAME=NtpSyncLost LOC=2/1/22 RAISED=29-Dec-2026 15:05:03",
+   "is_valid_pred": true,
+   "valid_prob": 0.1765
+  },
+  {
+   "alarm_id": "ALM-0006383",
+   "ts": "2026-12-29T18:38:46",
+   "node_id": "ACC-015",
+   "alarm_type": "HIGH_UTILISATION",
+   "severity": "major",
+   "raw_text": "%%01ALARM/*NE=ACC-015*/ ALMID=6383 LEVEL=Major NAME=HighUtilisation LOC=1/1/18 RAISED=29-Dec-2026 18:38:46",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006384",
+   "ts": "2026-12-29T18:39:20",
+   "node_id": "CELL-015",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-015\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798569560,\"desc\":\"Latency above threshold\",\"if\":\"3/2/6\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006385",
+   "ts": "2026-12-29T18:40:13",
+   "node_id": "CELL-045",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-29 18:40:13 ALM CELL-045 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=1/1/6",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006386",
+   "ts": "2026-12-29T18:40:19",
+   "node_id": "ACC-015",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "major",
+   "raw_text": "%%01ALARM/*NE=ACC-015*/ ALMID=6386 LEVEL=Major NAME=HighLatency LOC=1/1/11 RAISED=29-Dec-2026 18:40:19",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006387",
+   "ts": "2026-12-29T19:48:03",
+   "node_id": "CELL-029",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"CELL-029\",\"evt\":\"UPSTREAM_UNREACHABLE\",\"sev\":2,\"epoch\":1798573683,\"desc\":\"Upstream neighbour unreachable\",\"if\":\"3/1/14\"}",
+   "is_valid_pred": true,
+   "valid_prob": 0.7192
+  },
+  {
+   "alarm_id": "ALM-0006388",
+   "ts": "2026-12-29T20:13:41",
+   "node_id": "CELL-031",
+   "alarm_type": "CRC_ERRORS",
+   "severity": "minor",
+   "raw_text": "%%01ALARM/*NE=CELL-031*/ ALMID=6388 LEVEL=Minor NAME=CrcErrors LOC=1/1/1 RAISED=29-Dec-2026 20:13:41",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006389",
+   "ts": "2026-12-29T20:21:25",
+   "node_id": "ACC-028",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-29 20:21:25 ALM ACC-028 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=1/2/13",
+   "is_valid_pred": false,
+   "valid_prob": 0.1333
+  },
+  {
+   "alarm_id": "ALM-0006390",
+   "ts": "2026-12-29T21:57:39",
+   "node_id": "CELL-048",
+   "alarm_type": "CONFIG_MISMATCH",
+   "severity": "major",
+   "raw_text": "%%01ALARM/*NE=CELL-048*/ ALMID=6390 LEVEL=Major NAME=ConfigMismatch LOC=3/2/21 RAISED=29-Dec-2026 21:57:39",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006391",
+   "ts": "2026-12-29T22:27:39",
+   "node_id": "ACC-027",
+   "alarm_type": "POWER_FAILURE",
+   "severity": "minor",
+   "raw_text": "2026-12-29 22:27:39 ALM ACC-027 SEV=MINOR CODE=POW_106 \"Mains power failure, on battery\" port=1/1/9",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006392",
+   "ts": "2026-12-29T22:40:14",
+   "node_id": "CELL-063",
+   "alarm_type": "NTP_SYNC_LOST",
+   "severity": "major",
+   "raw_text": "%%01ALARM/*NE=CELL-063*/ ALMID=6392 LEVEL=Major NAME=NtpSyncLost LOC=1/1/8 RAISED=29-Dec-2026 22:40:14",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006393",
+   "ts": "2026-12-29T23:30:09",
+   "node_id": "CELL-012",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "major",
+   "raw_text": "2026-12-29 23:30:09 ALM CELL-012 SEV=MAJOR CODE=HIG_103 \"Packet loss above threshold\" port=3/2/5",
+   "is_valid_pred": true,
+   "valid_prob": 0.7132
+  },
+  {
+   "alarm_id": "ALM-0006394",
+   "ts": "2026-12-30T00:00:10",
+   "node_id": "AGG-01",
+   "alarm_type": "LINK_DOWN",
+   "severity": "critical",
+   "raw_text": "2026-12-30 00:00:10 ALM AGG-01 SEV=CRITICAL CODE=LIN_101 \"Link down\" port=2/2/20",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006395",
+   "ts": "2026-12-30T00:00:59",
+   "node_id": "CELL-040",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:00:59 ALM CELL-040 SEV=MINOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=2/2/7",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006396",
+   "ts": "2026-12-30T00:01:01",
+   "node_id": "ACC-009",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"ACC-009\",\"evt\":\"HIGH_PACKET_LOSS\",\"sev\":2,\"epoch\":1798588861,\"desc\":\"Packet loss above threshold\",\"if\":\"3/1/4\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006397",
+   "ts": "2026-12-30T00:01:01",
+   "node_id": "ACC-028",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:01:01 ALM ACC-028 SEV=MINOR CODE=THR_105 \"Throughput dropped below floor\" port=1/2/10",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006398",
+   "ts": "2026-12-30T00:01:06",
+   "node_id": "AGG-01",
+   "alarm_type": "LOSS_OF_SIGNAL",
+   "severity": "critical",
+   "raw_text": "2026-12-30 00:01:06 ALM AGG-01 SEV=CRITICAL CODE=LOS_100 \"Loss of signal on uplink port\" port=2/1/3",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006399",
+   "ts": "2026-12-30T00:01:13",
+   "node_id": "CELL-012",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:01:13 ALM CELL-012 SEV=MINOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=1/2/2",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006400",
+   "ts": "2026-12-30T00:01:17",
+   "node_id": "CELL-010",
+   "alarm_type": "THROUGHPUT_DROP",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:01:17 ALM CELL-010 SEV=MINOR CODE=THR_105 \"Throughput dropped below floor\" port=3/1/11",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006401",
+   "ts": "2026-12-30T00:01:34",
+   "node_id": "ACC-009",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"ACC-009\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798588894,\"desc\":\"Latency above threshold\",\"if\":\"1/2/14\"}",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006402",
+   "ts": "2026-12-30T00:01:36",
+   "node_id": "ACC-027",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:01:36 ALM ACC-027 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=3/1/8",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006403",
+   "ts": "2026-12-30T00:01:47",
+   "node_id": "CELL-027",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "major",
+   "raw_text": "2026-12-30 00:01:47 ALM CELL-027 SEV=MAJOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=2/1/24",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006404",
+   "ts": "2026-12-30T00:01:56",
+   "node_id": "CELL-043",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:01:56 ALM CELL-043 SEV=MINOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=1/1/2",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006405",
+   "ts": "2026-12-30T00:02:02",
+   "node_id": "ACC-028",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:02:02 ALM ACC-028 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=2/1/12",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006406",
+   "ts": "2026-12-30T00:02:03",
+   "node_id": "CELL-012",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:02:03 ALM CELL-012 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=3/1/9",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006407",
+   "ts": "2026-12-30T00:02:12",
+   "node_id": "CELL-010",
+   "alarm_type": "HIGH_PACKET_LOSS",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:02:12 ALM CELL-010 SEV=MINOR CODE=HIG_103 \"Packet loss above threshold\" port=2/2/17",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006408",
+   "ts": "2026-12-30T00:02:21",
+   "node_id": "CELL-010",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:02:21 ALM CELL-010 SEV=MINOR CODE=HIG_104 \"Latency above threshold\" port=2/2/7",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006409",
+   "ts": "2026-12-30T00:02:24",
+   "node_id": "CELL-042",
+   "alarm_type": "UPSTREAM_UNREACHABLE",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:02:24 ALM CELL-042 SEV=MINOR CODE=UPS_102 \"Upstream neighbour unreachable\" port=3/2/14",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006410",
+   "ts": "2026-12-30T00:04:49",
+   "node_id": "CELL-012",
+   "alarm_type": "FAN_WARNING",
+   "severity": "minor",
+   "raw_text": "2026-12-30 00:04:49 ALM CELL-012 SEV=MINOR CODE=FAN_112 \"Fan speed out of range\" port=2/2/24",
+   "is_valid_pred": true,
+   "valid_prob": 1.0
+  },
+  {
+   "alarm_id": "ALM-0006411",
+   "ts": "2026-12-30T00:05:26",
+   "node_id": "CORE-02",
+   "alarm_type": "INTERFACE_FLAP",
+   "severity": "major",
+   "raw_text": "{\"src\":\"CORE-02\",\"evt\":\"INTERFACE_FLAP\",\"sev\":3,\"epoch\":1798589126,\"desc\":\"Interface state changed\",\"if\":\"2/2/2\"}",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006412",
+   "ts": "2026-12-30T00:08:48",
+   "node_id": "AGG-12",
+   "alarm_type": "POWER_FAILURE",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"AGG-12\",\"evt\":\"POWER_FAILURE\",\"sev\":2,\"epoch\":1798589328,\"desc\":\"Mains power failure, on battery\",\"if\":\"2/2/8\"}",
+   "is_valid_pred": false,
+   "valid_prob": 0.0769
+  },
+  {
+   "alarm_id": "ALM-0006413",
+   "ts": "2026-12-30T00:09:04",
+   "node_id": "AGG-15",
+   "alarm_type": "HIGH_LATENCY",
+   "severity": "minor",
+   "raw_text": "{\"src\":\"AGG-15\",\"evt\":\"HIGH_LATENCY\",\"sev\":2,\"epoch\":1798589344,\"desc\":\"Latency above threshold\",\"if\":\"2/1/1\"}",
+   "is_valid_pred": true,
+   "valid_prob": 0.2992
+  }
+ ]
+}

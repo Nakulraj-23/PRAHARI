@@ -114,3 +114,14 @@ What production would need: real alarm and topology data with root-cause labels,
 ## How it was built
 
 With an AI-assisted multi-agent workflow (builder agents and independent audit agents, see `docs/plan/` and `docs/handoffs/`). The problem, scope and design choices are the author's. Every failed approach is logged in `docs/EXPERIMENTS.md`.
+
+## Live demo (free, Vercel)
+
+The dashboard can be hosted as a static **demo replay**: it shows data captured from a real run
+of this system (real topology, real incident, real governance report, real model cards and drift
+report) from `web/demo-data/`. The buttons do not change a backend. The full system (API, models,
+2.3 GB database) runs locally as described above.
+
+Deploy: Vercel, Add New Project, import this repo, set **Root Directory** to `web`, Deploy.
+`web/vercel.json` already sets the build command. Or from `web/`: `npx vercel --prod`.
+Local preview: `cd web && DEMO_DATA=1 VITE_MOCK=1 VITE_DEMO=1 npm run build && npx vite preview`.

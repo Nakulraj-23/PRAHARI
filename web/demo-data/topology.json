@@ -1,0 +1,1602 @@
+{
+ "nodes": [
+  {
+   "node_id": "ACC-001",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-002",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-003",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "ACC-004",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "ACC-005",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "ACC-006",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "ACC-007",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-008",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "ACC-009",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "ACC-010",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "ACC-011",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-012",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-013",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-014",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-015",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-016",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "ACC-017",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-018",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-019",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-020",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "ACC-021",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-022",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "ACC-023",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-024",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "ACC-025",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-026",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-027",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "ACC-028",
+   "node_type": "access",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "ACC-029",
+   "node_type": "access",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "ACC-030",
+   "node_type": "access",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "AGG-01",
+   "node_type": "agg",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "AGG-02",
+   "node_type": "agg",
+   "region": "West",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-03",
+   "node_type": "agg",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-04",
+   "node_type": "agg",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "AGG-05",
+   "node_type": "agg",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "AGG-06",
+   "node_type": "agg",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-07",
+   "node_type": "agg",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "AGG-08",
+   "node_type": "agg",
+   "region": "West",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-09",
+   "node_type": "agg",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-10",
+   "node_type": "agg",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "AGG-11",
+   "node_type": "agg",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "AGG-12",
+   "node_type": "agg",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-13",
+   "node_type": "agg",
+   "region": "North",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-14",
+   "node_type": "agg",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "AGG-15",
+   "node_type": "agg",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-16",
+   "node_type": "agg",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "AGG-17",
+   "node_type": "agg",
+   "region": "West",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "AGG-18",
+   "node_type": "agg",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-001",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-002",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-003",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-004",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-005",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-006",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-007",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-008",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-009",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-010",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-011",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-012",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-013",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-014",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-015",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-016",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-017",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-018",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-019",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-020",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-021",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-022",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-023",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-024",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-025",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-026",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-027",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-028",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-029",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-030",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-031",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-032",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-033",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-034",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-035",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-036",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-037",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-038",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-039",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-040",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-041",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-042",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-043",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-044",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-045",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-046",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-047",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-048",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-049",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-050",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-051",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-052",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-053",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-054",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-055",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-056",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-057",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-058",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CELL-059",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-060",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-061",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-062",
+   "node_type": "cell",
+   "region": "West",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-063",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-064",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Orion"
+  },
+  {
+   "node_id": "CELL-065",
+   "node_type": "cell",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CELL-066",
+   "node_type": "cell",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CORE-01",
+   "node_type": "core",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CORE-02",
+   "node_type": "core",
+   "region": "West",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CORE-03",
+   "node_type": "core",
+   "region": "South",
+   "vendor": "Zenith"
+  },
+  {
+   "node_id": "CORE-04",
+   "node_type": "core",
+   "region": "North",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CORE-05",
+   "node_type": "core",
+   "region": "West",
+   "vendor": "Nexa"
+  },
+  {
+   "node_id": "CORE-06",
+   "node_type": "core",
+   "region": "South",
+   "vendor": "Orion"
+  }
+ ],
+ "links": [
+  {
+   "link_id": "L-ACC-001-CELL-025",
+   "src": "ACC-001",
+   "dst": "CELL-025",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-001-CELL-055",
+   "src": "ACC-001",
+   "dst": "CELL-055",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-002-CELL-018",
+   "src": "ACC-002",
+   "dst": "CELL-018",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-002-CELL-048",
+   "src": "ACC-002",
+   "dst": "CELL-048",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-003-CELL-026",
+   "src": "ACC-003",
+   "dst": "CELL-026",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-003-CELL-056",
+   "src": "ACC-003",
+   "dst": "CELL-056",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-004-CELL-006",
+   "src": "ACC-004",
+   "dst": "CELL-006",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-004-CELL-036",
+   "src": "ACC-004",
+   "dst": "CELL-036",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-004-CELL-066",
+   "src": "ACC-004",
+   "dst": "CELL-066",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-005-CELL-008",
+   "src": "ACC-005",
+   "dst": "CELL-008",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-005-CELL-038",
+   "src": "ACC-005",
+   "dst": "CELL-038",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-006-CELL-014",
+   "src": "ACC-006",
+   "dst": "CELL-014",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-006-CELL-044",
+   "src": "ACC-006",
+   "dst": "CELL-044",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-007-CELL-001",
+   "src": "ACC-007",
+   "dst": "CELL-001",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-007-CELL-031",
+   "src": "ACC-007",
+   "dst": "CELL-031",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-007-CELL-061",
+   "src": "ACC-007",
+   "dst": "CELL-061",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-008-CELL-027",
+   "src": "ACC-008",
+   "dst": "CELL-027",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-008-CELL-028",
+   "src": "ACC-008",
+   "dst": "CELL-028",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-008-CELL-042",
+   "src": "ACC-008",
+   "dst": "CELL-042",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-008-CELL-058",
+   "src": "ACC-008",
+   "dst": "CELL-058",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-009-CELL-013",
+   "src": "ACC-009",
+   "dst": "CELL-013",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-009-CELL-043",
+   "src": "ACC-009",
+   "dst": "CELL-043",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-010-CELL-005",
+   "src": "ACC-010",
+   "dst": "CELL-005",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-010-CELL-035",
+   "src": "ACC-010",
+   "dst": "CELL-035",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-010-CELL-065",
+   "src": "ACC-010",
+   "dst": "CELL-065",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-011-CELL-021",
+   "src": "ACC-011",
+   "dst": "CELL-021",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-011-CELL-051",
+   "src": "ACC-011",
+   "dst": "CELL-051",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-012-CELL-024",
+   "src": "ACC-012",
+   "dst": "CELL-024",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-012-CELL-054",
+   "src": "ACC-012",
+   "dst": "CELL-054",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-013-CELL-019",
+   "src": "ACC-013",
+   "dst": "CELL-019",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-013-CELL-049",
+   "src": "ACC-013",
+   "dst": "CELL-049",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-014-CELL-016",
+   "src": "ACC-014",
+   "dst": "CELL-016",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-014-CELL-028",
+   "src": "ACC-014",
+   "dst": "CELL-028",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-014-CELL-046",
+   "src": "ACC-014",
+   "dst": "CELL-046",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-015-CELL-015",
+   "src": "ACC-015",
+   "dst": "CELL-015",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-015-CELL-045",
+   "src": "ACC-015",
+   "dst": "CELL-045",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-016-CELL-003",
+   "src": "ACC-016",
+   "dst": "CELL-003",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-016-CELL-033",
+   "src": "ACC-016",
+   "dst": "CELL-033",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-016-CELL-063",
+   "src": "ACC-016",
+   "dst": "CELL-063",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-017-CELL-009",
+   "src": "ACC-017",
+   "dst": "CELL-009",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-017-CELL-039",
+   "src": "ACC-017",
+   "dst": "CELL-039",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-018-CELL-007",
+   "src": "ACC-018",
+   "dst": "CELL-007",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-018-CELL-037",
+   "src": "ACC-018",
+   "dst": "CELL-037",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-019-CELL-011",
+   "src": "ACC-019",
+   "dst": "CELL-011",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-019-CELL-041",
+   "src": "ACC-019",
+   "dst": "CELL-041",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-020-CELL-017",
+   "src": "ACC-020",
+   "dst": "CELL-017",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-020-CELL-047",
+   "src": "ACC-020",
+   "dst": "CELL-047",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-021-CELL-020",
+   "src": "ACC-021",
+   "dst": "CELL-020",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-021-CELL-050",
+   "src": "ACC-021",
+   "dst": "CELL-050",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-022-CELL-022",
+   "src": "ACC-022",
+   "dst": "CELL-022",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-022-CELL-052",
+   "src": "ACC-022",
+   "dst": "CELL-052",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-023-CELL-004",
+   "src": "ACC-023",
+   "dst": "CELL-004",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-023-CELL-034",
+   "src": "ACC-023",
+   "dst": "CELL-034",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-023-CELL-064",
+   "src": "ACC-023",
+   "dst": "CELL-064",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-024-CELL-023",
+   "src": "ACC-024",
+   "dst": "CELL-023",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-024-CELL-053",
+   "src": "ACC-024",
+   "dst": "CELL-053",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-025-CELL-029",
+   "src": "ACC-025",
+   "dst": "CELL-029",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-025-CELL-032",
+   "src": "ACC-025",
+   "dst": "CELL-032",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-025-CELL-059",
+   "src": "ACC-025",
+   "dst": "CELL-059",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-026-CELL-027",
+   "src": "ACC-026",
+   "dst": "CELL-027",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-026-CELL-057",
+   "src": "ACC-026",
+   "dst": "CELL-057",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-027-CELL-010",
+   "src": "ACC-027",
+   "dst": "CELL-010",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-027-CELL-040",
+   "src": "ACC-027",
+   "dst": "CELL-040",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-028-CELL-012",
+   "src": "ACC-028",
+   "dst": "CELL-012",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-028-CELL-042",
+   "src": "ACC-028",
+   "dst": "CELL-042",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-029-CELL-002",
+   "src": "ACC-029",
+   "dst": "CELL-002",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-029-CELL-032",
+   "src": "ACC-029",
+   "dst": "CELL-032",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-029-CELL-062",
+   "src": "ACC-029",
+   "dst": "CELL-062",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-030-CELL-030",
+   "src": "ACC-030",
+   "dst": "CELL-030",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-ACC-030-CELL-060",
+   "src": "ACC-030",
+   "dst": "CELL-060",
+   "capacity_mbps": 1000.0
+  },
+  {
+   "link_id": "L-AGG-01-ACC-009",
+   "src": "AGG-01",
+   "dst": "ACC-009",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-01-ACC-027",
+   "src": "AGG-01",
+   "dst": "ACC-027",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-01-ACC-028",
+   "src": "AGG-01",
+   "dst": "ACC-028",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-02-ACC-007",
+   "src": "AGG-02",
+   "dst": "ACC-007",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-02-ACC-025",
+   "src": "AGG-02",
+   "dst": "ACC-025",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-03-ACC-002",
+   "src": "AGG-03",
+   "dst": "ACC-002",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-03-ACC-020",
+   "src": "AGG-03",
+   "dst": "ACC-020",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-04-ACC-014",
+   "src": "AGG-04",
+   "dst": "ACC-014",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-05-ACC-003",
+   "src": "AGG-05",
+   "dst": "ACC-003",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-05-ACC-021",
+   "src": "AGG-05",
+   "dst": "ACC-021",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-06-ACC-006",
+   "src": "AGG-06",
+   "dst": "ACC-006",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-06-ACC-024",
+   "src": "AGG-06",
+   "dst": "ACC-024",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-07-ACC-008",
+   "src": "AGG-07",
+   "dst": "ACC-008",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-07-ACC-009",
+   "src": "AGG-07",
+   "dst": "ACC-009",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-07-ACC-010",
+   "src": "AGG-07",
+   "dst": "ACC-010",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-07-ACC-028",
+   "src": "AGG-07",
+   "dst": "ACC-028",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-08-ACC-018",
+   "src": "AGG-08",
+   "dst": "ACC-018",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-08-ACC-025",
+   "src": "AGG-08",
+   "dst": "ACC-025",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-09-ACC-015",
+   "src": "AGG-09",
+   "dst": "ACC-015",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-09-ACC-020",
+   "src": "AGG-09",
+   "dst": "ACC-020",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-09-ACC-022",
+   "src": "AGG-09",
+   "dst": "ACC-022",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-10-ACC-005",
+   "src": "AGG-10",
+   "dst": "ACC-005",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-10-ACC-016",
+   "src": "AGG-10",
+   "dst": "ACC-016",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-11-ACC-011",
+   "src": "AGG-11",
+   "dst": "ACC-011",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-11-ACC-029",
+   "src": "AGG-11",
+   "dst": "ACC-029",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-12-ACC-017",
+   "src": "AGG-12",
+   "dst": "ACC-017",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-12-ACC-030",
+   "src": "AGG-12",
+   "dst": "ACC-030",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-13-ACC-008",
+   "src": "AGG-13",
+   "dst": "ACC-008",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-13-ACC-026",
+   "src": "AGG-13",
+   "dst": "ACC-026",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-13-ACC-027",
+   "src": "AGG-13",
+   "dst": "ACC-027",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-14-ACC-001",
+   "src": "AGG-14",
+   "dst": "ACC-001",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-14-ACC-019",
+   "src": "AGG-14",
+   "dst": "ACC-019",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-15-ACC-004",
+   "src": "AGG-15",
+   "dst": "ACC-004",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-15-ACC-022",
+   "src": "AGG-15",
+   "dst": "ACC-022",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-15-ACC-024",
+   "src": "AGG-15",
+   "dst": "ACC-024",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-16-ACC-005",
+   "src": "AGG-16",
+   "dst": "ACC-005",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-16-ACC-023",
+   "src": "AGG-16",
+   "dst": "ACC-023",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-17-ACC-013",
+   "src": "AGG-17",
+   "dst": "ACC-013",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-18-ACC-012",
+   "src": "AGG-18",
+   "dst": "ACC-012",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-AGG-18-ACC-030",
+   "src": "AGG-18",
+   "dst": "ACC-030",
+   "capacity_mbps": 10000.0
+  },
+  {
+   "link_id": "L-CORE-01-AGG-07",
+   "src": "CORE-01",
+   "dst": "AGG-07",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-01-AGG-10",
+   "src": "CORE-01",
+   "dst": "AGG-10",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-01-AGG-12",
+   "src": "CORE-01",
+   "dst": "AGG-12",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-01-CORE-02",
+   "src": "CORE-01",
+   "dst": "CORE-02",
+   "capacity_mbps": 100000.0
+  },
+  {
+   "link_id": "L-CORE-01-CORE-04",
+   "src": "CORE-01",
+   "dst": "CORE-04",
+   "capacity_mbps": 100000.0
+  },
+  {
+   "link_id": "L-CORE-02-AGG-06",
+   "src": "CORE-02",
+   "dst": "AGG-06",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-02-AGG-08",
+   "src": "CORE-02",
+   "dst": "AGG-08",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-02-AGG-11",
+   "src": "CORE-02",
+   "dst": "AGG-11",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-02-CORE-03",
+   "src": "CORE-02",
+   "dst": "CORE-03",
+   "capacity_mbps": 100000.0
+  },
+  {
+   "link_id": "L-CORE-02-CORE-05",
+   "src": "CORE-02",
+   "dst": "CORE-05",
+   "capacity_mbps": 100000.0
+  },
+  {
+   "link_id": "L-CORE-03-AGG-06",
+   "src": "CORE-03",
+   "dst": "AGG-06",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-03-AGG-09",
+   "src": "CORE-03",
+   "dst": "AGG-09",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-03-AGG-12",
+   "src": "CORE-03",
+   "dst": "AGG-12",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-03-AGG-13",
+   "src": "CORE-03",
+   "dst": "AGG-13",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-03-AGG-15",
+   "src": "CORE-03",
+   "dst": "AGG-15",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-03-AGG-18",
+   "src": "CORE-03",
+   "dst": "AGG-18",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-03-CORE-04",
+   "src": "CORE-03",
+   "dst": "CORE-04",
+   "capacity_mbps": 100000.0
+  },
+  {
+   "link_id": "L-CORE-03-CORE-06",
+   "src": "CORE-03",
+   "dst": "CORE-06",
+   "capacity_mbps": 100000.0
+  },
+  {
+   "link_id": "L-CORE-04-AGG-01",
+   "src": "CORE-04",
+   "dst": "AGG-01",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-04-AGG-04",
+   "src": "CORE-04",
+   "dst": "AGG-04",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-04-AGG-07",
+   "src": "CORE-04",
+   "dst": "AGG-07",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-04-AGG-08",
+   "src": "CORE-04",
+   "dst": "AGG-08",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-04-AGG-10",
+   "src": "CORE-04",
+   "dst": "AGG-10",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-04-AGG-13",
+   "src": "CORE-04",
+   "dst": "AGG-13",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-04-AGG-16",
+   "src": "CORE-04",
+   "dst": "AGG-16",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-04-CORE-05",
+   "src": "CORE-04",
+   "dst": "CORE-05",
+   "capacity_mbps": 100000.0
+  },
+  {
+   "link_id": "L-CORE-05-AGG-02",
+   "src": "CORE-05",
+   "dst": "AGG-02",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-05-AGG-05",
+   "src": "CORE-05",
+   "dst": "AGG-05",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-05-AGG-11",
+   "src": "CORE-05",
+   "dst": "AGG-11",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-05-AGG-14",
+   "src": "CORE-05",
+   "dst": "AGG-14",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-05-AGG-17",
+   "src": "CORE-05",
+   "dst": "AGG-17",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-05-AGG-18",
+   "src": "CORE-05",
+   "dst": "AGG-18",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-05-CORE-06",
+   "src": "CORE-05",
+   "dst": "CORE-06",
+   "capacity_mbps": 100000.0
+  },
+  {
+   "link_id": "L-CORE-06-AGG-03",
+   "src": "CORE-06",
+   "dst": "AGG-03",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-06-AGG-04",
+   "src": "CORE-06",
+   "dst": "AGG-04",
+   "capacity_mbps": 40000.0
+  },
+  {
+   "link_id": "L-CORE-06-CORE-01",
+   "src": "CORE-01",
+   "dst": "CORE-06",
+   "capacity_mbps": 100000.0
+  }
+ ]
+}

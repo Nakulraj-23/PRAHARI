@@ -1,0 +1,105 @@
+{
+ "id": 2,
+ "ts": "2026-12-30T06:15:00",
+ "status": "red",
+ "features": [
+  {
+   "feature": "latency_ms",
+   "psi": 0.3146,
+   "ks_pvalue": 2.465554255268783e-125,
+   "status": "red"
+  },
+  {
+   "feature": "packet_loss_pct",
+   "psi": 0.0034,
+   "ks_pvalue": 0.6931576539942915,
+   "status": "green"
+  },
+  {
+   "feature": "throughput_mbps",
+   "psi": 0.0013,
+   "ks_pvalue": 0.6527581274835811,
+   "status": "green"
+  },
+  {
+   "feature": "cpu_pct",
+   "psi": 0.0002,
+   "ks_pvalue": 0.9786358076978635,
+   "status": "green"
+  },
+  {
+   "feature": "mem_pct",
+   "psi": 0.0003,
+   "ks_pvalue": 0.991307440119355,
+   "status": "green"
+  },
+  {
+   "feature": "temp_c",
+   "psi": 0.0002,
+   "ks_pvalue": 0.995435859988284,
+   "status": "green"
+  },
+  {
+   "feature": "latency_ms_ma15",
+   "psi": 0.3089,
+   "ks_pvalue": 4.5683468886534254e-133,
+   "status": "red"
+  },
+  {
+   "feature": "packet_loss_pct_ma15",
+   "psi": 0.0041,
+   "ks_pvalue": 0.4977987473015207,
+   "status": "green"
+  },
+  {
+   "feature": "pred_rca_top1_conf",
+   "psi": 0.0,
+   "ks_pvalue": 1.0,
+   "status": "green"
+  }
+ ],
+ "summary": "RED: latency_ms PSI 0.31, latency_ms_ma15 PSI 0.31; latency shift concentrated on vendor Orion (PSI 3.63)",
+ "extra": {
+  "id": 2,
+  "ts": "2026-12-30T06:15:00",
+  "status": "red",
+  "extra": {
+   "window": {
+    "start": "2026-12-30T00:15:00",
+    "end": "2026-12-30T06:15:00"
+   },
+   "n_kpi_rows": 43200,
+   "ks_statistic": {
+    "latency_ms": 0.1794,
+    "packet_loss_pct": 0.0106,
+    "throughput_mbps": 0.011,
+    "cpu_pct": 0.0071,
+    "mem_pct": 0.0065,
+    "temp_c": 0.0062,
+    "latency_ms_ma15": 0.1846,
+    "packet_loss_pct_ma15": 0.0124,
+    "pred_rca_top1_conf": 0.0
+   },
+   "vendor_latency_psi": {
+    "Nexa": 0.0045,
+    "Orion": 3.6263,
+    "Zenith": 3.3239
+   },
+   "n_predictions": {
+    "pred_rca_top1_conf": 0
+   },
+   "notes": [
+    "pred_rca_top1_conf: only 0 values (<100), not scored"
+   ],
+   "thresholds": {
+    "amber": 0.1,
+    "red": 0.2
+   },
+   "reference_built_at": "2026-11-14T14:08:09.708405+00:00",
+   "reference_model_versions": {
+    "alarm_validator": "20261114T093946",
+    "rca_gnn": "20261114093826"
+   }
+  }
+ }
+}

@@ -1,0 +1,124 @@
+{
+ "entries": [
+  {
+   "id": 9,
+   "ts": "2026-11-14T15:31:22.596158",
+   "actor": "api",
+   "event": "drift_run",
+   "payload": {
+    "report_id": 2,
+    "status": "red"
+   }
+  },
+  {
+   "id": 8,
+   "ts": "2026-11-14T15:31:21.224050",
+   "actor": "api",
+   "event": "scenario_started",
+   "payload": {
+    "name": "firmware_drift",
+    "vendor": "Zenith"
+   }
+  },
+  {
+   "id": 7,
+   "ts": "2026-11-14T15:31:19.901657",
+   "actor": "operator",
+   "event": "action_executed",
+   "payload": {
+    "action_id": "ACT-00001",
+    "note": "demo",
+    "recovered": true,
+    "result": {
+     "recovered": [
+      "INC-00585"
+     ],
+     "target_node_id": "AGG-01",
+     "clock": "2026-12-30T00:15:00"
+    }
+   }
+  },
+  {
+   "id": 6,
+   "ts": "2026-11-14T15:31:19.121732",
+   "actor": "operator",
+   "event": "action_approved",
+   "payload": {
+    "action_id": "ACT-00001",
+    "note": "demo"
+   }
+  },
+  {
+   "id": 5,
+   "ts": "2026-11-14T15:31:19.113317",
+   "actor": "agent",
+   "event": "explanation_generated",
+   "payload": {
+    "incident_id": "DET-00001",
+    "lang": "hi",
+    "llm": {
+     "name": "none",
+     "version": "template-v1"
+    }
+   }
+  },
+  {
+   "id": 4,
+   "ts": "2026-11-14T15:31:16.121156",
+   "actor": "agent",
+   "event": "action_proposed",
+   "payload": {
+    "action_id": "ACT-00001",
+    "incident_id": "DET-00001",
+    "action": {
+     "action": "reroute_traffic",
+     "target_node_id": "AGG-01",
+     "rationale": "runbook RB-FIBRE-AGG",
+     "risk": "medium"
+    },
+    "decision": "needs_approval",
+    "failed_checks": []
+   }
+  },
+  {
+   "id": 3,
+   "ts": "2026-11-14T15:31:16.121115",
+   "actor": "detector",
+   "event": "incident_detected",
+   "payload": {
+    "incident_id": "DET-00001",
+    "alarms": 16,
+    "root": {
+     "node_id": "AGG-01",
+     "prob": 0.9999
+    },
+    "fault_type": {
+     "label": "fibre_cut",
+     "prob": 0.9242
+    }
+   }
+  },
+  {
+   "id": 2,
+   "ts": "2026-11-14T15:31:15.983773",
+   "actor": "detector",
+   "event": "detector_cursor",
+   "payload": {
+    "last_alarm_id": "ALM-0006413",
+    "alarms": 20,
+    "valid": 17
+   }
+  },
+  {
+   "id": 1,
+   "ts": "2026-11-14T15:31:07.078117",
+   "actor": "api",
+   "event": "fault_injected",
+   "payload": {
+    "incident_id": "INC-00585",
+    "fault_type": "fibre_cut",
+    "root_node_id": "AGG-01"
+   }
+  }
+ ]
+}
