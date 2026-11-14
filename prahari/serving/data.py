@@ -16,7 +16,7 @@ from prahari.sim.constants import KPI_COLUMNS
 
 ALARM_COLS = "alarm_id, ts, node_id, alarm_type, severity, raw_text"  # no label_* columns
 KPI_SQL = ", ".join(KPI_COLUMNS)
-HISTORY = 65  # minutes of KPI history the anomaly model needs
+HISTORY = 240  # minutes of KPI history sent to the anomaly model (it uses what it needs)
 Z_RECENT, Z_BASE = 5, 60  # validator KPI z-score: last 5 min vs the 60 min before them
 
 

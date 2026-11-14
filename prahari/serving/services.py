@@ -1,9 +1,10 @@
-"""Model registry and scoring wrappers. Models are touched only through ``load`` / ``predict``."""
+"""Model registry and scoring wrappers (models used only via ``load`` and ``predict``)."""
 
 from __future__ import annotations
 
 import json
 import logging
+import re
 import threading
 from collections import OrderedDict
 from dataclasses import dataclass
@@ -41,7 +42,10 @@ class Registry:
         if load:
             for key, fn in _loaders().items():
                 try:
-                    self.models[key] = fn()
+                    try:
+                        self.models[key] = fn(settings=settings)  # artifacts dir + DB of this app
+                    except TypeError:  # a loader that only takes ``version``
+                        self.models[key] = fn()
                 except Exception as e:  # noqa: BLE001 - missing artifact, corrupt file, ...
                     self.errors[key] = f"{type(e).__name__}: {e}"
                     LOG.warning("model %s not loaded: %s", key, self.errors[key])
@@ -191,7 +195,22 @@ class Scoring:
 
     # ---- anomaly ----------------------------------------------------------------------
     def anomaly(self, start: datetime, end: datetime, node_ids: list[str] | None) -> dict:
-        """Per-node max anomaly score at 5-minute points inside [start, end]."""
+        """Per-node max anomaly score at 5-minute points inside [start, end].
+
+        The model reads the last N minutes of history it needs and ignores older rows, so we send
+        ``HISTORY`` rows; if a retrained model asks for more it says so and we retry once.
+        """
+        try:
+            return self._anomaly(start, end, node_ids, HISTORY)
+        except ValueError as e:
+            m = re.search(r"need at least (\d+)", str(e))
+            if not m or int(m.group(1)) <= HISTORY:
+                raise
+            return self._anomaly(start, end, node_ids, int(m.group(1)) + 15)
+
+    def _anomaly(
+        self, start: datetime, end: datetime, node_ids: list[str] | None, history: int
+    ) -> dict:
         model = self.reg.get("anomaly")
         nodes = [n["node_id"] for n in self.db.topology()["nodes"]]
         if node_ids:
@@ -202,7 +221,7 @@ class Scoring:
         points = [end_m - timedelta(minutes=ANOMALY_STEP * k) for k in range(MAX_POINTS)]
         points = sorted(p for p in points if p >= pd.Timestamp(start).floor("min")) or [end_m]
         span = int((points[-1] - points[0]) / timedelta(minutes=1))
-        grid = self.db.kpi_matrix(nodes, end_m.to_pydatetime(), HISTORY + span)
+        grid = self.db.kpi_matrix(nodes, end_m.to_pydatetime(), history + span)
         if np.isnan(grid[-1]).all():
             raise ApiError(422, "no KPI telemetry at the end of the requested window", "no_data")
         keep = [i for i, n in enumerate(nodes) if not node_ids or n in node_ids]
@@ -210,8 +229,8 @@ class Scoring:
         flag = {nodes[i]: False for i in keep}
         latency, version = 0.0, None
         for p in points:
-            upto = HISTORY + span - int((points[-1] - p) / timedelta(minutes=1))
-            hist = grid[upto - HISTORY : upto]
+            upto = history + span - int((points[-1] - p) / timedelta(minutes=1))
+            hist = grid[upto - history : upto]
             res = model.predict({"kpi": {nodes[i]: hist[:, i, :].tolist() for i in keep}})
             latency += res["latency_ms"]
             version = res["model"]["version"]
