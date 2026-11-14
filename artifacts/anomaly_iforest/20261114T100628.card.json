@@ -1,0 +1,94 @@
+{
+ "name": "anomaly_iforest",
+ "version": "20261114T100628",
+ "trained_at": "2026-11-14T10:06:28.719167+00:00",
+ "data_hash": "e304b6ed2d24022b",
+ "features": [
+  "z5_latency_ms",
+  "z5_packet_loss_pct",
+  "z5_throughput_mbps",
+  "z5_cpu_pct",
+  "z5_mem_pct",
+  "z5_temp_c",
+  "z15_latency_ms",
+  "z15_packet_loss_pct",
+  "z15_throughput_mbps",
+  "z15_cpu_pct",
+  "z15_mem_pct",
+  "z15_temp_c"
+ ],
+ "metrics": {
+  "pr_auc": 0.7932,
+  "precision": 0.7972,
+  "recall": 0.7505,
+  "f1": 0.7731,
+  "threshold_val_f1": 0.6452,
+  "test_positive_rate": 0.0079
+ },
+ "baseline_metrics": {
+  "pr_auc": 0.7449,
+  "precision": 0.0161,
+  "recall": 0.9919,
+  "f1": 0.0317
+ },
+ "extra": {
+  "baseline_sigma_tuned_on_val": {
+   "precision": 0.7054,
+   "recall": 0.9483,
+   "f1": 0.809,
+   "sigma_threshold": 16.916
+  },
+  "grid_minutes": 5,
+  "baseline_minutes": 60,
+  "baseline_lag_minutes": 75,
+  "recall_by_minutes_since_onset": {
+   "iforest": {
+    "0-5min": {
+     "recall": 0.4097,
+     "n": 432
+    },
+    "5-15min": {
+     "recall": 0.7636,
+     "n": 863
+    },
+    "15-30min": {
+     "recall": 0.8571,
+     "n": 1078
+    },
+    "30-60min": {
+     "recall": 0.7789,
+     "n": 796
+    },
+    "60-999min": {
+     "recall": 0.7073,
+     "n": 41
+    }
+   },
+   "3sigma": {
+    "0-5min": {
+     "recall": 0.963,
+     "n": 432
+    },
+    "5-15min": {
+     "recall": 0.9919,
+     "n": 863
+    },
+    "15-30min": {
+     "recall": 0.9972,
+     "n": 1078
+    },
+    "30-60min": {
+     "recall": 1.0,
+     "n": 796
+    },
+    "60-999min": {
+     "recall": 1.0,
+     "n": 41
+    }
+   }
+  },
+  "seed": 42
+ },
+ "intended_use": "Flag nodes whose recent KPIs depart from their own lagged baseline (an hour that ends 75 min earlier, so a lasting fault is not absorbed); an input signal to triage, not a root-cause decision.",
+ "limitations": "Trained on synthetic simulator data. Target = minute lies inside an incident and the node's simulated KPI effect is >= 0.15; KPI-silent nodes are negatives. A node hit again within the lag window has a contaminated baseline. Threshold maximises F1 on validation, so it is tuned to this fault density."
+}

@@ -1,0 +1,46 @@
+{
+ "name": "anomaly_iforest",
+ "version": "20261114T093025",
+ "trained_at": "2026-11-14T09:30:25.238199+00:00",
+ "data_hash": "2ac17e36787f3fea",
+ "features": [
+  "z5_latency_ms",
+  "z5_packet_loss_pct",
+  "z5_throughput_mbps",
+  "z5_cpu_pct",
+  "z5_mem_pct",
+  "z5_temp_c",
+  "z15_latency_ms",
+  "z15_packet_loss_pct",
+  "z15_throughput_mbps",
+  "z15_cpu_pct",
+  "z15_mem_pct",
+  "z15_temp_c"
+ ],
+ "metrics": {
+  "pr_auc": 0.346,
+  "precision": 0.5891,
+  "recall": 0.3271,
+  "f1": 0.4206,
+  "threshold_val_f1": 0.5637,
+  "test_positive_rate": 0.0079
+ },
+ "baseline_metrics": {
+  "pr_auc": 0.1929,
+  "precision": 0.1466,
+  "recall": 0.3124,
+  "f1": 0.1996
+ },
+ "extra": {
+  "baseline_sigma_tuned_on_val": {
+   "precision": 0.5253,
+   "recall": 0.2272,
+   "f1": 0.3172,
+   "sigma_threshold": 4.068
+  },
+  "grid_minutes": 5,
+  "seed": 42
+ },
+ "intended_use": "Flag nodes whose recent KPIs depart from their own last-hour baseline; an input signal to triage, not a root-cause decision.",
+ "limitations": "Trained on synthetic simulator data. Target = minute lies inside an incident and node raised a true alarm (or is the root); KPI-silent affected nodes count as misses. Threshold maximises F1 on validation, so it is tuned to this fault density."
+}
