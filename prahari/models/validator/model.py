@@ -26,6 +26,7 @@ from sklearn.metrics import (
 )
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from threadpoolctl import threadpool_limits
 
 from prahari.config import Settings, get_settings
 from prahari.db import get_engine
@@ -265,14 +266,15 @@ def train(settings: Settings | None = None, max_alarms: int | None = None) -> di
     lr = make_pipeline(
         StandardScaler(), LogisticRegression(max_iter=2000, C=1.0, random_state=settings.seed)
     ).fit(x[tr], y[tr])
-    hgb = HistGradientBoostingClassifier(
-        max_iter=300,
-        learning_rate=0.05,
-        max_leaf_nodes=15,
-        l2_regularization=1.0,
-        early_stopping=False,
-        random_state=settings.seed,
-    ).fit(x[tr], y[tr])
+    with threadpool_limits(1):  # ~5k rows: OpenMP spin-waits dominate (and fight other jobs)
+        hgb = HistGradientBoostingClassifier(
+            max_iter=300,
+            learning_rate=0.05,
+            max_leaf_nodes=15,
+            l2_regularization=1.0,
+            early_stopping=False,
+            random_state=settings.seed,
+        ).fit(x[tr], y[tr])
 
     out: dict = {}
     cals = {}

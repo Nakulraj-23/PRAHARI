@@ -73,7 +73,7 @@ class RCAGNN(nn.Module):
 
 
 class OnnxWrapper(nn.Module):
-    """Single-graph export view: (x (N, F), a_hat (N, N)) -> (root_logits (N,), fault_logits (K,))."""
+    """Single-graph export view: (x, a_hat) -> (root_logits (N,), fault_logits (K,))."""
 
     def __init__(self, m: RCAGNN):
         super().__init__()
