@@ -373,3 +373,91 @@ def test_lock_contention_is_503_with_retry_after(client, monkeypatch):
     r = client.get("/v1/topology")
     assert r.status_code == 503 and r.headers["retry-after"] == "1"
     assert r.json()["error"]["type"] == "database_busy"
+
+
+# ---- Q3 regressions -----------------------------------------------------------------------------
+def test_approve_reruns_governance_and_returns_409(client):
+    inject_and_detect(client)
+    inc = client.get("/v1/incidents").json()["incidents"][0]
+    if inc["action"]["status"] != "proposed":
+        pytest.skip("first action not proposable for this seed")
+    aid = inc["action"]["action_id"]
+    set_drift(client, "red")  # drift turns red after the proposal
+    r = client.post(f"/v1/actions/{aid}/approve", json={"user": "noc"})
+    assert r.status_code == 409 and "G6" in r.json()["error"]["message"]
+    after = client.get(f"/v1/incidents/{inc['incident_id']}").json()
+    assert after["action"]["status"] == "blocked"
+    assert next(c for c in after["governance"]["checks"] if c["id"] == "G6")["status"] == "fail"
+    ev = [e["event"] for e in client.get("/v1/audit?limit=50").json()["entries"]]
+    assert "approval_blocked_by_governance" in ev and "action_executed" not in ev
+
+
+def test_same_fault_attaches_to_open_incident(client):
+    from datetime import timedelta
+
+    inject_and_detect(client, "fibre_cut", node_of(client, "agg"))
+    inc = client.app.state.s["incidents"]
+    st = client.app.state.s
+    with st["sessions"]() as s:
+        parent = inc._open_incidents(s)[0]
+        root = parent.rca_json["root_candidates"][0]["node_id"]
+        child = sorted(st["db"].descendants(root))[0]
+        other = next(
+            n["node_id"]
+            for n in st["db"].topology()["nodes"]
+            if n["node_id"] != root and n["node_id"] not in st["db"].descendants(root)
+        )
+        rca = lambda n: {"root_candidates": [{"node_id": n, "prob": 0.9}]}  # noqa: E731
+        t = parent.start_ts + timedelta(minutes=3)
+        assert inc._same_fault(s, rca(root), t).incident_id == parent.incident_id
+        assert inc._same_fault(s, rca(child), t).incident_id == parent.incident_id
+        assert inc._same_fault(s, rca(other), t) is None
+        assert inc._same_fault(s, rca(child), parent.start_ts + timedelta(hours=3)) is None
+
+
+def test_input_limits(client):
+    win = {"start": "2026-10-01T00:00:00", "end": "2026-10-01T07:00:00"}
+    assert client.post("/v1/rca", json=win).status_code == 422
+    r = client.post("/v1/rca", json={"start": "2025-01-01T00:00:00", "end": "2025-01-01T00:15:00"})
+    assert r.status_code == 422 and r.json()["error"]["type"] == "no_data"
+    a = {"alarm_id": "A1", "ts": "2026-10-01T10:00:00", "node_id": node_of(client),
+         "alarm_type": "LINK_DOWN", "severity": "major", "raw_text": ""}  # fmt: skip
+    many = {"alarms": [{**a, "alarm_id": f"A{i}"} for i in range(1001)]}
+    assert client.post("/v1/alarms/validate", json=many).status_code == 422
+    assert client.post("/v1/alarms/validate", json={"alarms": [a, a]}).status_code == 422
+    bad = {"alarms": [{**a, "alarm_type": "MADE_UP"}]}
+    assert client.post("/v1/alarms/validate", json=bad).status_code == 422
+    assert client.post("/v1/actions/ACT-1/approve", json={"user": ""}).status_code == 422
+    assert client.post("/v1/actions/ACT-1/reject", json={"user": ""}).status_code == 422
+
+
+def test_drift_runner_receives_app_settings(settings, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    import prahari.monitoring as mon
+    from prahari.serving.app import create_app
+
+    seen = {}
+
+    def fake(**kw):
+        seen.update(kw)
+
+    monkeypatch.setattr(mon, "run_drift", fake, raising=False)
+    with TestClient(create_app(settings, load_models=False, start_sim=False)) as c:
+        c.post("/v1/drift/run")  # 503 (fake stores nothing); only the call matters
+    assert seen.get("settings") is settings
+
+
+def test_agent_sql_has_timeout(client, monkeypatch):
+    import time
+
+    from prahari.agent import sqlguard
+
+    monkeypatch.setattr(sqlguard, "TIMEOUT_S", 0.3)
+    t0 = time.monotonic()
+    with pytest.raises(sqlguard.SqlRejected):
+        sqlguard.run_sql(
+            client.app.state.s["engine"],
+            "SELECT COUNT(*) FROM kpi_samples a JOIN kpi_samples b ON a.cpu_pct < b.cpu_pct",
+        )
+    assert time.monotonic() - t0 < 5
