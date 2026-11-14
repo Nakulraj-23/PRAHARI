@@ -20,3 +20,10 @@ date, what was tried, result, what changed. Real measured numbers only.
 - Changed: per-incident fault magnitude and per-node gain (40% of dependents ~KPI-silent), 30% of noise alarms get a KPI blip, noise/true alarms use all 15 types and 3 severities, 5-8 incidents/day, AR(1) noise, 2% missing samples, 11 new quality checks, window jitter, live root-drop and random tiers.
 - First pass (30% silent, blip mag 0.3-1.1): AUC 0.871, top-1 d_latency 57.9% (d_packet_loss 64%). Raised silent share to 40%, dependent gain to U(0.5,2.2), blip mag 0.4-1.4: AUC 0.846, top-1 52.8% / 61.8%.
 - Not fixed: HistGB on all alarm features still AUC 0.995 (flap/neighbour counts); packet-loss delta still finds the root 62%.
+
+## 2026-11-14 — A5 agent and governance
+- Tried: regex-only SQL guard. Result: a comma join (`FROM nodes, incidents`) and `SELECT *` on alarms (exposes label_*) are hard to catch by regex. Changed: kept the parser (single SELECT, table allow-list, forbidden words, any `label_*` token) and added the sqlite authorizer + `query_only` as a second layer; tests cover both layers separately.
+- Tried: phone redaction regex for 3-3-4 numbers only. Result: `+91 98765 43210` leaked through. Changed: added a 5-5 digit pattern (Indian mobile); redact test now catches 4/4 kinds.
+- Tried: `window_severity` comparing the RCA ISO window (`...T10:10`) as strings against SQLite `... 10:10`. Result: returned no alarms ('T' > ' '). Changed: bind datetimes.
+- scikit-learn is not installed in .venv here, so TF-IDF is hand-written in numpy. Retrieval top-1 on the 15 fault x tier queries: 15/15 (queries are built from the same words the runbooks use, so this is an easy test, not a retrieval benchmark).
+- LLM providers (anthropic, openai_compatible) were tested only against fake transports; never called a real API (no keys here).
