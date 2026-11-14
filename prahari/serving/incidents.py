@@ -13,8 +13,10 @@ from sqlalchemy import func, select
 
 from prahari.agent import analyze
 from prahari.agent.agent import explain as agent_explain
+from prahari.agent.flow import dependent_count, window_severity
 from prahari.config import Settings
 from prahari.db import Action, AuditLog, DetectedIncident, DriftReport
+from prahari.governance import GovContext, evaluate
 from prahari.serving.data import Db, audit, log_prediction, utcnow
 from prahari.serving.obs import ApiError, Metrics
 from prahari.serving.services import Scored, Scoring
@@ -25,6 +27,7 @@ GAP_MIN = 5  # alarms closer than this in time ...
 HOPS = 2  # ... and this many links apart belong to one cluster
 ATTACH_MIN = 10  # a cluster this close (in time) to an open incident joins it
 WINDOW_BEFORE_MIN, WINDOW_MIN = 5, 15  # RCA window: 5 min before the first valid alarm, 15 long
+SAME_FAULT_MIN = 60  # RCA-root merge only looks at incidents this recent
 PENDING_MIN = 15  # single valid alarms wait this long for company
 RECENT_ACTION_MIN = 60
 CURSOR_EVENT = "detector_cursor"
@@ -124,6 +127,17 @@ class Incidents:
                 return inc
         return None
 
+    def _same_fault(self, s, rca: dict, first: datetime) -> DetectedIncident | None:
+        """Open incident whose RCA root is this RCA's top-1 root or an ancestor of it."""
+        top = rca["root_candidates"][0]["node_id"]
+        for inc in self._open_incidents(s):
+            if first - inc.start_ts > timedelta(minutes=SAME_FAULT_MIN):
+                continue
+            root = inc.rca_json["root_candidates"][0]["node_id"]
+            if top == root or top in self.db.descendants(root):
+                return inc
+        return None
+
     # ---- main cycle -------------------------------------------------------------------
     def detect_once(self) -> list[str]:
         """Process alarms that arrived since the last cycle; return ids of incidents touched."""
@@ -214,6 +228,20 @@ class Incidents:
         ids = [x.alarm_id for x in cl]
         first = min(x.ts for x in cl)
         ws, we, rca, out, gov = self._analyse(s, iid, first, ids)
+        parent = self._same_fault(s, rca, first)
+        if parent is not None:  # the same fault seen through a different alarm cluster
+            parent.alarm_ids = list(dict.fromkeys(list(parent.alarm_ids) + ids))
+            audit(
+                s,
+                "detector",
+                "incident_updated",
+                {
+                    "incident_id": parent.incident_id,
+                    "alarms": len(parent.alarm_ids),
+                    "merged": True,
+                },
+            )
+            return parent.incident_id
         aid = self._next_id(s, Action.action_id, "ACT-")
         status = {"blocked": "blocked"}.get(gov.decision, "proposed")
         s.add(
@@ -324,6 +352,21 @@ class Incidents:
         )
         return res
 
+    def _reevaluate(self, s, act: Action):
+        """Run every governance check again on current state (drift, recent actions, ...)."""
+        inc = s.get(DetectedIncident, act.incident_ref)
+        out = inc.agent_json["en"]
+        ctx = GovContext(
+            rca=inc.rca_json,
+            output=out,
+            artifacts_dir=self.settings.artifacts_dir,
+            drift_status=self.drift_status(),
+            recent_actions=self._recent_actions(s, inc.incident_id),
+            severity=window_severity(self.db.engine, inc.rca_json),
+            dependents=dependent_count(self.db.engine, act.target_node_id),
+        )
+        return evaluate(ctx, settings=self.settings)
+
     def decide(self, action_id: str, approve: bool, user: str, note: str) -> Action:
         """Human approve/reject. Blocked actions cannot be approved (409)."""
         with self.lock, self.sessions() as s:
@@ -338,6 +381,26 @@ class Incidents:
                 act.status, act.decided_by, act.decided_at = "rejected", user, utcnow()
                 audit(s, user, "action_rejected", {"action_id": action_id, "note": note})
             else:
+                report = self._reevaluate(s, act)
+                bad = [c for c in report.checks if c.status == "fail"]
+                if bad:
+                    act.status = "blocked"
+                    act.governance_json = report.model_dump(mode="json")
+                    inc = s.get(DetectedIncident, act.incident_ref)
+                    if inc is not None:
+                        inc.governance_json = act.governance_json
+                    audit(
+                        s,
+                        user,
+                        "approval_blocked_by_governance",
+                        {"action_id": action_id, "failed": [f"{c.id}: {c.detail}" for c in bad]},
+                    )
+                    s.commit()
+                    raise ApiError(
+                        409,
+                        "governance now fails: " + "; ".join(f"{c.id} {c.detail}" for c in bad),
+                    )
+                act.governance_json = report.model_dump(mode="json")
                 audit(s, user, "action_approved", {"action_id": action_id, "note": note})
                 self._execute(s, act, user, note)
             s.commit()
