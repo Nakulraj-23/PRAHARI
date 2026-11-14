@@ -11,9 +11,11 @@ seed:
 	$(BIN)/python -m prahari.sim.generate --days 90
 	$(BIN)/python -m prahari.sim.generate --alt --days 7
 train:
-	@echo "train: not built yet"
+	$(BIN)/python -m prahari.models.validator.train
+	$(BIN)/python -m prahari.models.anomaly.train
+	$(BIN)/python -m prahari.models.rca.train
 serve:
-	@echo "serve: not built yet"
+	$(BIN)/uvicorn prahari.serving.app:app --host 0.0.0.0 --port 8000
 web:
 	cd web && (test -d node_modules || npm install)
 	cd web && VITE_MOCK=$${VITE_MOCK:-1} npm run dev

@@ -1,0 +1,52 @@
+{
+ "node_id": "AGG-07",
+ "start": "2026-03-02T10:10:00",
+ "end": "2026-03-02T10:15:00",
+ "points": [
+  {
+   "ts": "2026-03-02T10:10:00",
+   "latency_ms": 12.0,
+   "packet_loss_pct": 0.1,
+   "throughput_mbps": 940.0,
+   "cpu_pct": 35.0,
+   "mem_pct": 52.0,
+   "temp_c": 41.0
+  },
+  {
+   "ts": "2026-03-02T10:11:00",
+   "latency_ms": 12.1,
+   "packet_loss_pct": 0.1,
+   "throughput_mbps": 940.0,
+   "cpu_pct": 35.0,
+   "mem_pct": 52.0,
+   "temp_c": 41.0
+  },
+  {
+   "ts": "2026-03-02T10:13:00",
+   "latency_ms": 12.3,
+   "packet_loss_pct": 0.1,
+   "throughput_mbps": 940.0,
+   "cpu_pct": 35.0,
+   "mem_pct": 52.0,
+   "temp_c": 41.0
+  },
+  {
+   "ts": "2026-03-02T10:14:00",
+   "latency_ms": 132.4,
+   "packet_loss_pct": 38.2,
+   "throughput_mbps": 240.0,
+   "cpu_pct": 35.0,
+   "mem_pct": 52.0,
+   "temp_c": 41.0
+  },
+  {
+   "ts": "2026-03-02T10:15:00",
+   "latency_ms": 162.5,
+   "packet_loss_pct": 38.2,
+   "throughput_mbps": 240.0,
+   "cpu_pct": 35.0,
+   "mem_pct": 52.0,
+   "temp_c": 41.0
+  }
+ ]
+}

@@ -41,7 +41,7 @@ def trained(env):
 
 
 def test_tiny_training_is_fast_and_writes_artifacts(env, trained):
-    assert trained["secs"] < 20
+    assert trained["secs"] < 30  # ~10 s idle; CPU contention doubles it
     for name, ver in (
         ("alarm_validator", trained["v"]["version"]),
         ("anomaly_iforest", trained["a"]["version"]),
@@ -82,7 +82,7 @@ def test_anomaly_predict_deterministic(env, trained):
     net = NetworkModel.from_db(eng)
     st = load_kpi(eng, net, None, None)
     payload = {
-        "kpi": {n: st.values[300:400, i, :].tolist() for i, n in enumerate(net.node_ids[:5])}
+        "kpi": {n: st.values[300:450, i, :].tolist() for i, n in enumerate(net.node_ids[:5])}
     }
     a, b = pred.predict(payload), pred.predict(payload)
     assert a["scores"] == b["scores"] and len(a["scores"]) == 5

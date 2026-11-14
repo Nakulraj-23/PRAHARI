@@ -1,6 +1,39 @@
-{"window": {"start": "2026-03-02T10:10:00", "end": "2026-03-02T10:15:00"},
- "root_candidates": [{"node_id": "AGG-07", "prob": 0.83}, {"node_id": "CORE-02", "prob": 0.09}],
- "fault_type": {"label": "fibre_cut", "prob": 0.91},
- "evidence": {"alarmed_nodes": ["AGG-07", "ACC-21", "CELL-113"], "valid_alarm_count": 41, "noise_alarm_count": 12,
-  "kpi_deltas": {"AGG-07": {"packet_loss_pct": 38.2}}},
- "model": {"name": "rca_gnn", "version": "v1"}, "latency_ms": 7.4}
+{
+ "window": {
+  "start": "2026-03-02T10:10:00",
+  "end": "2026-03-02T10:15:00"
+ },
+ "root_candidates": [
+  {
+   "node_id": "AGG-07",
+   "prob": 0.83
+  },
+  {
+   "node_id": "CORE-02",
+   "prob": 0.09
+  }
+ ],
+ "fault_type": {
+  "label": "fibre_cut",
+  "prob": 0.91
+ },
+ "evidence": {
+  "alarmed_nodes": [
+   "AGG-07",
+   "ACC-21",
+   "CELL-113"
+  ],
+  "valid_alarm_count": 41,
+  "noise_alarm_count": 12,
+  "kpi_deltas": {
+   "AGG-07": {
+    "packet_loss_pct": 38.2
+   }
+  }
+ },
+ "model": {
+  "name": "rca_gnn",
+  "version": "20261114093826"
+ },
+ "latency_ms": 7.4
+}

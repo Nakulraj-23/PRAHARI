@@ -25,6 +25,7 @@ MAP = {
     "sim_inject": s.InjectResponse,
     "sim_scenario": s.ScenarioResponse,
     "audit": s.AuditResponse,
+    "kpi": s.KpiResponse,
 }
 
 
