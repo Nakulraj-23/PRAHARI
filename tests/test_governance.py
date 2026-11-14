@@ -15,6 +15,7 @@ from prahari.schemas import GovCheck
 
 ROOT = Path(__file__).resolve().parent.parent
 RCA = json.loads((ROOT / "fixtures" / "rca.json").read_text())
+RCA["model"] = {"name": "rca_gnn", "version": "v1"}  # tests use a tmp artifacts dir only
 POLICY = load_policy(ROOT / "prahari" / "governance" / "policy.yaml")
 NOW = datetime(2026, 3, 2, 10, 30)
 

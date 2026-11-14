@@ -103,3 +103,37 @@ def test_firmware_drift_is_red_and_names_latency(sim):
         == "Orion"
     )
     assert latest_report(sim)["id"] == rep["id"]
+
+
+def _card(version, **m):
+    return {"version": version, "metrics": m}
+
+
+def test_compare_cards_promotes_only_if_not_worse():
+    from prahari.monitoring.retrain import compare_cards
+
+    old = _card("a", pr_auc=0.90, f1=0.80, recall=0.9, brier=0.02)
+    same = compare_cards(
+        old, _card("b", pr_auc=0.9, f1=0.7995, recall=0.9, brier=0.0205), "alarm_validator"
+    )
+    assert same["promote"]  # within tolerance
+    better = compare_cards(
+        old, _card("b", pr_auc=0.95, f1=0.9, recall=0.95, brier=0.01), "alarm_validator"
+    )
+    assert better["promote"] and all(r["delta_better"] > 0 for r in better["metrics"])
+    worse = compare_cards(
+        old, _card("b", pr_auc=0.95, f1=0.9, recall=0.95, brier=0.05), "alarm_validator"
+    )
+    assert not worse["promote"] and worse["worse_metrics"] == ["brier"]  # lower is better
+
+
+def test_rca_card_paths():
+    from prahari.monitoring.retrain import compare_cards
+
+    t = {"root_top1": 0.9, "root_top3": 1.0, "fault_macro_f1": 0.9}
+    c = compare_cards(
+        {"version": "a", "metrics": {"test": t}},
+        {"version": "b", "metrics": {"test": {**t, "root_top1": 0.8}}},
+        "rca_gnn",
+    )
+    assert not c["promote"] and c["worse_metrics"] == ["root_top1"]

@@ -123,6 +123,13 @@ class Scoring:
         self._lock = threading.Lock()
         self.cache_size = cache_size
 
+    def warmup(self) -> None:
+        """Score one stored alarm so first-call library start-up cost is not in request latency."""
+        try:
+            self.validate(self.db.alarms("", None, "ORDER BY alarm_id DESC LIMIT 1"), log=False)
+        except Exception as e:  # noqa: BLE001 - missing model or empty DB: nothing to warm
+            LOG.info("warmup skipped: %s", e)
+
     # ---- alarm validation -------------------------------------------------------------
     def _remember(self, scored: list[Scored]) -> None:
         with self._lock:
