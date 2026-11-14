@@ -7,6 +7,8 @@ __pycache__/
 *.db
 node_modules/
 web/dist/
-artifacts/*
+artifacts/**
+!artifacts/**/
 !artifacts/.gitkeep
 !artifacts/**/*.card.json
+web/test-results/

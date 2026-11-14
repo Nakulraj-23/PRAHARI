@@ -1,0 +1,134 @@
+{
+ "name": "rca_gnn",
+ "version": "20261114093826",
+ "trained_at": "2026-11-14T09:38:26.461330+00:00",
+ "data_hash": "625d1701b0131bb7",
+ "features": [
+  "alarm_LOSS_OF_SIGNAL",
+  "alarm_LINK_DOWN",
+  "alarm_UPSTREAM_UNREACHABLE",
+  "alarm_HIGH_PACKET_LOSS",
+  "alarm_HIGH_LATENCY",
+  "alarm_THROUGHPUT_DROP",
+  "alarm_POWER_FAILURE",
+  "alarm_HIGH_CPU",
+  "alarm_HIGH_TEMP",
+  "alarm_HIGH_UTILISATION",
+  "alarm_CONFIG_MISMATCH",
+  "alarm_INTERFACE_FLAP",
+  "alarm_FAN_WARNING",
+  "alarm_NTP_SYNC_LOST",
+  "alarm_CRC_ERRORS",
+  "alarm_total",
+  "alarm_critical",
+  "first_alarm_min",
+  "d_latency_ms",
+  "d_packet_loss_pct",
+  "d_throughput_mbps",
+  "d_cpu_pct",
+  "d_mem_pct",
+  "d_temp_c",
+  "z_latency_ms",
+  "z_packet_loss_pct",
+  "z_throughput_mbps",
+  "z_cpu_pct",
+  "z_mem_pct",
+  "z_temp_c",
+  "ntype_core",
+  "ntype_agg",
+  "ntype_access",
+  "ntype_cell"
+ ],
+ "n_train_incidents": 408,
+ "metrics": {
+  "val_top1": 0.9772727272727273,
+  "epochs": 25,
+  "test": {
+   "n": 88,
+   "root_top1": 0.9659090909090909,
+   "root_top3": 1.0,
+   "fault_macro_f1": 0.9571540031494263,
+   "n_root_alarm_missing": 11,
+   "root_alarm_missing": {
+    "root_top1": 0.8181818181818182,
+    "root_top3": 1.0
+   },
+   "root_alarm_present": {
+    "root_top1": 0.987012987012987
+   }
+  },
+  "alt_topology": {
+   "n": 47,
+   "root_top1": 1.0,
+   "root_top3": 1.0,
+   "fault_macro_f1": 0.9522079772079772,
+   "n_root_alarm_missing": 6,
+   "root_alarm_missing": {
+    "root_top1": 1.0,
+    "root_top3": 1.0
+   },
+   "root_alarm_present": {
+    "root_top1": 1.0
+   }
+  },
+  "onnx_max_abs_diff": 1.9073486328125e-06
+ },
+ "baseline_metrics": {
+  "mlp_no_graph": {
+   "val_top1": 0.9772727272727273,
+   "epochs": 19,
+   "test": {
+    "n": 88,
+    "root_top1": 0.9545454545454546,
+    "root_top3": 1.0,
+    "fault_macro_f1": 0.9376965669988925,
+    "n_root_alarm_missing": 11,
+    "root_alarm_missing": {
+     "root_top1": 0.8181818181818182,
+     "root_top3": 1.0
+    },
+    "root_alarm_present": {
+     "root_top1": 0.974025974025974
+    }
+   },
+   "alt_topology": {
+    "n": 47,
+    "root_top1": 0.9787234042553191,
+    "root_top3": 1.0,
+    "fault_macro_f1": 0.9339366515837104,
+    "n_root_alarm_missing": 6,
+    "root_alarm_missing": {
+     "root_top1": 1.0,
+     "root_top3": 1.0
+    },
+    "root_alarm_present": {
+     "root_top1": 0.975609756097561
+    }
+   }
+  },
+  "upstream_alarmed": {
+   "test": {
+    "root_top1": 0.7386363636363636,
+    "root_top3": 0.875
+   },
+   "alt_topology": {
+    "root_top1": 0.8297872340425532,
+    "root_top3": 0.8723404255319149
+   }
+  },
+  "most_alarms": {
+   "test": {
+    "root_top1": 0.5795454545454546,
+    "root_top3": 0.8409090909090909
+   },
+   "alt_topology": {
+    "root_top1": 0.48936170212765956,
+    "root_top3": 0.6170212765957447
+   }
+  }
+ },
+ "intended_use": "Pick the root-cause node (top-5) and fault type for an alarm window on a tiered telecom topology; decision support, human approves actions.",
+ "limitations": "Trained on simulated data only; accuracy is not real-network accuracy. Input is 15-min windows; relies on A1 feature definitions and node tier one-hots. Evaluated on one extra synthetic topology.",
+ "train_seconds": 91.7,
+ "data_seconds": 77.7
+}
