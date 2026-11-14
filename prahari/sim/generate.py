@@ -4,17 +4,17 @@ from __future__ import annotations
 
 import argparse
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
 
 from prahari.config import ROOT, Settings, get_settings
 from prahari.db import Base, get_engine
-from prahari.sim.alarms import build_alarm_table
+from prahari.sim.alarms import apply_blips, build_alarm_table
 from prahari.sim.constants import SIM_START
 from prahari.sim.faults import Fault, apply_fault, schedule_faults
-from prahari.sim.kpi import block_to_frame, clip_kpis, kpi_block
+from prahari.sim.kpi import block_to_frame, clip_kpis, drop_missing, kpi_block
 from prahari.sim.topology import (
     ALT_SEED,
     ALT_SPEC,
@@ -40,6 +40,7 @@ class Dataset:
     start: pd.Timestamp
     n_minutes: int
     seed: int
+    blips: list = field(default_factory=list)  # short KPI blips behind some noise alarms
 
     def incidents_frame(self) -> pd.DataFrame:
         return pd.DataFrame(
@@ -64,7 +65,9 @@ class Dataset:
             block = kpi_block(self.net, minutes, np.random.default_rng([self.seed, 4004, c]))
             for f in self.faults:
                 apply_fault(block, t0, f, self.net)
-            yield minutes, clip_kpis(block)
+            apply_blips(block, t0, self.blips)
+            clip_kpis(block)
+            yield minutes, drop_missing(block, np.random.default_rng([self.seed, 6006, c]))
 
 
 def build_dataset(
@@ -73,7 +76,7 @@ def build_dataset(
     spec: TopologySpec = MAIN_SPEC,
     topo_seed: int | None = None,
     start: pd.Timestamp | None = None,
-    per_day: float = 23.0,
+    per_day: float = 6.5,
 ) -> Dataset:
     """Plan a dataset (topology, faults, alarms). Pure function of its arguments."""
     start = pd.Timestamp(start or SIM_START)
@@ -82,8 +85,8 @@ def build_dataset(
     nodes, links = topology_frames(g)
     n_minutes = days * 1440
     faults = schedule_faults(net, start, n_minutes, seed, per_day=per_day)
-    alarms = build_alarm_table(net, faults, start, n_minutes, seed)
-    return Dataset(net, nodes, links, faults, alarms, start, n_minutes, seed)
+    alarms, blips = build_alarm_table(net, faults, start, n_minutes, seed)
+    return Dataset(net, nodes, links, faults, alarms, start, n_minutes, seed, blips)
 
 
 def write_dataset(ds: Dataset, settings: Settings, reset: bool = True) -> dict:
@@ -121,7 +124,7 @@ def main(argv: list[str] | None = None) -> None:
         help="second topology (seed 7, ~80 nodes) for generalisation tests only",
     )
     ap.add_argument("--db-url", default=None)
-    ap.add_argument("--per-day", type=float, default=23.0, help="target incidents per day")
+    ap.add_argument("--per-day", type=float, default=6.5, help="target incidents per day")
     ap.add_argument("--no-checks", action="store_true", help="skip quality checks and splits")
     args = ap.parse_args(argv)
 

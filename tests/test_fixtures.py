@@ -1,4 +1,5 @@
 """Every fixture must validate against its schema in prahari.schemas."""
+
 import json
 from pathlib import Path
 

@@ -89,7 +89,7 @@ def test_determinism_under_seed():
     pd.testing.assert_frame_equal(a.incidents_frame(), b.incidents_frame())
     ka = next(a.kpi_chunks())[1]
     kb = next(b.kpi_chunks())[1]
-    assert np.array_equal(ka, kb)
+    np.testing.assert_array_equal(ka, kb)
     assert not a.incidents_frame().equals(c.incidents_frame())
 
 
@@ -122,7 +122,7 @@ def test_live_inject_and_recover(live):
             text("SELECT MAX(packet_loss_pct) FROM kpi_samples WHERE node_id = :n AND ts >= :t"),
             {"n": root, "t": clock0.to_pydatetime()},
         ).scalar()
-    assert tuple(row) == (root, "fibre_cut") and loss > 30
+    assert tuple(row) == (root, "fibre_cut") and loss > 10
     wrong = live.apply_action({"target_node_id": "CORE-01"})
     assert wrong["recovered"] == []
     ok = live.apply_action({"target_node_id": root})

@@ -1,4 +1,5 @@
 """Central settings, read from environment variables prefixed PRAHARI_."""
+
 from __future__ import annotations
 
 from pathlib import Path

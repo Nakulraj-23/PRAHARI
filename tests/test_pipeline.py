@@ -1,5 +1,7 @@
 """Feature pipeline, quality checks, splits."""
 
+import shutil
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -29,10 +31,12 @@ def env(tmp_path_factory):
     return s
 
 
-def test_quality_passes_and_fails_loudly(env):
+def test_quality_passes_and_fails_loudly(env, tmp_path):
     rep = run_quality_checks(get_engine(env))
     assert not rep.failures and len(rep.checks) > 30
-    eng = get_engine(env)
+    dst = tmp_path / "copy.db"
+    shutil.copy(env.db_url.removeprefix("sqlite:///"), dst)
+    eng = get_engine(env.model_copy(update={"db_url": f"sqlite:///{dst}"}))
     with eng.begin() as c:
         c.execute(text("UPDATE kpi_samples SET cpu_pct = 250 WHERE id = 1"))
     with pytest.raises(DataQualityError, match="range:kpi_samples.cpu_pct"):
@@ -41,8 +45,10 @@ def test_quality_passes_and_fails_loudly(env):
         c.execute(text("UPDATE kpi_samples SET cpu_pct = 40 WHERE id = 1"))
         c.execute(
             text(
-                "UPDATE kpi_samples SET ts = (SELECT ts FROM kpi_samples WHERE id = 1 + 120) "
-                "WHERE id = 1 + 240"
+                "INSERT INTO kpi_samples (ts, node_id, latency_ms, packet_loss_pct, "
+                "throughput_mbps, "
+                "cpu_pct, mem_pct, temp_c) SELECT ts, node_id, latency_ms, packet_loss_pct, "
+                "throughput_mbps, cpu_pct, mem_pct, temp_c FROM kpi_samples WHERE id = 1"
             )
         )
     with pytest.raises(DataQualityError, match="duplicate|monotonic"):

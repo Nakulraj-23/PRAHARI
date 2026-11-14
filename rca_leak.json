@@ -1,0 +1,70 @@
+{
+ "anchored_true_start": {
+  "earliest_alarm": 0.629,
+  "shallowest_alarmed": 0.686,
+  "max_z_loss": 0.486,
+  "max_alarm_total": 0.486,
+  "tree2_node_top1": 0.838,
+  "HGB_node_top1(ref)": 0.981,
+  "single_top": [
+   [
+    0.829,
+    "d_latency_ms"
+   ],
+   [
+    0.819,
+    "d_packet_loss_pct"
+   ],
+   [
+    0.771,
+    "z_latency_ms"
+   ],
+   [
+    0.752,
+    "z_cpu_pct"
+   ],
+   [
+    0.724,
+    "z_throughput_mbps"
+   ]
+  ],
+  "fault_tree2_alarm_type_counts": 0.6,
+  "fault_tree2_all_summed": 0.59,
+  "fault_HGB_summed(ref)": 0.905,
+  "first_alarm_min_mean_root": 2.84
+ },
+ "shift_U(0,10)min_earlier": {
+  "earliest_alarm": 0.562,
+  "shallowest_alarmed": 0.695,
+  "max_z_loss": 0.495,
+  "max_alarm_total": 0.495,
+  "tree2_node_top1": 0.781,
+  "HGB_node_top1(ref)": 0.962,
+  "single_top": [
+   [
+    0.781,
+    "d_latency_ms"
+   ],
+   [
+    0.762,
+    "z_latency_ms"
+   ],
+   [
+    0.705,
+    "d_packet_loss_pct"
+   ],
+   [
+    0.695,
+    "d_cpu_pct"
+   ],
+   [
+    0.686,
+    "z_cpu_pct"
+   ]
+  ],
+  "fault_tree2_alarm_type_counts": 0.6,
+  "fault_tree2_all_summed": 0.6,
+  "fault_HGB_summed(ref)": 0.924,
+  "first_alarm_min_mean_root": 7.354
+ }
+}

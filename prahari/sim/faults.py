@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+import zlib
 from dataclasses import dataclass
 
 import numpy as np
 import pandas as pd
 
-from prahari.sim.constants import FAULT_TYPES, KPI_COLUMNS
+from prahari.sim.constants import ALARM_TYPES, FAULT_TYPES, KPI_COLUMNS
 from prahari.sim.topology import NetworkModel
 
 ATTEN = 0.8  # impact multiplier per hop downstream
@@ -150,10 +151,48 @@ class Fault:
     start: pd.Timestamp
     duration_min: int
     impact: np.ndarray  # (N,) in [0, 1], 1 at the root
+    gain: np.ndarray | None = None  # (N,) per-node KPI effect scale (root: fault magnitude)
 
     @property
     def end(self) -> pd.Timestamp:
         return self.start + pd.Timedelta(minutes=self.duration_min)
+
+
+def fault_gain(net: NetworkModel, incident_id: str, root_idx: int, seed: int) -> np.ndarray:
+    """Per-incident KPI effect scale, deterministic in (seed, incident_id).
+
+    The root magnitude varies per incident (10% are nearly KPI-silent) and each dependent gets
+    its own gain, so downstream deltas can exceed the root's; ~40% of dependents show almost no
+    KPI change even though their alarms still fire.
+    """
+    rng = np.random.default_rng([seed, 7007, zlib.crc32(incident_id.encode())])
+    gain = np.where(
+        rng.random(net.n) < 0.4, rng.uniform(0.02, 0.12, net.n), rng.uniform(0.5, 2.2, net.n)
+    )
+    mag = rng.uniform(0.3, 1.2)
+    gain[root_idx] = mag * (0.15 if rng.random() < 0.10 else 1.0)
+    return gain
+
+
+def new_fault(
+    net: NetworkModel,
+    incident_id: str,
+    fault_type: str,
+    root_idx: int,
+    start: pd.Timestamp,
+    duration_min: int,
+    seed: int,
+) -> Fault:
+    """Build a fault with its propagation impact and per-node gains."""
+    return Fault(
+        incident_id,
+        fault_type,
+        root_idx,
+        start,
+        duration_min,
+        propagate(net, root_idx, fault_type),
+        fault_gain(net, incident_id, root_idx, seed),
+    )
 
 
 def propagate(net: NetworkModel, root_idx: int, fault_type: str) -> np.ndarray:
@@ -205,7 +244,8 @@ def apply_fault(
     # when ended early the ramp-up may be cut short: fine, envelope handles both
     env = env[lo - i0 : hi - i0][:, None]
     nodes = np.nonzero(fault.impact)[0]
-    imp = fault.impact[nodes][None, :]
+    gain = fault.gain if fault.gain is not None else np.ones(net.n)
+    imp = (fault.impact * gain)[nodes][None, :]
     for who, sel in (("root", nodes == fault.root_idx), ("down", nodes != fault.root_idx)):
         if not sel.any():
             continue
@@ -214,7 +254,7 @@ def apply_fault(
         for kpi, (kind, val) in prof[who].items():
             k = K[kpi]
             if kind == "mul":
-                block[lo:hi, cols, k] *= (1 - w * (1 - val)).astype(np.float32)
+                block[lo:hi, cols, k] *= (1 - np.minimum(w, 1.0) * (1 - val)).astype(np.float32)
             else:
                 block[lo:hi, cols, k] += (w * val).astype(np.float32)
 
@@ -224,7 +264,7 @@ def schedule_faults(
     start: pd.Timestamp,
     n_minutes: int,
     seed: int,
-    per_day: float = 23.0,
+    per_day: float = 6.5,
     overlap_frac: float = 0.10,
     margin_start: int = 180,
     margin_end: int = 90,
@@ -262,13 +302,14 @@ def schedule_faults(
             continue
         root = int(rng.choice(cand))
         s_min = int(s)
-        fault = Fault(
+        fault = new_fault(
+            net,
             f"INC-{first_id + len(faults):05d}",
             ftype,
             root,
             start + pd.Timedelta(minutes=s_min),
             dur,
-            propagate(net, root, ftype),
+            seed,
         )
         faults.append(fault)
         t = max(t, s_min + dur + RAMP_DOWN)
@@ -313,6 +354,7 @@ def fault_alarms(
                     label_incident_id=fault.incident_id,
                 )
             )
+    out += _collateral_alarms(net, fault, rng, root_missing)
     if not out:  # keep every incident observable by at least its first symptom
         atype, _, sev = spec["root"][0]
         out.append(
@@ -321,6 +363,28 @@ def fault_alarms(
                 node_idx=fault.root_idx,
                 alarm_type=atype,
                 severity=sev or "major",
+                label_is_true=True,
+                label_incident_id=fault.incident_id,
+            )
+        )
+    return out
+
+
+def _collateral_alarms(
+    net: NetworkModel, fault: Fault, rng: np.random.Generator, root_missing: bool
+) -> list[dict]:
+    """Extra true alarms of arbitrary type (~15% of affected nodes), so no type or severity is
+    exclusive to noise and the alarm type alone does not reveal the fault."""
+    out = []
+    for j in np.nonzero(fault.impact)[0]:
+        if (j == fault.root_idx and root_missing) or rng.random() > 0.15:
+            continue
+        out.append(
+            dict(
+                ts=fault.start + pd.Timedelta(seconds=float(rng.uniform(10, 300))),
+                node_idx=int(j),
+                alarm_type=ALARM_TYPES[int(rng.integers(len(ALARM_TYPES)))],
+                severity=str(rng.choice(["minor", "major", "critical"], p=[0.5, 0.35, 0.15])),
                 label_is_true=True,
                 label_incident_id=fault.incident_id,
             )
