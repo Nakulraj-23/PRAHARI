@@ -50,7 +50,7 @@ def _kolmogorov_sf(lam: float) -> float:
 
 
 def ks_2samp(a: np.ndarray, b: np.ndarray) -> tuple[float, float]:
-    """Two-sample KS statistic and asymptotic p-value (as scipy ks_2samp, method='asymp')."""
+    """Two-sample KS statistic and asymptotic p-value (scipy kstwobign)."""
     a = np.sort(np.asarray(a, float)[np.isfinite(a)])
     b = np.sort(np.asarray(b, float)[np.isfinite(b)])
     n, m = len(a), len(b)

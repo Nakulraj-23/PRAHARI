@@ -229,7 +229,7 @@ def load_reference(settings: Settings | None = None) -> dict:
 def _window(window, engine) -> tuple[pd.Timestamp, pd.Timestamp]:
     if window is None:
         end = pd.Timestamp(pd.read_sql("SELECT MAX(ts) AS m FROM kpi_samples", engine)["m"][0])
-        return end.floor("min") + _MIN - pd.Timedelta(hours=72), end.floor("min") + _MIN
+        return end.floor("min") + _MIN - pd.Timedelta(hours=6), end.floor("min") + _MIN
     if isinstance(window, dict):
         return pd.Timestamp(window["start"]), pd.Timestamp(window["end"])
     s, e = window
@@ -239,7 +239,8 @@ def _window(window, engine) -> tuple[pd.Timestamp, pd.Timestamp]:
 def run_drift(window=None, settings: Settings | None = None, store: bool = True) -> dict:
     """Compare ``window`` with the reference and return a ``DriftReportOut``-shaped dict.
 
-    ``window`` is ``(start, end)``, ``{"start", "end"}`` or None (the last 72 h of data).
+    ``window`` is ``(start, end)``, ``{"start", "end"}`` or None (last 6 h; long windows dilute a
+    short drift).
     Per-feature PSI (status green < 0.1 <= amber <= 0.2 < red) and KS p-value; prediction drift
     for validator probabilities and RCA top-1 confidence. The report is saved to ``drift_reports``
     when ``store`` is true and its row id is returned in ``id``.

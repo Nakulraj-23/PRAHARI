@@ -63,6 +63,7 @@ def create_app(
                 incidents.sim = LiveSimulator(settings)
             except Exception as e:  # noqa: BLE001
                 LOG.warning("simulator unavailable: %s", e)
+        scoring.warmup()
         app.state.s = dict(
             engine=engine,
             sessions=sessions,

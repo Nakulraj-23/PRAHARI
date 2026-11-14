@@ -20,7 +20,7 @@ web:
 	cd web && (test -d node_modules || npm install)
 	cd web && VITE_MOCK=$${VITE_MOCK:-1} npm run dev
 bench:
-	@echo "bench: not built yet"
+	$(BIN)/python -m prahari.monitoring.bench
 
 test:
 	$(BIN)/python -m pytest -q
