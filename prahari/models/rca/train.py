@@ -274,9 +274,14 @@ def train(settings: Settings | None = None, data: dict | None = None, alt_settin
         "baseline_metrics": baselines,
         "intended_use": "Pick the root-cause node (top-5) and fault type for an alarm window on a "
         "tiered telecom topology; decision support, human approves actions.",
-        "limitations": "Trained on simulated data only; accuracy is not real-network accuracy. "
-        "Input is 15-min windows; relies on A1 feature definitions and node tier one-hots. "
-        "Evaluated on one extra synthetic topology.",
+        "limitations": (
+            "Trained on simulated data only; accuracy is not real-network accuracy."
+            " Input is 15-min windows; relies on A1 feature definitions and node "
+            "tier one-hots. Evaluated on one extra synthetic topology. GNN gain "
+            "over the no-graph MLP is +1.0 point root top-1 over 10 seeds (7 wins, "
+            "2 ties, 1 loss, p about 0.07) and none on fault type. Leaf faults with"
+            " fewer than 2 valid alarms are not detected."
+        ),
         "train_seconds": round(time.time() - t0, 1),
         "data_seconds": round(t_data, 1),
     }

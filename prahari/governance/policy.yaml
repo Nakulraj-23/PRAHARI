@@ -1,7 +1,9 @@
 # Governance thresholds. Any check failing -> blocked; G10 or any warn -> needs_approval.
-G1:  # confidence_threshold (top-1 root probability)
+G1:  # confidence_threshold: root prob AND fault_type prob; worst of the two
   pass_at: 0.70
-  fail_below: 0.50      # between fail_below and pass_at -> warn
+  fail_below: 0.50      # root prob: between fail_below and pass_at -> warn
+  fault_pass_at: 0.60   # fault_type.prob: below -> warn (needs approval)
+  fault_fail_below: 0.40  # below -> fail (blocked)
 G2:  # top-1 minus top-2 probability margin
   pass_at: 0.15
   fail_below: 0.05

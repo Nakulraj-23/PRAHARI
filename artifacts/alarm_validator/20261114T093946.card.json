@@ -72,5 +72,5 @@
   }
  },
  "intended_use": "Down-rank likely-noise alarms before root-cause analysis; the threshold favours keeping true alarms (recall) over removing every noise alarm.",
- "limitations": "Trained on synthetic simulator data; separation here is easier than on a real network. Calibrated and thresholded on one validation period; needs the KPI z-scores at alarm time (zeros if absent degrades it) and ~10 min of preceding alarms as context."
+ "limitations": "Trained on synthetic simulator data; separation here is easier than on a real network. In the simulator, test noise alarms never have a neighbour alarm in the prior 5 min (shortcut): PR-AUC is 0.9945 without flap/neighbour counts, and the 0.998 true-class PR-AUC is inflated by a 78% true base rate; the honest number is noise-class AP 0.9675. Calibrated and thresholded on one validation period; needs the KPI z-scores at alarm time (zeros if absent degrades it) and ~10 min of preceding alarms as context."
 }

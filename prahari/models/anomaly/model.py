@@ -320,10 +320,15 @@ def train(settings: Settings | None = None, days: float | None = None) -> dict:
         "intended_use": "Flag nodes whose recent KPIs depart from their own lagged baseline "
         f"(an hour that ends {GAP} min earlier, so a lasting fault is not absorbed); "
         "an input signal to triage, not a root-cause decision.",
-        "limitations": "Trained on synthetic simulator data. Target = minute lies inside an "
-        f"incident and the node's simulated KPI effect is >= {VISIBLE}; KPI-silent nodes are "
-        "negatives. A node hit again within the lag window has a contaminated baseline. "
-        "Threshold maximises F1 on validation, so it is tuned to this fault density.",
+        "limitations": (
+            "Trained on synthetic simulator data. Target = minute lies inside an "
+            "incident and the node's simulated KPI effect is >= 0.15; KPI-silent "
+            "nodes are negatives. A tuned 3-sigma rule beats the forest on F1 "
+            "(0.809 vs 0.779); the forest wins PR-AUC only (0.8135 vs 0.745). "
+            "Recall is 0.45 in the first 5 min after onset. A node hit again within"
+            " 75 min has a contaminated baseline. Threshold maximises F1 on "
+            "validation, so it is tuned to this fault density."
+        ),
     }
     save_artifact(
         settings, NAME, version, {"model": model, "threshold": thr, "node_ids": net.node_ids}, card
