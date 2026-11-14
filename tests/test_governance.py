@@ -174,3 +174,25 @@ def test_redaction():
     t, n = redact("a@b.io 10.0.0.1 +91 98765 43210 sk-abcdefghijklmnop1234")
     assert n == 4 and "@" not in t and "10.0.0.1" not in t and "sk-" not in t
     assert find_sensitive("AGG-07 38.2 41 valid alarms 83% 0.83") == {}
+
+
+def test_g1_fault_type_prob(arts):
+    def ctx(p):
+        rca = copy.deepcopy(RCA)
+        rca["fault_type"]["prob"] = p
+        return make_ctx(arts, rca=rca)
+
+    assert run("G1", ctx(0.91)).status == "pass"
+    mid = run("G1", ctx(0.5))
+    assert mid.status == "warn" and "fault_type 0.50" in mid.detail
+    low = run("G1", ctx(0.36))
+    assert low.status == "fail" and "fault_type 0.36" in low.detail
+    assert evaluate(ctx(0.36), POLICY).decision == "blocked"
+    assert evaluate(ctx(0.5), POLICY).decision == "needs_approval"
+
+
+def test_reevaluate_at_approve_time(arts):
+    first = evaluate(make_ctx(arts), POLICY)
+    assert first.decision == "auto_approved"
+    later = evaluate(make_ctx(arts, drift_status="red"), POLICY)  # drift turned red after proposal
+    assert later.decision == "blocked" and len(later.checks) == 10

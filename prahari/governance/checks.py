@@ -74,11 +74,18 @@ class ConfidenceThreshold(Check):
     def run(self, ctx):
         top = _probs(ctx)[0]
         ok, bad = self.p.get("pass_at", 0.70), self.p.get("fail_below", 0.50)
-        if top >= ok:
-            return "pass", f"{top:.2f} >= {ok:.2f}"
-        if top >= bad:
-            return "warn", f"{top:.2f} < {ok:.2f}"
-        return "fail", f"{top:.2f} < {bad:.2f}"
+        fp = ctx.rca["fault_type"]["prob"]
+        fok, fbad = self.p.get("fault_pass_at", 0.60), self.p.get("fault_fail_below", 0.40)
+        rank = {"pass": 0, "warn": 1, "fail": 2}
+        root = "pass" if top >= ok else "warn" if top >= bad else "fail"
+        fault = "pass" if fp >= fok else "warn" if fp >= fbad else "fail"
+        status = max(root, fault, key=rank.get)
+        detail = (
+            f"root {top:.2f} {'>=' if root == 'pass' else '<'} {ok if root != 'fail' else bad:.2f}; "
+            f"fault_type {fp:.2f} {'>=' if fault == 'pass' else '<'} "
+            f"{fok if fault != 'fail' else fbad:.2f}"
+        )
+        return status, detail
 
 
 @register

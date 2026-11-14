@@ -42,3 +42,11 @@ test('audit view lists entries', async ({ page }) => {
   await page.getByRole('tab', { name: 'Audit' }).click()
   await expect(page.getByText('action_approved')).toBeVisible()
 })
+
+test('model health: limits panel, formatted KS p, metrics summary collapsed', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('tab', { name: 'Model health' }).click()
+  await expect(page.getByText('Known limits')).toBeVisible()
+  await expect(page.getByText(/KS p=0\.01/)).toBeVisible()
+  await expect(page.locator('details pre')).toBeHidden()
+})
