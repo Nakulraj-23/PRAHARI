@@ -1,0 +1,1501 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRAHARI Interview Guide</title>
+<style>
+:root{--bg:#fbfaf7;--panel:#ffffff;--ink:#1d2330;--muted:#5b6475;--line:#e3e1da;--accent:#0b6e75;
+--accent-soft:#e3f1f1;--code:#f2f0ea;--warn:#8a4b00;--warn-soft:#fff3e0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11151c;--panel:#171c25;--ink:#e6e8ec;
+--muted:#9aa3b2;--line:#2a313d;--accent:#5fc4c9;--accent-soft:#16303a;--code:#1d2430;--warn:#ffb866;--warn-soft:#2e2414}}
+:root[data-theme="dark"]{--bg:#11151c;--panel:#171c25;--ink:#e6e8ec;--muted:#9aa3b2;--line:#2a313d;--accent:#5fc4c9;
+--accent-soft:#16303a;--code:#1d2430;--warn:#ffb866;--warn-soft:#2e2414}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,
+"Noto Sans","Noto Sans Devanagari",sans-serif}
+header{padding:40px 16px 24px;border-bottom:1px solid var(--line);background:var(--panel)}
+header .wrap{max-width:1180px;margin:0 auto}
+header h1{margin:0 0 6px;font-size:2rem;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted);max-width:70ch}
+.tools{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;font-size:.9rem;padding:6px 12px;border:1px solid var(--line);border-radius:6px;
+background:var(--bg);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--accent);color:var(--accent)}
+.layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:270px minmax(0,1fr);gap:40px;padding:24px 16px 80px}
+nav.toc{position:sticky;top:16px;align-self:start;max-height:calc(100vh - 32px);overflow:auto;font-size:.88rem;
+border-right:1px solid var(--line);padding-right:16px}
+nav.toc .title{font-weight:600;text-transform:uppercase;font-size:.75rem;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+nav.toc ul{list-style:none;margin:0;padding:0}
+nav.toc ul ul{padding-left:12px;margin:2px 0 6px}
+nav.toc ul ul a{color:var(--muted)}
+nav.toc a{display:block;padding:2px 0;color:var(--ink);text-decoration:none}
+nav.toc a:hover{color:var(--accent)}
+main{min-width:0}
+main h2{font-size:1.5rem;margin:48px 0 12px;padding-top:12px;border-top:2px solid var(--accent)}
+main h2:first-child{margin-top:0}
+main h3{font-size:1.15rem;margin:28px 0 8px}
+main h4{font-size:1rem;margin:20px 0 6px}
+a{color:var(--accent)}
+p,li{max-width:80ch}
+code{overflow-wrap:anywhere;font:.88em/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--code);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);padding:14px 16px;border-radius:8px;overflow-x:auto;border:1px solid var(--line)}
+pre code{overflow-wrap:normal;background:none;padding:0;font-size:.84rem}
+.tablewrap{overflow-x:auto;margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem;background:var(--panel)}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left;vertical-align:top}
+th{background:var(--accent-soft)}
+blockquote{margin:12px 0;padding:8px 16px;border-left:4px solid var(--warn);background:var(--warn-soft)}
+hr{border:0;border-top:1px solid var(--line);margin:32px 0}
+details.q{border:1px solid var(--line);border-radius:8px;background:var(--panel);margin:8px 0;padding:0 14px}
+details.q summary{cursor:pointer;font-weight:600;padding:10px 0;list-style-position:outside}
+details.q[open] summary{border-bottom:1px solid var(--line);margin-bottom:8px}
+details.q > *:last-child{margin-bottom:12px}
+@media (max-width:860px){.layout{grid-template-columns:1fr;gap:16px}
+nav.toc{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line);padding:0 0 16px}}
+@media print{body{background:#fff;color:#000;font-size:11pt}header{border:0;padding:0 0 12px}
+.tools,nav.toc{display:none}.layout{display:block;padding:0}main h2{break-before:page;border-top:0}
+main h2:first-child{break-before:auto}details.q{break-inside:avoid;border-color:#bbb}
+pre,table{break-inside:avoid}a{color:#000}a[href^="http"]::after{content:" (" attr(href) ")";font-size:.8em;color:#444}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>PRAHARI interview guide</h1>
+<p>Prepare to explain, defend and change every part of the PRAHARI repo. Every number is traceable to a file in the repo.
+Generated from <code>docs/INTERVIEW_GUIDE.md</code>.</p>
+<div class="tools"><button id="open">Expand all questions</button><button id="close">Collapse all questions</button>
+<button id="print">Print</button><button id="theme">Light / dark</button></div>
+</div></header>
+<div class="layout">
+<nav class="toc" aria-label="Contents"><div class="title">Contents</div><div class="toc">
+<ul>
+<li><a href="#0-how-to-use-this-guide-in-7-days">0. How to use this guide in 7 days</a></li>
+<li><a href="#1-pitches">1. Pitches</a><ul>
+<li><a href="#30-seconds">30 seconds</a></li>
+<li><a href="#2-minutes">2 minutes</a></li>
+<li><a href="#why-i-built-this-for-tech-mahindra-one-paragraph">Why I built this for Tech Mahindra (one paragraph)</a></li>
+</ul>
+</li>
+<li><a href="#2-say-these-facts-first-honesty-block">2. Say these facts first (honesty block)</a><ul>
+<li><a href="#was-this-built-with-ai-tools">"Was this built with AI tools?"</a></li>
+</ul>
+</li>
+<li><a href="#3-system-map">3. System map</a></li>
+<li><a href="#4-component-walkthrough">4. Component walkthrough</a><ul>
+<li><a href="#41-simulator-praharisim">4.1 Simulator — prahari/sim/</a></li>
+<li><a href="#42-database-praharidbpy">4.2 Database — prahari/db.py</a></li>
+<li><a href="#43-feature-pipeline-praharipipeline">4.3 Feature pipeline — prahari/pipeline/</a></li>
+<li><a href="#44-m2-alarm-validator-praharimodelsvalidatormodelpy">4.4 M2 alarm validator — prahari/models/validator/model.py</a></li>
+<li><a href="#45-m1-anomaly-detector-praharimodelsanomalymodelpy">4.5 M1 anomaly detector — prahari/models/anomaly/model.py</a></li>
+<li><a href="#46-m3-rca-gnn-praharimodelsrca">4.6 M3 RCA GNN — prahari/models/rca/</a></li>
+<li><a href="#47-agent-prahariagent">4.7 Agent — prahari/agent/</a></li>
+<li><a href="#48-governance-praharigovernance">4.8 Governance — prahari/governance/</a></li>
+<li><a href="#49-serving-api-prahariserving">4.9 Serving API — prahari/serving/</a></li>
+<li><a href="#410-monitoring-praharimonitoring">4.10 Monitoring — prahari/monitoring/</a></li>
+<li><a href="#411-dashboard-web">4.11 Dashboard — web/</a></li>
+<li><a href="#412-tests-and-ci">4.12 Tests and CI</a></li>
+</ul>
+</li>
+<li><a href="#5-concepts-from-first-principles">5. Concepts from first principles</a><ul>
+<li><a href="#51-gcn-and-the-normalised-adjacency-worked-example">5.1 GCN and the normalised adjacency (worked example)</a></li>
+<li><a href="#52-isolationforest">5.2 IsolationForest</a></li>
+<li><a href="#53-gradient-boosting-histgradientboosting">5.3 Gradient boosting (HistGradientBoosting)</a></li>
+<li><a href="#54-calibration">5.4 Calibration</a></li>
+<li><a href="#55-precision-recall-and-the-threshold-worked-example">5.5 Precision, recall and the threshold (worked example)</a></li>
+<li><a href="#56-psi-and-ks-worked-examples">5.6 PSI and KS (worked examples)</a></li>
+<li><a href="#57-quantisation">5.7 Quantisation</a></li>
+<li><a href="#58-rest-semantics-as-used-in-this-api">5.8 REST semantics (as used in this API)</a></li>
+<li><a href="#59-database-normalisation-and-indexing">5.9 Database: normalisation and indexing</a></li>
+<li><a href="#510-graph-traversal-bfsdfs-and-complexity">5.10 Graph traversal (BFS/DFS) and complexity</a></li>
+<li><a href="#511-union-find-alarm-clustering">5.11 Union-find (alarm clustering)</a></li>
+<li><a href="#512-tf-idf">5.12 TF-IDF</a></li>
+<li><a href="#513-evaluation-hygiene">5.13 Evaluation hygiene</a></li>
+</ul>
+</li>
+<li><a href="#6-results-and-how-to-read-them">6. Results and how to read them</a></li>
+<li><a href="#7-the-audit-and-fix-loop-a-strength">7. The audit-and-fix loop (a strength)</a><ul>
+<li><a href="#q1-data-audit-docshandoffsq1md">Q1 — data audit (docs/handoffs/Q1.md)</a></li>
+<li><a href="#q2-model-audit-docshandoffsq2md">Q2 — model audit (docs/handoffs/Q2.md)</a></li>
+<li><a href="#q3-system-test-docshandoffsq3md">Q3 — system test (docs/handoffs/Q3.md)</a></li>
+</ul>
+</li>
+<li><a href="#8-what-failed-and-what-i-learned-from-docsexperimentsmd">8. What failed and what I learned (from docs/EXPERIMENTS.md)</a></li>
+<li><a href="#9-honest-limitations-and-what-production-would-need">9. Honest limitations and what production would need</a></li>
+<li><a href="#10-jd-line-evidence">10. JD line → evidence</a></li>
+<li><a href="#11-demo-script-5-minutes">11. Demo script (5 minutes)</a></li>
+<li><a href="#12-company-sheet">12. Company sheet</a></li>
+<li><a href="#13-question-bank">13. Question bank</a><ul>
+<li><a href="#131-project-specific">13.1 Project-specific</a></li>
+<li><a href="#132-ml-fundamentals">13.2 ML fundamentals</a></li>
+<li><a href="#133-dsa-oop-dbms-tied-to-the-code">13.3 DSA, OOP, DBMS tied to the code</a></li>
+<li><a href="#134-system-design">13.4 System design</a></li>
+<li><a href="#135-responsible-ai">13.5 Responsible AI</a></li>
+<li><a href="#136-what-would-you-do-differently">13.6 What would you do differently</a></li>
+<li><a href="#137-behavioural-and-ai-tools">13.7 Behavioural and AI-tools</a></li>
+</ul>
+</li>
+<li><a href="#14-exercises-to-do-by-hand">14. Exercises to do by hand</a></li>
+<li><a href="#15-numbers-sheet-memorise">15. Numbers sheet (memorise)</a></li>
+</ul>
+</div>
+</nav>
+<main>
+<p>For: the Tech Mahindra Digital Catalyst AI Engineer interview (campus hire).
+Goal: you can explain, defend and change every part of this repo.</p>
+<p>Rules this guide follows:</p>
+<ul>
+<li>Every number comes from a file in this repo. The source is named next to it.</li>
+<li>Where something is weak, it says so. Say the weak parts yourself, before the interviewer finds them.</li>
+<li>Company facts come only from the public links in section 12. Nothing here is knowledge of Tech Mahindra's internal systems.</li>
+</ul>
+<hr />
+<h2 id="0-how-to-use-this-guide-in-7-days">0. How to use this guide in 7 days</h2>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Do</th>
+<th>Done when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Read sections 1-3. Run <code>make setup</code>, <code>make seed train</code>, <code>make serve</code>, <code>VITE_MOCK=0 make web</code>. Click the demo path once.</td>
+<td>You can say the 2-minute pitch without notes.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Section 4 (components) with the code open. Read <code>models/rca/model.py</code>, <code>governance/checks.py</code>, <code>monitoring/stats.py</code> line by line.</td>
+<td>You can draw the data flow on paper.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Section 5 (concepts). Do the worked examples on paper. Do exercises 1 and 2 (section 14).</td>
+<td>You can compute A_hat and PSI by hand.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Sections 6-9 (results, audits, failures, limits). Learn the numbers sheet (section 15).</td>
+<td>You can state each weakness in one sentence.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Question bank 13.1-13.3 out loud. Exercises 3-5.</td>
+<td>You answer without reading.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Question bank 13.4-13.7. Company sheet (section 12). Read every link yourself.</td>
+<td>You have 5 questions to ask.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Two timed demo runs (section 11). Practise the fallback. Rest.</td>
+<td>Demo under 5 min twice.</td>
+</tr>
+</tbody>
+</table>
+<p>If you only have 3 days: day 1 = sections 1-4 and the demo; day 2 = sections 5-9 and exercises 1-2; day 3 = question bank, company sheet, two demo runs.</p>
+<hr />
+<h2 id="1-pitches">1. Pitches</h2>
+<h3 id="30-seconds">30 seconds</h3>
+<p>"PRAHARI is a copilot for a telecom network operations centre. When a fault causes an alarm storm, it first filters noise alarms with a calibrated gradient-boosting model. Then a graph neural network, written by hand in PyTorch, finds the root-cause node on the network topology. An agent proposes a fix from a runbook and writes an explanation in English or Hindi. Ten governance checks run before any action, and a human approves it. It is served with FastAPI, has a React dashboard, drift monitoring and tests. The data is synthetic, from a simulator I designed."</p>
+<h3 id="2-minutes">2 minutes</h3>
+<p>Add these points to the 30-second version, in this order:</p>
+<ol>
+<li><strong>Problem.</strong> One fibre cut can raise dozens of alarms on many nodes. Operators must find the one node that caused it. A quarter of alarms in my simulator are noise.</li>
+<li><strong>Data.</strong> No public dataset has topology, KPIs, alarms and root-cause labels together. So I built a simulator: 120 nodes in 4 tiers, 6 KPIs per minute, 5 fault types, 90 days, 584 incidents (<code>docs/handoffs/A1.md</code>).</li>
+<li><strong>Models.</strong> Validator: precision 0.962, recall 0.991. RCA GNN: root top-1 96.6% on 88 test incidents, top-3 100%.</li>
+<li><strong>Honesty.</strong> I ran independent audits. The first data was too easy; I fixed it. The GNN beats a no-graph MLP by only 1 point over 10 seeds, which is not significant. I report that.</li>
+<li><strong>Production parts.</strong> Versioned models with model cards, REST API, 10-check governance with an audit log, PSI/KS drift that blocks actions when red, ONNX export (2x faster forward pass), load test, CI.</li>
+<li><strong>Close.</strong> "It is a small version of a problem Tech Mahindra has said publicly it is working on: alarm validation, root-cause analysis and governed resolution with a human in the loop."</li>
+</ol>
+<h3 id="why-i-built-this-for-tech-mahindra-one-paragraph">Why I built this for Tech Mahindra (one paragraph)</h3>
+<p>"Telecom is a large part of Tech Mahindra's business. In March 2026 it announced, with NVIDIA, agents for communication service providers that do autonomous alarm validation, root-cause analysis and resolution with a human in the loop (<a target="_blank" rel="noopener" href="https://www.techmahindra.com/insights/press-releases/techm-advances-ai-driven-autonomous-network-operations-csps/">press release</a>). At DTW Ignite 2026 it showed 'GNN-Healing Networks' (<a target="_blank" rel="noopener" href="https://www.techmahindra.com/insights/events/tech-mahindra-platinum-sponsor-tm-forum-dtw-ignite-2026/">event page</a>). TechM Orion talks about configurable governance checks per agent (<a target="_blank" rel="noopener" href="https://www.techmahindra.com/insights/press-releases/tech-mahindra-unveils-techm-orion/">Orion</a>). So I built the same three stages at small scale, with a GNN for RCA and a governance gate. I do not know how your systems work inside. This is my own version, on synthetic data."</p>
+<hr />
+<h2 id="2-say-these-facts-first-honesty-block">2. Say these facts first (honesty block)</h2>
+<p>Say them early. An interviewer trusts the rest more when you do.</p>
+<ol>
+<li><strong>All data is synthetic.</strong> It comes from <code>prahari/sim/</code>. Accuracy here is not real-network accuracy.</li>
+<li><strong>The first data was too easy.</strong> Audit Q1 found one feature (<code>kpi_z_max</code>) separated real from noise alarms with AUC 0.976. I changed the simulator; it fell to 0.846 (<code>docs/handoffs/Q1.md</code>, <code>docs/EXPERIMENTS.md</code>).</li>
+<li><strong>The graph helps only a little.</strong> Over 10 seeds, GNN root top-1 is 96.4% ± 1.1 and the no-graph MLP is 95.3% ± 0.6. Paired difference +1.0 pt, p about 0.07. No gain on fault type (<code>docs/handoffs/Q2.md</code>).</li>
+<li><strong>Validator 0.998 PR-AUC is a simulator shortcut.</strong> In test, noise alarms never had a neighbour alarm in the previous 5 minutes. The honest number is noise-class AP 0.9675 (<code>Q2.md</code>, validator card).</li>
+<li><strong>A tuned 3-sigma rule beats my IsolationForest on F1</strong> (0.809 vs 0.779). The forest wins PR-AUC only (0.8135 vs 0.745) (anomaly card <code>20261114T100804</code>).</li>
+<li><strong>2 of 10 live injected faults were not detected</strong> (leaf nodes with fewer than 2 valid alarms) (<code>A4.md</code>).</li>
+<li><strong>Validate latency degrades under load</strong> on one worker: p50 56 ms at 1 client, about 4.3 s at 32 (<code>Q3.md</code>).</li>
+<li><strong>Docker was never built or run. Postgres is untested.</strong> (<code>Q3.md</code>, <code>docker-compose.yml</code>)</li>
+</ol>
+<h3 id="was-this-built-with-ai-tools">"Was this built with AI tools?"</h3>
+<p>Answer truthfully. Model answer:</p>
+<p>"Yes. I used an AI-assisted, multi-agent workflow. I wrote the plan: the problem, the scope, the architecture, the contracts between components and the quality gates (<code>docs/plan/</code>). Builder agents wrote code against those contracts. Separate audit agents checked the data, the models and the whole system, and their findings drove fixes. That is why the repo has handoff notes and an experiments log. My job now is to own it: I can explain every file, I re-ran training, and I changed parts myself, for example [name the exercise you did from section 14]. I think this is how AI engineering work is done now, and the audits are the part I am most proud of, because they caught real problems."</p>
+<p>Do not hide it. Do not say you typed every line. Do show you understand every line: offer to open any file and explain it.</p>
+<hr />
+<h2 id="3-system-map">3. System map</h2>
+<pre><code> Simulator ──► SQLite (nodes, links, kpi_samples, alarms, incidents = ground truth)
+                     │   label-free reads only
+                     ▼
+              Feature pipeline (pandas/NumPy)
+     ┌───────────────┼────────────────┐
+     ▼               ▼                ▼
+ M1 Anomaly     M2 Alarm validator   M3 RCA GNN (PyTorch → ONNX)
+ IsolationForest HistGB + isotonic   root node + fault type
+ (triage only)       │                ▲
+                     └─ valid alarms ─┘ (clustered into incidents)
+                                      ▼
+                 Agent (read-only SQL, RCA, runbook search, propose action)
+                                      ▼
+                 Governance G1-G10 (policy.yaml) ──► audit_log
+                                      ▼
+                 Human approve/reject (checks re-run) ──► simulator applies action
+ Drift monitor (PSI/KS) ──► G6        FastAPI serves all ◄── React dashboard
+</code></pre>
+<p>One incident, step by step (what the code does):</p>
+<ol>
+<li>The live simulator writes new alarms and KPI rows (<code>sim/live.py</code>).</li>
+<li>Every 10 s the detector reads alarms after its cursor (<code>serving/incidents.py</code>).</li>
+<li>The validator scores them. Alarms above threshold 0.18 are "valid".</li>
+<li>Valid alarms within 5 minutes and 2 hops of each other are joined (union-find). A cluster needs at least 2 valid alarms.</li>
+<li>RCA runs on a 15-minute window that starts 5 minutes before the first valid alarm.</li>
+<li>The agent picks a runbook and an action. Governance runs 10 checks.</li>
+<li>An <code>actions</code> row is written with the governance report. Every step goes to <code>audit_log</code>.</li>
+<li>A human approves. All 10 checks run again. If any fails, the API returns 409 and marks the action blocked.</li>
+</ol>
+<hr />
+<h2 id="4-component-walkthrough">4. Component walkthrough</h2>
+<p>For each: what it does, how, why this way, file.</p>
+<h3 id="41-simulator-praharisim">4.1 Simulator — <code>prahari/sim/</code></h3>
+<ul>
+<li><strong>What.</strong> A fake but structured telecom network and 90 days of data.</li>
+<li><strong>How.</strong> <code>topology.py</code> builds 6 core, 18 agg, 30 access, 66 cell nodes (120). Cores form a ring with chords. Some nodes get a second uplink (redundancy). 3 regions, 3 vendors (Nexa, Orion, Zenith; made-up names).
+  <code>kpi.py</code> makes 6 KPIs per minute with daily seasonality and AR(1) noise (phi 0.7), 2% missing samples.
+  <code>faults.py</code> schedules 5-8 faults per day. <code>propagate</code> spreads impact downstream tier by tier: impact 1 at the root, times 0.8 per hop, shared across parents (a node with two uplinks loses less). <code>fault_gain</code> gives each incident its own magnitude, and 40% of dependents almost no KPI change.
+  <code>alarms.py</code> adds noise alarms (25%) with vendor-style raw text. The root alarm is missing in about 13.5% of incidents.</li>
+<li><strong>Why.</strong> Real labelled data with topology is not public. The simulator was made harder after audit Q1 (section 7).</li>
+<li><strong>Numbers.</strong> 584 incidents, 6393 alarms, 15,241,049 KPI rows, DB 2.3 GB (<code>A1.md</code>).</li>
+</ul>
+<h3 id="42-database-praharidbpy">4.2 Database — <code>prahari/db.py</code></h3>
+<ul>
+<li>Tables: <code>nodes</code>, <code>links</code>, <code>kpi_samples</code>, <code>alarms</code>, <code>incidents</code>, <code>predictions</code>, <code>actions</code>, <code>audit_log</code>, <code>drift_reports</code>, <code>detected_incidents</code>.</li>
+<li>Index <code>(node_id, ts)</code> on <code>kpi_samples</code> and <code>ts</code> on <code>alarms</code>.</li>
+<li>Ground truth: the <code>incidents</code> table and <code>label_*</code> columns. Never read by serving.</li>
+<li>SQLite in WAL mode with a 30 s busy timeout (A4 concurrency fix).</li>
+</ul>
+<h3 id="43-feature-pipeline-praharipipeline">4.3 Feature pipeline — <code>prahari/pipeline/</code></h3>
+<ul>
+<li><code>store.py</code>: <code>load_kpi</code> returns a (time, node, 6) array. <code>load_alarms</code> reads an allow-list of columns, so labels cannot leak.</li>
+<li><code>features.py</code>: alarm features and node-window features for RCA. Per node: 15 alarm-type counts, total, critical count, first-alarm minute, KPI deltas vs a baseline, z-scores, tier one-hot (34 features, see the RCA card).</li>
+<li><code>quality.py</code>: 60 data-quality checks (completeness, grid timestamps, flatlines, time bounds, label consistency). Fails loudly with <code>DataQualityError</code>.</li>
+<li><code>splits.py</code>: chronological train/val/test split of incidents (408/88/88).</li>
+<li>Why chronological: a random split would let the model see the future and similar overlapping incidents.</li>
+</ul>
+<h3 id="44-m2-alarm-validator-praharimodelsvalidatormodelpy">4.4 M2 alarm validator — <code>prahari/models/validator/model.py</code></h3>
+<ul>
+<li><strong>What.</strong> Probability that an alarm is real.</li>
+<li><strong>Features (33).</strong> Severity, alarm type, node type, vendor one-hots; same-node and same-type alarm counts in the last 10 min; neighbour alarms in the last 5 min; 6 KPI z-scores at alarm time and their max.</li>
+<li><strong>How.</strong> Baseline LogisticRegression. Main model HistGradientBoosting (300 iterations, learning rate 0.05, 15 leaves). Isotonic calibration fitted on validation. Threshold = the largest value that keeps validation recall ≥ 0.98 (0.1765).</li>
+<li><strong>Why.</strong> Dropping a real alarm is worse than passing a noise alarm, so the threshold favours recall.</li>
+<li><strong>Important detail.</strong> The first feature builder (from the pipeline) counted alarms up to 5 minutes in the future. A2 wrote a causal builder: only strictly earlier alarms. A test removes later alarms and checks features do not change.</li>
+<li><strong>Numbers.</strong> Test 826 alarms, 78.1% true. P 0.962, R 0.991, F1 0.976, PR-AUC 0.998, Brier 0.021. LogReg: P 0.958, R 0.988, PR-AUC 0.997 (card).</li>
+</ul>
+<h3 id="45-m1-anomaly-detector-praharimodelsanomalymodelpy">4.5 M1 anomaly detector — <code>prahari/models/anomaly/model.py</code></h3>
+<ul>
+<li><strong>What.</strong> Flags node-minutes whose KPIs depart from the node's own past.</li>
+<li><strong>Features (14).</strong> For each KPI: z-score of the 5-minute and 15-minute mean against a baseline hour; plus max |z5| and max |z15|.</li>
+<li><strong>Baseline hour.</strong> The 60 minutes ending 75 minutes before t. Longest fault is 70 minutes, so the baseline never contains the current fault.</li>
+<li><strong>How.</strong> IsolationForest, 200 trees, 512 samples per tree, fitted on up to 300,000 training rows. Threshold maximises F1 on validation.</li>
+<li><strong>Not in the incident path.</strong> It is served at <code>/v1/anomaly/score</code> as a triage signal.</li>
+<li><strong>Numbers.</strong> PR-AUC 0.8135, F1 0.779. Tuned 3-sigma rule F1 0.809. Recall 0.45 at 0-5 min after onset, 0.88 at 15-30 (card <code>20261114T100804</code>).</li>
+</ul>
+<h3 id="46-m3-rca-gnn-praharimodelsrca">4.6 M3 RCA GNN — <code>prahari/models/rca/</code></h3>
+<ul>
+<li><strong>What.</strong> Given a 15-minute window, a probability for each node being the root, and a fault type.</li>
+<li><strong>Model (<code>model.py</code>).</strong> Input: (nodes × 34 features). Signed log1p, then standardise (stored in buffers so ONNX takes raw input). Linear to 64 dims. 3 residual GCN layers: <code>h = h + relu(A_hat · (h W))</code>, dropout 0.2. Root head: small MLP per node → one logit per node → softmax over nodes. Fault head: mean-pool and max-pool over nodes → MLP → 5 logits.</li>
+<li><strong>Training (<code>train.py</code>).</strong> Adam, lr 2e-3, weight decay 1e-5, up to 80 epochs, early stopping with patience 12 on validation top-1. Loss = cross-entropy(root) + 0.5 × cross-entropy(fault). The MLP baseline is the same network with <code>use_graph=False</code>.</li>
+<li><strong>Why a GNN.</strong> A fault spreads along links, so a node's neighbours carry evidence. Three layers = each node sees 3 hops.</li>
+<li><strong>Why hand-written.</strong> 120 nodes, so a dense matrix multiply is fine. No torch-geometric install. ONNX export is trivial.</li>
+<li><strong>Numbers.</strong> Test top-1 96.6%, top-3 100%, fault macro-F1 0.957. Root alarm missing: top-1 81.8% (11 incidents). Unseen 80-node topology: 100% on 47 incidents (card).</li>
+</ul>
+<h3 id="47-agent-prahariagent">4.7 Agent — <code>prahari/agent/</code></h3>
+<ul>
+<li><strong>Tools (<code>tools.py</code>).</strong> <code>sql_query</code> (read-only, guarded), <code>get_rca</code>, <code>search_runbooks</code>, <code>propose_action</code>. Tool errors are returned to the model, not raised.</li>
+<li><strong>Providers (<code>llm.py</code>).</strong> <code>none</code> (default, deterministic: fixed tool order and templates), <code>anthropic</code>, <code>openai_compatible</code> (covers NIM, Azure, Ollama-style endpoints). Max 6 steps. The real providers were tested only with fake transports.</li>
+<li><strong>Retrieval (<code>retrieval.py</code>).</strong> TF-IDF written in NumPy (sublinear tf, smoothed idf, L2 norm), cosine similarity over sections of 15 runbooks. Retrieval top-1 15/15, but the queries use the same words as the runbooks, so it is an easy test.</li>
+<li><strong>SQL guard (<code>sqlguard.py</code>).</strong> Layer 1: parser (one SELECT, table allow-list, forbidden words, no <code>label_</code>, no <code>incidents</code>, no <code>SELECT *</code> on alarms, no comma join, no WITH/PRAGMA). Layer 2: SQLite authorizer + <code>PRAGMA query_only</code> + 2 s progress-handler timeout. 19 injection probes rejected in Q3.</li>
+<li><strong>Templates (<code>templates.py</code>).</strong> English and Hindi narratives.</li>
+</ul>
+<h3 id="48-governance-praharigovernance">4.8 Governance — <code>prahari/governance/</code></h3>
+<ul>
+<li><code>checks.py</code>: abstract class <code>Check</code> with <code>run(ctx)</code>. One subclass per check, added by a <code>@register</code> decorator to <code>REGISTRY</code>. <code>evaluate()</code> wraps <code>run()</code>: any exception becomes <code>fail</code> (fail closed).</li>
+<li><code>policy.yaml</code>: thresholds.</li>
+<li><code>decide()</code>: any fail → <code>blocked</code>; any warn (or G10 not pass) → <code>needs_approval</code>; else <code>auto_approved</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Rule (policy.yaml)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1 confidence</td>
+<td>root prob pass ≥ 0.70, fail &lt; 0.50; fault-type prob pass ≥ 0.60, fail &lt; 0.40; worst of the two</td>
+</tr>
+<tr>
+<td>G2 margin</td>
+<td>top-1 minus top-2: pass ≥ 0.15, fail &lt; 0.05</td>
+</tr>
+<tr>
+<td>G3 groundedness</td>
+<td>every node id and number in the narrative must come from the RCA output</td>
+</tr>
+<tr>
+<td>G4 allow-list + blast radius</td>
+<td>action in allow-list; downstream nodes warn &gt; 5, fail &gt; 40</td>
+</tr>
+<tr>
+<td>G5 redaction</td>
+<td>no email, phone, IP or key left in text</td>
+</tr>
+<tr>
+<td>G6 drift</td>
+<td>green pass, amber warn, red fail, unknown warn</td>
+</tr>
+<tr>
+<td>G7 model card</td>
+<td>card file exists for the model version</td>
+</tr>
+<tr>
+<td>G8 schema</td>
+<td>RCA and agent output validate against Pydantic schemas</td>
+</tr>
+<tr>
+<td>G9 duplicate action</td>
+<td>no other action on the same node in the last 30 min</td>
+</tr>
+<tr>
+<td>G10 severity</td>
+<td>major or critical → human required</td>
+</tr>
+</tbody>
+</table>
+<h3 id="49-serving-api-prahariserving">4.9 Serving API — <code>prahari/serving/</code></h3>
+<ul>
+<li><code>app.py</code>: FastAPI app, all endpoints, models loaded once at startup (lifespan). A missing model gives 503 only on its endpoints.</li>
+<li><code>incidents.py</code>: detector and approve/reject. Uses a lock so parallel approvals are safe (Q3: 5 approves + 5 rejects in parallel gave one 200, nine 409).</li>
+<li><code>obs.py</code>: request ids, JSON logs, per-endpoint latency histograms on <code>/metrics</code>, typed error body <code>{"error": {type, message, request_id}}</code>.</li>
+<li>Limits (Q3 fixes): RCA window ≤ 6 h, 422 <code>no_data</code> without KPIs, validate ≤ 1000 alarms, no duplicate ids.</li>
+<li><code>/v1/rca</code> result cached 30 s per window.</li>
+</ul>
+<h3 id="410-monitoring-praharimonitoring">4.10 Monitoring — <code>prahari/monitoring/</code></h3>
+<ul>
+<li><code>stats.py</code>: PSI and two-sample KS in NumPy. PSI &lt; 0.1 green, 0.1-0.2 amber, &gt; 0.2 red.</li>
+<li><code>drift.py</code>: compares a window (default last 6 h) against <code>artifacts/drift/reference.json</code>. Reference is grouped by hour-of-day × weekday/weekend. Features: 6 KPIs, 15-min means of latency and loss, validator output, RCA confidence (outputs only with ≥ 100 values).</li>
+<li><code>retrain.py</code>: trains into a staging folder; promotes only if no metric is worse by more than 0.002.</li>
+<li><code>bench.py</code>: PyTorch vs ONNX fp32 vs ONNX int8. <code>loadtest.py</code>: closed-loop async load test.</li>
+</ul>
+<h3 id="411-dashboard-web">4.11 Dashboard — <code>web/</code></h3>
+<ul>
+<li>React 18, Vite, Tailwind, Cytoscape (topology), Recharts (charts). One API client in <code>src/api.js</code>. <code>VITE_MOCK=1</code> serves fixtures.</li>
+<li>Views: Live Ops, Incident, Model health, Audit. Playwright tests: mock smoke and one real-API test.</li>
+</ul>
+<h3 id="412-tests-and-ci">4.12 Tests and CI</h3>
+<ul>
+<li>168 tests pass locally (Q3). Clean clone without data: 147 pass, 21 skip.</li>
+<li>Kinds: unit (A_hat, PSI, checks), API tests on a 1-day DB, data-audit tests (<code>tests/data</code>), model quality gates (<code>tests/models/test_quality_gates.py</code>), a ground-truth scan, Playwright.</li>
+<li>CI (<code>.github/workflows/ci.yml</code>): ruff + pytest on push. Card quality gates run in CI because the cards are committed.</li>
+</ul>
+<hr />
+<h2 id="5-concepts-from-first-principles">5. Concepts from first principles</h2>
+<h3 id="51-gcn-and-the-normalised-adjacency-worked-example">5.1 GCN and the normalised adjacency (worked example)</h3>
+<p>A graph has an adjacency matrix A: <code>A[i][j] = 1</code> if nodes i and j are linked.
+A GCN layer mixes each node's vector with its neighbours' vectors:</p>
+<p><code>H_next = relu( A_hat · H · W )</code>, with <code>A_hat = D^-1/2 (A + I) D^-1/2</code>.</p>
+<ul>
+<li><code>A + I</code> adds a self-loop, so a node keeps its own features.</li>
+<li><code>D</code> is the degree matrix of <code>A + I</code> (row sums).</li>
+<li>Dividing by <code>sqrt(d_i · d_j)</code> stops high-degree nodes from getting huge sums. It keeps the scale stable across layers.</li>
+</ul>
+<p><strong>Example: 3 nodes in a line, A — B — C.</strong></p>
+<pre><code>A     = [[0,1,0],[1,0,1],[0,1,0]]
+A + I = [[1,1,0],[1,1,1],[0,1,1]]      degrees d = [2, 3, 2]
+A_hat[i][j] = (A+I)[i][j] / sqrt(d_i * d_j)
+
+A_hat = [[0.500, 0.408, 0    ],
+         [0.408, 0.333, 0.408],
+         [0,     0.408, 0.500]]
+</code></pre>
+<p>(0.5 = 1/√(2·2); 0.408 = 1/√(2·3); 0.333 = 1/√(3·3).)</p>
+<p>Give one feature "has alarm": x = [1, 0, 0] (only A alarmed).</p>
+<ul>
+<li>One layer (ignoring W and relu): <code>A_hat · x = [0.5, 0.408, 0]</code>. B now "knows" about A's alarm. C does not.</li>
+<li>Two layers: <code>A_hat · A_hat · x = [0.417, 0.340, 0.167]</code>. Now C has signal too.</li>
+</ul>
+<p>So k layers = k hops of information. PRAHARI uses 3 layers. The code is <code>normalised_adjacency()</code> in <code>prahari/models/rca/model.py</code>; the test is in <code>tests/test_rca.py</code>.
+PRAHARI adds a residual: <code>h = h + relu(A_hat · (h W))</code>. The node keeps its own vector and adds the neighbour message. This helps training and stops over-smoothing (all nodes looking the same).</p>
+<p>Cost: dense <code>A_hat · M</code> is O(N² · hidden). At 120 nodes that is nothing. At 100k nodes you need a sparse matrix (O(E · hidden)).</p>
+<h3 id="52-isolationforest">5.2 IsolationForest</h3>
+<p>Idea: an outlier is easy to isolate.</p>
+<ol>
+<li>Take a random sample (512 points here).</li>
+<li>Build a tree: pick a random feature and a random split value between its min and max. Repeat until each point is alone.</li>
+<li>An outlier gets isolated after few splits (short path). A normal point needs many.</li>
+<li>Average the path length over 200 trees. Score <code>s = 2^(-E[h(x)] / c(n))</code>, where c(n) is the average path length in a random tree of n points. Near 1 = anomaly.</li>
+</ol>
+<p>PRAHARI uses <code>-model.score_samples(x)</code> as the score and picks the threshold that gives the best F1 on validation.
+It is unsupervised: labels are used only to choose the threshold and to evaluate.</p>
+<h3 id="53-gradient-boosting-histgradientboosting">5.3 Gradient boosting (HistGradientBoosting)</h3>
+<ol>
+<li>Start with one constant prediction (the log-odds of the base rate). Example: 78% true → log(0.78/0.22) ≈ 1.27.</li>
+<li>For each alarm, compute the gradient of the log loss: roughly (true label − predicted probability).</li>
+<li>Fit a small tree (here ≤ 15 leaves) to those residuals.</li>
+<li>Add the tree times the learning rate (0.05) to the prediction.</li>
+<li>Repeat 300 times. Each tree fixes what the previous ones got wrong.</li>
+</ol>
+<p>"Hist" = features are binned into at most 256 buckets first, so finding splits is fast.
+L2 regularisation (1.0) and the small learning rate fight overfitting.</p>
+<h3 id="54-calibration">5.4 Calibration</h3>
+<p>A model is calibrated if, among alarms scored 0.8, about 80% are real.
+Boosted trees are often not. Isotonic regression fits a non-decreasing step function from raw score to observed frequency, on validation data.
+Measure it with the Brier score (mean squared error of probabilities) and a reliability table.
+PRAHARI: Brier 0.021 (0.020 before calibration). Q2's reliability table: 624 alarms at mean predicted 0.997, observed 0.997; 142 at 0.035 / 0.035. Calibration matters because governance thresholds (G1) read probabilities as confidence.</p>
+<h3 id="55-precision-recall-and-the-threshold-worked-example">5.5 Precision, recall and the threshold (worked example)</h3>
+<ul>
+<li>Precision = of the alarms I kept, how many are real. TP / (TP + FP).</li>
+<li>Recall = of the real alarms, how many I kept. TP / (TP + FN).</li>
+</ul>
+<p>Validator test set: 826 alarms, 78.1% true → about 645 true and 181 noise.
+At threshold 0.18: recall 0.991 → about 639 kept, 6 lost. Precision 0.962 → about 25 noise alarms pass (derived; A2 says "about 25 of 181").
+At threshold 0.5: precision 0.980, recall 0.983.
+Lowering the threshold saved about 5 more real alarms and let in more noise. That is the trade-off, chosen on purpose.</p>
+<p><strong>PR-AUC vs ROC-AUC.</strong> With a 78% positive rate, PR-AUC on the true class looks great even for a weak model. So Q2 reported noise-class AP (0.9675): how well the model finds the minority class. For the anomaly model (0.79% positive) PR-AUC is the right metric; ROC-AUC would look high because of the huge number of easy negatives.</p>
+<h3 id="56-psi-and-ks-worked-examples">5.6 PSI and KS (worked examples)</h3>
+<p><strong>PSI (population stability index).</strong> Bin the reference data into quantile bins (10 here). Measure the share of the reference (e) and the current window (a) in each bin.
+<code>PSI = Σ (a − e) · ln(a / e)</code>.</p>
+<p>Example with 4 bins. Reference e = [0.25, 0.25, 0.25, 0.25]. Current a = [0.10, 0.20, 0.30, 0.40].</p>
+<table>
+<thead>
+<tr>
+<th>bin</th>
+<th>a − e</th>
+<th>ln(a/e)</th>
+<th>product</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>−0.15</td>
+<td>−0.916</td>
+<td>0.137</td>
+</tr>
+<tr>
+<td>2</td>
+<td>−0.05</td>
+<td>−0.223</td>
+<td>0.011</td>
+</tr>
+<tr>
+<td>3</td>
+<td>+0.05</td>
+<td>+0.182</td>
+<td>0.009</td>
+</tr>
+<tr>
+<td>4</td>
+<td>+0.15</td>
+<td>+0.470</td>
+<td>0.071</td>
+</tr>
+</tbody>
+</table>
+<p>PSI = 0.228 → red (&gt; 0.2). Code: <code>psi_from_props</code> in <code>prahari/monitoring/stats.py</code>. Empty bins are floored at 1e-4 so the log stays finite.</p>
+<p><strong>KS (Kolmogorov–Smirnov).</strong> The largest vertical gap between the two empirical CDFs.
+Example: a = [1, 2, 3, 4], b = [3, 4, 5, 6]. At x = 2: F_a = 0.5, F_b = 0 → gap 0.5. At x = 3: 0.75 vs 0.25 → 0.5. At x = 4: 1.0 vs 0.5 → 0.5. D = 0.5.
+p-value: λ = D·√(nm/(n+m)) = 0.5·√2 = 0.707 → p ≈ 0.70 (not significant with 4 points). Code: <code>ks_2samp</code>.
+KS p-values become tiny with large samples even for small shifts, so PRAHARI uses PSI for status and KS as extra evidence.</p>
+<p>PRAHARI result: <code>firmware_drift</code> (+25% latency on one vendor) gave latency PSI 0.44, vendor Nexa 4.99, others &lt; 0.01. A 72 h window hid it (PSI 0.005), so the default window is 6 h (<code>A6.md</code>).</p>
+<h3 id="57-quantisation">5.7 Quantisation</h3>
+<p>Store weights as 8-bit integers instead of 32-bit floats: <code>w ≈ scale × (q − zero_point)</code>.
+Dynamic quantisation: weights are quantised ahead of time; activations are quantised on the fly at run time.
+Effect here: model 113 KB → 43 KB, forward pass p50 0.244 ms (PyTorch) → 0.135 ms (ONNX fp32) → 0.122 ms (int8). Accuracy unchanged on 88 test incidents (<code>docs/bench.md</code>).
+Honest read: most of the speed-up comes from ONNX Runtime, not int8. And end-to-end predict is about 42 ms because of the DB query. So the forward pass was never the bottleneck.</p>
+<h3 id="58-rest-semantics-as-used-in-this-api">5.8 REST semantics (as used in this API)</h3>
+<ul>
+<li>GET reads and has no side effects (<code>/v1/incidents</code>). It is safe to retry.</li>
+<li>POST creates or triggers (<code>/v1/rca</code>, <code>/v1/actions/{id}/approve</code>).</li>
+<li>Approve is not idempotent: the second approve returns <strong>409 Conflict</strong> ("action already executed").</li>
+<li><strong>422</strong> = valid JSON but invalid content (unknown alarm type, window &gt; 6 h, no data).</li>
+<li><strong>404</strong> = unknown id. <strong>503</strong> = model missing or database busy, with <code>Retry-After: 1</code>.</li>
+<li>Pydantic schemas in <code>prahari/schemas.py</code> give typed requests and responses and OpenAPI docs at <code>/docs</code>.</li>
+<li>Versioned prefix <code>/v1</code> so a breaking change can go to <code>/v2</code>.</li>
+</ul>
+<h3 id="59-database-normalisation-and-indexing">5.9 Database: normalisation and indexing</h3>
+<ul>
+<li><strong>Normalisation.</strong> Node facts (type, region, vendor) live once in <code>nodes</code>. <code>links</code>, <code>kpi_samples</code>, <code>alarms</code> refer to them by <code>node_id</code> (foreign key). No repeated vendor strings in 15M KPI rows. That is roughly third normal form.</li>
+<li><strong>Deliberate denormalisation.</strong> Reports (<code>governance_json</code>, <code>rca_json</code>, <code>report_json</code>) are stored as JSON. They are written once and read whole, so splitting them into tables gains nothing.</li>
+<li><strong>Indexing.</strong> <code>kpi_samples</code> has a composite index on <code>(node_id, ts)</code>. A query "node X between t1 and t2" seeks to X, then scans a small range of ts. Without it, SQLite scans 15M rows.</li>
+<li><strong>Real lesson.</strong> Even with the index, SQLite chose a bad join order and scanned the whole table (1.4 s per window). Writing <code>CROSS JOIN</code> forces SQLite to drive from <code>nodes</code> and use the index: 1078 ms → 30 ms for a 75-minute window (<code>docs/bench.md</code>). Check with <code>EXPLAIN QUERY PLAN</code>.</li>
+</ul>
+<h3 id="510-graph-traversal-bfsdfs-and-complexity">5.10 Graph traversal (BFS/DFS) and complexity</h3>
+<p>Three traversals in the code:</p>
+<ol>
+<li><code>NetworkModel._hop_distances</code> (<code>sim/topology.py</code>): BFS from all nodes at once. The frontier is a boolean matrix; one step = frontier × adjacency. Each step is a dense N×N by N×N product, O(N³), times the graph diameter. Fine for 120 nodes. Classic BFS with an adjacency list is O(V + E) per source.</li>
+<li><code>dependent_count</code> (<code>agent/flow.py</code>): DFS with a stack, only moving to deeper tiers. Counts downstream nodes for the blast-radius check G4. O(V + E).</li>
+<li><code>propagate</code> (<code>sim/faults.py</code>): tier by tier, impact = 0.8 × average impact of parents. O(depth × N²) with dense matrices.</li>
+</ol>
+<p>BFS vs DFS: both visit every reachable node once. BFS gives shortest hop counts. DFS uses less memory on wide graphs. For "how many nodes are downstream" either works.</p>
+<h3 id="511-union-find-alarm-clustering">5.11 Union-find (alarm clustering)</h3>
+<p><code>Incidents._clusters</code> (<code>serving/incidents.py</code>) joins two alarms if they are ≤ 5 min apart and ≤ 2 hops apart. It uses union-find with path halving. Every pair is compared: O(n²) for n new alarms. Fine for a few dozen alarms per 10 s tick. For a storm of thousands, bucket alarms by time first.</p>
+<h3 id="512-tf-idf">5.12 TF-IDF</h3>
+<ul>
+<li>tf = how often a word appears in a section (sublinear: 1 + log tf).</li>
+<li>idf = log((1 + n) / (1 + df)) + 1: rare words count more.</li>
+<li>Each section becomes a vector, L2-normalised. Search = cosine similarity with the query vector.</li>
+</ul>
+<h3 id="513-evaluation-hygiene">5.13 Evaluation hygiene</h3>
+<ul>
+<li>Chronological split: train on the past, test on the future.</li>
+<li>Thresholds and calibration fitted on validation; test read once.</li>
+<li>Baselines tuned the same way (MLP has the same early stopping; 3-sigma is tuned on validation).</li>
+<li>Paired comparison over seeds: same data, same seed for both models, look at the difference. Mean difference 1.0, sd 1.6, n = 10 → t ≈ 1.0 / (1.6/√10) ≈ 2.0 → p about 0.07. Not below 0.05.</li>
+</ul>
+<hr />
+<h2 id="6-results-and-how-to-read-them">6. Results and how to read them</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Test metric</th>
+<th>Value</th>
+<th>Baseline</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RCA GNN</td>
+<td>root top-1 / top-3 (n = 88)</td>
+<td>96.6% / 100%</td>
+<td>MLP 95.5% / 100%; upstream rule 73.9%; most-alarms 58.0%</td>
+<td>RCA card</td>
+</tr>
+<tr>
+<td>RCA GNN</td>
+<td>fault macro-F1</td>
+<td>0.957</td>
+<td>MLP 0.938</td>
+<td>RCA card</td>
+</tr>
+<tr>
+<td>RCA GNN</td>
+<td>10 seeds top-1</td>
+<td>96.4% ± 1.1</td>
+<td>MLP 95.3% ± 0.6</td>
+<td>Q2</td>
+</tr>
+<tr>
+<td>RCA GNN</td>
+<td>alt topology top-1 (n = 47)</td>
+<td>100%</td>
+<td>MLP 97.9%</td>
+<td>RCA card</td>
+</tr>
+<tr>
+<td>Validator</td>
+<td>P / R / F1</td>
+<td>0.962 / 0.991 / 0.976</td>
+<td>LogReg 0.958 / 0.988 / 0.973</td>
+<td>validator card</td>
+</tr>
+<tr>
+<td>Validator</td>
+<td>noise-class AP</td>
+<td>0.9675</td>
+<td></td>
+<td>Q2</td>
+</tr>
+<tr>
+<td>Anomaly</td>
+<td>PR-AUC / F1</td>
+<td>0.8135 / 0.779</td>
+<td>tuned 3-sigma 0.745 / 0.809</td>
+<td>anomaly card</td>
+</tr>
+</tbody>
+</table>
+<p>How to read them:</p>
+<ul>
+<li><strong>RCA.</strong> Top-3 is 100%, so the true root is always in the operator's shortlist. Errors happen when two incidents overlap: 17 windows with a concurrent incident score 88.2%, the other 71 score 98.6% (Q2). When the root alarm is missing, top-1 drops to 81.8%.</li>
+<li><strong>RCA errors (Q2).</strong> The 3 test errors were 1, 4 and 5 hops off. The 4- and 5-hop errors picked the root of a concurrent incident. A 1-hop error picked the child of a silent root: the model does not infer a silent upstream node.</li>
+<li><strong>RCA calibration (Q2).</strong> 62 windows with confidence ≥ 0.99 were all right. 4 windows at 0.5-0.8 were 50% right: slightly overconfident at the low end. G1 sends those to a human.</li>
+<li><strong>Robustness (Q2).</strong> Dropping 30% of alarms and adding 50% noise: shipped top-1 94.3%, fault F1 0.906. Injected noise had no KPI blip, so this is optimistic.</li>
+<li><strong>Validator.</strong> Near ceiling because of the simulator shortcut. Without KPI z-scores, recall falls to 0.836 (Q2), so the serving path must compute them.</li>
+<li><strong>Anomaly.</strong> The forest ranks better (PR-AUC) but a tuned simple rule has better F1. In an interview, say: "I would ship the rule as the baseline and keep the forest only if it beats the rule on the metric the operator cares about."</li>
+</ul>
+<hr />
+<h2 id="7-the-audit-and-fix-loop-a-strength">7. The audit-and-fix loop (a strength)</h2>
+<p>Three independent audits checked the work. Each found real problems. Each problem was fixed or written down.</p>
+<h3 id="q1-data-audit-docshandoffsq1md">Q1 — data audit (<code>docs/handoffs/Q1.md</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One feature (<code>kpi_z_max</code>) gave AUC 0.976 for alarm validity: noise alarms ignored KPIs</td>
+<td>30% of noise alarms got a real KPI blip; low-impact true alarms show almost no KPI change. AUC fell to 0.846.</td>
+</tr>
+<tr>
+<td>9 of 15 alarm types appeared in one class only; critical was 331/331 true</td>
+<td>Every type and severity appears in both classes</td>
+</tr>
+<tr>
+<td>Largest latency delta = root in 82.9% of incidents</td>
+<td>Per-incident magnitude and per-node gain; now 52.8%</td>
+</tr>
+<tr>
+<td>Windows started exactly at fault start</td>
+<td>Window start jittered 0-10 min earlier</td>
+</tr>
+<tr>
+<td>23 incidents/day, white noise, no gaps</td>
+<td>5-8/day, AR(1) noise, 2% missing samples</td>
+</tr>
+<tr>
+<td>Quality checks missed 8 of 16 corruptions</td>
+<td>11 new checks (completeness, grid, flatline, time bounds, label consistency)</td>
+</tr>
+</tbody>
+</table>
+<p>Not fixed, and said so: gradient boosting on all alarm features still gets AUC 0.995.</p>
+<h3 id="q2-model-audit-docshandoffsq2md">Q2 — model audit (<code>docs/handoffs/Q2.md</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GNN vs MLP: +1.0 pt over 10 seeds, p about 0.07</td>
+<td>Reported in the card and README. Claim reduced.</td>
+</tr>
+<tr>
+<td>Validator 0.998 is a simulator shortcut (neighbour counts)</td>
+<td>Report noise-class AP 0.9675; written in the card</td>
+</tr>
+<tr>
+<td>Anomaly PR-AUC 0.346: the rolling baseline absorbed lasting faults (recall 0.02 at 30-60 min) and KPI-silent nodes were labelled positive</td>
+<td>Lagged baseline (ends 75 min before t), labels from simulated KPI effect, 2 new features: PR-AUC 0.8135. The tuned rule still wins F1; card says so.</td>
+</tr>
+<tr>
+<td>All card metrics reproduce to 1e-4</td>
+<td>Quality gates added in <code>tests/models/test_quality_gates.py</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="q3-system-test-docshandoffsq3md">Q3 — system test (<code>docs/handoffs/Q3.md</code>)</h3>
+<table>
+<thead>
+<tr>
+<th>Finding</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HIGH: approve did not re-run governance; an action approved after drift went red was executed</td>
+<td>Approve re-runs all 10 checks; 409 on any fail; audit event <code>approval_blocked_by_governance</code></td>
+</tr>
+<tr>
+<td>HIGH: model cards were git-ignored, so CI quality gates silently skipped</td>
+<td><code>.gitignore</code> fixed; cards committed</td>
+</tr>
+<tr>
+<td>HIGH: low fault-type confidence (0.36) passed governance</td>
+<td>G1 now also checks fault-type probability</td>
+</tr>
+<tr>
+<td>MED: one fault gave two incidents</td>
+<td>A new cluster joins an open incident if its RCA root matches</td>
+</tr>
+<tr>
+<td>MED: unbounded work (87-day RCA window took 74 s; agent SQL ran 100 s)</td>
+<td>Window ≤ 6 h, batch ≤ 1000, 2 s SQL timeout</td>
+</tr>
+<tr>
+<td>MED: no-data RCA returned 200 with flat probabilities</td>
+<td>422 <code>no_data</code></td>
+</tr>
+<tr>
+<td>LOW: empty user name accepted, duplicate ids accepted</td>
+<td>Validation added</td>
+</tr>
+<tr>
+<td>Load test: <code>/v1/rca</code> at 32 clients returned 500 <code>database is locked</code> (found by A6)</td>
+<td>WAL, busy timeout, 503 + Retry-After, 30 s cache: 0 errors at 50 clients</td>
+</tr>
+</tbody>
+</table>
+<p>Not fixed: Docker never run; Postgres untested; validate latency under load.</p>
+<p>How to say it: "I did not trust my own numbers. I had independent audits try to break the data, the models and the system. They found that the data was too easy, that the governance gate could be bypassed, and that CI gates were silently skipping. I fixed those and I report what is still weak."</p>
+<hr />
+<h2 id="8-what-failed-and-what-i-learned-from-docsexperimentsmd">8. What failed and what I learned (from <code>docs/EXPERIMENTS.md</code>)</h2>
+<table>
+<thead>
+<tr>
+<th>Tried</th>
+<th>What happened</th>
+<th>Learned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raw KPI z-scores</td>
+<td>Packet-loss z reached about 7000 (tiny baseline variance)</td>
+<td>Floor the std (2% of mean) and clip z to ±50</td>
+</tr>
+<tr>
+<td>Building all 90 days of RCA graphs at once</td>
+<td>Out of memory on a 15 GB box</td>
+<td>Load KPIs 8 days at a time</td>
+</tr>
+<tr>
+<td>Pipeline's alarm neighbour count</td>
+<td>Looked 5 min into the future</td>
+<td>Write causal features; test them by deleting the future</td>
+</tr>
+<tr>
+<td>Validator threshold for recall ≥ 0.95</td>
+<td>Test recall 0.964, lower than at 0.5</td>
+<td>Use recall ≥ 0.98 on validation</td>
+</tr>
+<tr>
+<td>HistGB fit</td>
+<td>72 s on 5k rows (OpenMP spin-waits)</td>
+<td><code>threadpool_limits(1)</code></td>
+</tr>
+<tr>
+<td>Regex-only SQL guard</td>
+<td>Comma joins and <code>SELECT *</code> slipped through</td>
+<td>Parser + SQLite authorizer as two layers</td>
+</tr>
+<tr>
+<td>Phone redaction for 3-3-4 numbers</td>
+<td><code>+91 98765 43210</code> leaked</td>
+<td>Add 5-5 digit pattern</td>
+</tr>
+<tr>
+<td>Comparing ISO and SQLite timestamps as strings</td>
+<td>No rows ('T' &gt; ' ')</td>
+<td>Bind datetimes, never compare strings</td>
+</tr>
+<tr>
+<td>Calling model <code>load()</code> with no settings in the API</td>
+<td>Scored a test DB against the 90-day DB</td>
+<td>Pass settings explicitly</td>
+</tr>
+<tr>
+<td>Drift reference per 4-hour block</td>
+<td>False reds on normal windows</td>
+<td>Reference per hour-of-day × weekday/weekend</td>
+</tr>
+<tr>
+<td>72 h drift window</td>
+<td>Hid a 6 h drift (PSI 0.005)</td>
+<td>Default window 6 h</td>
+</tr>
+<tr>
+<td>Plain JOIN for KPI query</td>
+<td>Full scan of 15M rows</td>
+<td><code>CROSS JOIN</code> fixes join order: 36x faster</td>
+</tr>
+<tr>
+<td>Rolling anomaly baseline</td>
+<td>Absorbed the fault</td>
+<td>Lag the baseline past the longest fault</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-honest-limitations-and-what-production-would-need">9. Honest limitations and what production would need</h2>
+<p>Limitations:</p>
+<ul>
+<li>Synthetic data. Real networks have mixed vendors, missing topology, alarm floods of thousands, and changing configs.</li>
+<li>Scale: 120 nodes, one SQLite file, one worker. Dense matrices.</li>
+<li>Small test sets (88 incidents, 47 on the alt topology). No significance for GNN vs MLP.</li>
+<li>2 of 10 live faults missed (rule: ≥ 2 valid alarms to open an incident).</li>
+<li>The serving path recomputes validator KPI z-scores in <code>serving/data.py</code>, a copy of the pipeline definition. They can drift apart.</li>
+<li>Real LLM providers never called. G3 blocks any number not in the RCA output, so a real LLM narrative quoting a time would be blocked.</li>
+<li>Docker never run; Postgres untested; no authentication on the API.</li>
+<li>Drift thresholds 0.1/0.2 are conventional, not tuned. Retraining was run once, as a dry run on the validator.</li>
+</ul>
+<p>What production would need:</p>
+<ol>
+<li>Real data: alarms, KPIs, inventory/topology, and trouble tickets as root-cause labels.</li>
+<li>Streaming ingest (e.g. Kafka) instead of polling a table.</li>
+<li>Postgres (or a time-series DB for KPIs), several API workers, a model server.</li>
+<li>Sparse GNN and per-region subgraphs for 100k nodes.</li>
+<li>Auth (OAuth/SSO), role-based approvals, secrets management.</li>
+<li>Shadow mode first: the model proposes, humans decide, compare for weeks.</li>
+<li>Scheduled drift checks that trigger retraining via <code>monitoring/retrain.py</code>, with human sign-off before promotion.</li>
+</ol>
+<hr />
+<h2 id="10-jd-line-evidence">10. JD line → evidence</h2>
+<table>
+<thead>
+<tr>
+<th>JD line</th>
+<th>Evidence in repo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td>Whole backend, typed, ruff-clean</td>
+</tr>
+<tr>
+<td>ML models as per design</td>
+<td>3 models with baselines: <code>prahari/models/</code></td>
+</tr>
+<tr>
+<td>PyTorch</td>
+<td>Hand-written GCN, training loop, ONNX export: <code>prahari/models/rca/</code></td>
+</tr>
+<tr>
+<td>NumPy / pandas / scikit-learn</td>
+<td>PSI/KS and TF-IDF in NumPy; pipeline in pandas; IsolationForest, HistGB, isotonic in sklearn</td>
+</tr>
+<tr>
+<td>SQL / DBMS</td>
+<td>Schema and indexes <code>prahari/db.py</code>; CROSS JOIN fix; read-only SQL guard</td>
+</tr>
+<tr>
+<td>REST APIs</td>
+<td>FastAPI <code>prahari/serving/app.py</code>, Pydantic schemas, status codes</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>Commit history by wave; CI on push</td>
+</tr>
+<tr>
+<td>Deployment</td>
+<td>Dockerfile + compose (written, not run); Makefile; model versioning</td>
+</tr>
+<tr>
+<td>Drift monitoring</td>
+<td><code>prahari/monitoring/drift.py</code>, G6 blocks under red drift</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>pytest (168 pass), quality gates, Playwright, load test</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>ONNX benchmark <code>docs/bench.md</code>; load test <code>docs/loadtest.md</code>; query profiling</td>
+</tr>
+<tr>
+<td>Responsible AI</td>
+<td>Governance gate, groundedness, PII redaction, audit log, model cards, human approval</td>
+</tr>
+<tr>
+<td>Data pipelines / reliability</td>
+<td><code>prahari/pipeline/quality.py</code> (60 checks)</td>
+</tr>
+<tr>
+<td>Debugging</td>
+<td><code>docs/EXPERIMENTS.md</code></td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>React dashboard <code>web/</code></td>
+</tr>
+<tr>
+<td>Statistics / linear algebra</td>
+<td>PSI, KS, calibration, A_hat</td>
+</tr>
+<tr>
+<td>DSA / OOP</td>
+<td>BFS/DFS, union-find; <code>Check</code> class hierarchy with registry</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-demo-script-5-minutes">11. Demo script (5 minutes)</h2>
+<p>Before: copy the DB (<code>cp prahari.db prahari.db.bak</code>). Start <code>make serve</code>, then <code>VITE_MOCK=0 make web</code>. Open http://localhost:5173. Wait 30 s.</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Do</th>
+<th>Say</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00</td>
+<td>Live Ops, healthy topology</td>
+<td>"120 nodes, 4 tiers. Synthetic, from my simulator."</td>
+</tr>
+<tr>
+<td>0:30</td>
+<td>Inject fault → fibre cut on an AGG node</td>
+<td>"This simulates a fibre cut. Watch the alarms."</td>
+</tr>
+<tr>
+<td>0:45</td>
+<td>Alarm feed fills; noise greyed</td>
+<td>"The validator marks noise. Threshold favours recall."</td>
+</tr>
+<tr>
+<td>1:15</td>
+<td>Root ringed on the map</td>
+<td>"The GNN picks the root. Top-3 was 100% on test."</td>
+</tr>
+<tr>
+<td>1:45</td>
+<td>Incident tab: root bars, fault type, evidence</td>
+<td>"Probabilities, evidence, KPI deltas."</td>
+</tr>
+<tr>
+<td>2:15</td>
+<td>Governance list (10 checks)</td>
+<td>"G10: critical severity needs a human. G4 warns when many nodes are downstream."</td>
+</tr>
+<tr>
+<td>2:45</td>
+<td>Approve with a note</td>
+<td>"Approve re-runs all 10 checks. Then the simulator applies the fix."</td>
+</tr>
+<tr>
+<td>3:15</td>
+<td>EN → HI</td>
+<td>"Same facts, Hindi template (not an LLM)."</td>
+</tr>
+<tr>
+<td>3:40</td>
+<td>Model health → Run drift scenario</td>
+<td>"Firmware update adds 25% latency for one vendor. PSI goes red."</td>
+</tr>
+<tr>
+<td>4:10</td>
+<td>Inject again → new incident blocked by G6</td>
+<td>"Red drift blocks actions until retraining."</td>
+</tr>
+<tr>
+<td>4:30</td>
+<td>Audit tab</td>
+<td>"Every step is logged with actor and time."</td>
+</tr>
+<tr>
+<td>4:50</td>
+<td>Close</td>
+<td>"Weak points: synthetic data, small GNN gain. I can show the audits."</td>
+</tr>
+</tbody>
+</table>
+<p>Notes:</p>
+<ul>
+<li>The detector runs every 10 s by default. A4 measured median 1.0 s detection (max 25.4 s) with the detector at 1 s. For the demo, start the API with <code>PRAHARI_DETECTOR_INTERVAL_S=2 make serve</code>.</li>
+<li>If nothing appears in 30 s, inject on an AGG node, not a cell (leaf faults may not be detected).</li>
+<li>There is no reset for the drift scenario, so do it last. To reset: stop the API, <code>cp prahari.db.bak prahari.db</code>.</li>
+</ul>
+<p>Fallback if the demo breaks:</p>
+<ol>
+<li>Show <code>docs/screens/01</code>-<code>08</code> in order (same story).</li>
+<li>Or run <code>make web</code> (mock mode, no backend needed).</li>
+<li>Or <code>curl localhost:8000/v1/models</code> and open <code>/docs</code> to show the API.
+Say: "Live demos fail; here is the same flow in screenshots from the system test."</li>
+</ol>
+<hr />
+<h2 id="12-company-sheet">12. Company sheet</h2>
+<p>Caution: these summaries were collected during planning (<code>docs/plan/PLAN.md</code> section 1 and 9). I could not re-open the pages while writing this guide. <strong>Open every link yourself before the interview and quote only what you read.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>What the public source says (per the plan)</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TechM + NVIDIA (Mar 2026)</td>
+<td>Reasoning agents for CSPs: autonomous alarm validation, root-cause analysis and resolution, human-in-the-loop, aiming at Level 4+ autonomous networks</td>
+<td><a target="_blank" rel="noopener" href="https://www.techmahindra.com/insights/press-releases/techm-advances-ai-driven-autonomous-network-operations-csps/">press release</a></td>
+</tr>
+<tr>
+<td>TechM + Microsoft (Mar 2026)</td>
+<td>Ontology-driven agentic AI platform for telecom</td>
+<td><a target="_blank" rel="noopener" href="https://www.techmahindra.com/insights/press-releases/techm-collaborates-with-microsoft-to-launch-ontology-driven-agentic-ai-platform/">press release</a></td>
+</tr>
+<tr>
+<td>DTW Ignite 2026</td>
+<td>Showcased "GNN-Healing Networks" (AI-led autonomous network healing)</td>
+<td><a target="_blank" rel="noopener" href="https://www.techmahindra.com/insights/events/tech-mahindra-platinum-sponsor-tm-forum-dtw-ignite-2026/">event page</a></td>
+</tr>
+<tr>
+<td>TechM Orion (Jul 2025)</td>
+<td>Agentic AI platform, 200+ agents, 30+ configurable governance checks per agent, cloud/on-prem/hybrid</td>
+<td><a target="_blank" rel="noopener" href="https://www.techmahindra.com/insights/press-releases/tech-mahindra-unveils-techm-orion/">press release</a></td>
+</tr>
+<tr>
+<td>VerifAI</td>
+<td>Validation of AI across discovery, development and production (data quality, model testing, hallucination detection, monitoring)</td>
+<td><a target="_blank" rel="noopener" href="https://www.techmahindra.com/services/artificial-intelligence/verifai/">service page</a></td>
+</tr>
+<tr>
+<td>Project Indus</td>
+<td>Makers Lab Indic LLM, Hindi + 37 dialects</td>
+<td><a target="_blank" rel="noopener" href="https://www.techmahindra.com/insights/press-releases/tech-mahindra-launches-project-indus-large-language-model-llm/">press release</a></td>
+</tr>
+<tr>
+<td>AI Delivered Right</td>
+<td>Strategy for responsible, production-grade AI (April 2025, per the plan)</td>
+<td>No link in the plan. Find the official page before quoting it, or do not quote it.</td>
+</tr>
+<tr>
+<td>FY26 AI investment</td>
+<td>Increased AI investment in FY26 (news article)</td>
+<td><a target="_blank" rel="noopener" href="https://india.entrepreneur.com/technology/tech-mahindra-increases-ai-investment-in-fy26-working-on/498829">Entrepreneur India</a></td>
+</tr>
+</tbody>
+</table>
+<p>How PRAHARI maps (say "mirrors", never "matches their system"):</p>
+<ul>
+<li>NVIDIA launch → validation, RCA, governed resolution with a human.</li>
+<li>GNN-Healing → GNN for RCA.</li>
+<li>Orion governance checks → 10 YAML checks.</li>
+<li>VerifAI → data-quality checks, quality gates, groundedness, drift.</li>
+<li>Project Indus → Hindi narratives (templates, not an LLM).</li>
+</ul>
+<p>5 questions to ask the interviewer:</p>
+<ol>
+<li>"In your network-operations work, how do teams get root-cause labels to train on? Trouble tickets, or expert review?"</li>
+<li>"How does a Digital Catalyst AI Engineer split time between building models and making them production-ready?"</li>
+<li>"When an agent proposes an action for a customer network, who approves it, and how are governance checks configured per customer?"</li>
+<li>"How do you monitor models after deployment: drift dashboards, scheduled retraining, or both?"</li>
+<li>"What would a new AI engineer usually work on in the first three months?"</li>
+</ol>
+<hr />
+<h2 id="13-question-bank">13. Question bank</h2>
+<h3 id="131-project-specific">13.1 Project-specific</h3>
+<details class="q">
+<summary>Q1. Walk me through what happens when a fibre cut occurs.</summary>
+<p>The simulator raises alarms on the node and its downstream nodes. The detector reads new alarms every 10 s. The validator scores them; noise drops out. Valid alarms close in time (5 min) and space (2 hops) form a cluster. RCA runs on a 15-minute window. The agent picks a runbook and action. Ten governance checks run. A human approves; checks re-run; the simulator applies the fix. Every step is in <code>audit_log</code>.</p>
+</details>
+<details class="q">
+<summary>Q2. Why a GNN for root cause?</summary>
+<p>Faults spread along links. A node's neighbours carry evidence: if all children of AGG-07 alarm, AGG-07 is likely the cause. A GCN mixes neighbour information. But be honest: on my data the GNN beat a no-graph MLP by only 1 point over 10 seeds (p about 0.07). Most of the signal is in node features like KPI deltas.</p>
+</details>
+<details class="q">
+<summary>Q3. Then why keep the GNN?</summary>
+<p>It is never worse on average, it generalises to the 80-node topology (100% vs 97.9%), and its gain grows with noisy, dropped alarms (+2.2 pt in Q2). On real data, where node features are weaker, the graph should matter more. That is a hypothesis; I would test it on real data.</p>
+</details>
+<details class="q">
+<summary>Q4. How do you know the model does not cheat with labels?</summary>
+<p>Labels live only in <code>incidents</code> and <code>label_*</code> columns. Loaders use column allow-lists. The SQL guard rejects them. Q1 shuffled labels and features did not change. Q3 renamed the ground-truth table and columns and every serving endpoint still worked.</p>
+</details>
+<details class="q">
+<summary>Q5. What is the input to the GNN?</summary>
+<p>For each node in a 15-minute window: 15 alarm-type counts, total, critical count, first-alarm minute, 6 KPI deltas, 6 KPI z-scores, 4 tier one-hots. 34 features. Plus A_hat for the topology.</p>
+</details>
+<details class="q">
+<summary>Q6. How was the RCA model trained?</summary>
+<p>408 train incidents, chronological. Adam, lr 2e-3, up to 80 epochs, early stopping on validation top-1 (patience 12). Loss = root cross-entropy + 0.5 × fault cross-entropy. It stopped after 25 epochs. Train time 92 s on CPU.</p>
+</details>
+<details class="q">
+<summary>Q7. What does top-3 = 100% mean for an operator?</summary>
+<p>The true root is always in the 3 nodes shown. The operator checks at most 3 nodes. That is useful even when top-1 is wrong.</p>
+</details>
+<details class="q">
+<summary>Q8. Where does the model fail?</summary>
+<p>Overlapping incidents (88.2% top-1 vs 98.6% without) and missing root alarms (81.8%). It does not infer a silent upstream node.</p>
+</details>
+<details class="q">
+<summary>Q9. Why does the validator threshold sit at 0.18, not 0.5?</summary>
+<p>I chose the largest threshold that keeps validation recall ≥ 0.98. A dropped real alarm can hide an outage. Cost: precision 0.962 instead of 0.980.</p>
+</details>
+<details class="q">
+<summary>Q10. Your validator has 0.998 PR-AUC. Is that suspicious?</summary>
+<p>Yes. Q2 found a shortcut: in the simulator, test noise alarms never have a neighbour alarm in the previous 5 minutes. Without the count features it still gets 0.9945. I report noise-class AP 0.9675. On real data I would expect lower.</p>
+</details>
+<details class="q">
+<summary>Q11. Why does a 3-sigma rule beat your IsolationForest on F1?</summary>
+<p>The faults in my simulator are big KPI shifts, so a single max-z feature with a tuned threshold works well (F1 0.809). The forest ranks better overall (PR-AUC 0.8135 vs 0.745) but its F1 is 0.779. I would keep the simple rule as baseline. The forest is not on the incident path.</p>
+</details>
+<details class="q">
+<summary>Q12. What was the anomaly model&#x27;s first problem?</summary>
+<p>The baseline was the rolling hour before t. A lasting fault entered its own baseline, so the z-score shrank: recall 0.02 at 30-60 min. I lagged the baseline to end 75 minutes before t.</p>
+</details>
+<details class="q">
+<summary>Q13. Why 10 governance checks? Why these?</summary>
+<p>They cover the ways an automated action goes wrong: low confidence (G1, G2), made-up text (G3), dangerous action (G4), leaked data (G5), model out of date (G6), unregistered model (G7), malformed output (G8), repeated action (G9), high severity (G10).</p>
+</details>
+<details class="q">
+<summary>Q14. What did the Q3 governance bypass teach you?</summary>
+<p>Checks ran once at proposal time. Drift turned red later and approve still executed. Conditions change between proposal and approval, so approval must re-check. Now approve re-runs all checks and returns 409 on any fail.</p>
+</details>
+<details class="q">
+<summary>Q15. How does the groundedness check work?</summary>
+<p>Regex finds node ids and numbers in the narrative. Each id must be in the RCA evidence or candidates. Each number must be derived from RCA output (probabilities as %, counts, KPI deltas). Anything else → fail → blocked.</p>
+</details>
+<details class="q">
+<summary>Q16. What does the agent do without an LLM?</summary>
+<p>With provider <code>none</code> it runs a fixed plan: get RCA, search runbooks with "fault + tier" words, propose the runbook's action, fill a template in English or Hindi. Deterministic and offline.</p>
+</details>
+<details class="q">
+<summary>Q17. Why TF-IDF and not embeddings?</summary>
+<p>15 runbooks. TF-IDF is enough, needs no model download or vector DB, and is explainable. Honest: my retrieval test (15/15) is easy because queries use runbook words.</p>
+</details>
+<details class="q">
+<summary>Q18. How does drift block actions?</summary>
+<p>The latest <code>drift_reports</code> status feeds G6. Red = fail = blocked. The dashboard shows it. Retraining and a new reference are needed to clear it.</p>
+</details>
+<details class="q">
+<summary>Q19. How do you retrain safely?</summary>
+<p><code>python -m prahari.monitoring.retrain &lt;model&gt;</code> trains into staging, compares card metrics, and promotes only if no metric is worse by more than 0.002. Then rebuild the drift reference. Honest: run once, dry run, on the validator only.</p>
+</details>
+<details class="q">
+<summary>Q20. Why did ONNX not matter much?</summary>
+<p>The forward pass is 0.1-0.3 ms. End-to-end predict is about 42 ms, mostly the DB query. I profiled and fixed the query (36x) — that was the real win.</p>
+</details>
+<details class="q">
+<summary>Q21. What does the load test show?</summary>
+<p>No errors up to 50 clients after the fixes. <code>/v1/alarms/validate</code> p50 rises from 56 ms (1 client) to 4.3 s (32). It is CPU-bound on one worker. Fix: more workers with Postgres, batch requests, cache z-scores.</p>
+</details>
+<details class="q">
+<summary>Q22. Why were 2 of 10 live faults missed?</summary>
+<p>An incident needs ≥ 2 valid alarms. Leaf faults (a cell) can raise only 1. Lowering to 1 would open many incidents from single noise alarms that pass the validator. A better fix: open single-alarm incidents only when the validator is very confident, or when the anomaly detector agrees.</p>
+</details>
+<details class="q">
+<summary>Q23. What does the data look like?</summary>
+<p>90 days, 120 nodes, 15.2M KPI rows, 6393 alarms, 584 incidents, 25% noise alarms, root alarm missing 13.5%, about 10% of incidents start during another.</p>
+</details>
+<details class="q">
+<summary>Q24. What is in a model card?</summary>
+<p>Name, version, train time, data hash, features, test metrics, baseline metrics, intended use, limitations. G7 blocks actions from a model with no card.</p>
+</details>
+<details class="q">
+<summary>Q25. How do the tests prove quality?</summary>
+<p>Quality gates fail CI if card metrics fall below set lines. Data tests check leakage and realism. API tests run the real detector on a 1-day DB. A ground-truth test checks serving never reads labels.</p>
+</details>
+<h3 id="132-ml-fundamentals">13.2 ML fundamentals</h3>
+<details class="q">
+<summary>Q26. Precision vs recall — which matters more here?</summary>
+<p>For alarm validation, recall: missing a real alarm is worse. For auto-executing an action, precision: a wrong action harms the network. That is why actions need high confidence and a human.</p>
+</details>
+<details class="q">
+<summary>Q27. Why PR-AUC and not accuracy for anomaly detection?</summary>
+<p>Only 0.79% of node-minutes are positive. Predicting "normal" always gives 99.2% accuracy. PR-AUC focuses on the positives.</p>
+</details>
+<details class="q">
+<summary>Q28. What is overfitting and how did you control it?</summary>
+<p>Learning noise in training data so test results drop. Controls: early stopping on validation, dropout 0.2, weight decay, small trees and L2 in boosting, and a held-out chronological test set read once.</p>
+</details>
+<details class="q">
+<summary>Q29. What is data leakage? Give an example from this project.</summary>
+<p>Information at training time that is not available at prediction time. Example: the pipeline's neighbour count looked 5 minutes into the future. A2 rebuilt it with strictly earlier alarms and tested it.</p>
+</details>
+<details class="q">
+<summary>Q30. Why a chronological split?</summary>
+<p>Production predicts the future from the past. A random split lets overlapping incidents sit in both train and test. Q1 checked: all 77 overlapping pairs stay in one split.</p>
+</details>
+<details class="q">
+<summary>Q31. Explain calibration and why you need it.</summary>
+<p>Calibrated probabilities match frequencies. Governance uses probabilities as confidence thresholds, so they must mean what they say. I used isotonic regression on validation; Brier 0.021.</p>
+</details>
+<details class="q">
+<summary>Q32. Logistic regression vs gradient boosting?</summary>
+<p>LogReg is linear in features, fast, easy to explain. Boosting learns interactions and non-linear thresholds. Here boosting gained little (F1 0.976 vs 0.973), a sign the task is easy.</p>
+</details>
+<details class="q">
+<summary>Q33. What is softmax and where is it used?</summary>
+<p>Turns logits into probabilities that sum to 1. Over nodes for the root (one root per window) and over 5 classes for fault type.</p>
+</details>
+<details class="q">
+<summary>Q34. Why cross-entropy loss?</summary>
+<p>It is the negative log-likelihood of the correct class. It strongly punishes confident wrong answers.</p>
+</details>
+<details class="q">
+<summary>Q35. What is macro-F1?</summary>
+<p>F1 per class, then averaged without weights. Rare fault types count the same as common ones.</p>
+</details>
+<details class="q">
+<summary>Q36. What does dropout do?</summary>
+<p>Randomly zeros units during training, so the network cannot rely on one path. Off at inference.</p>
+</details>
+<details class="q">
+<summary>Q37. What is a residual connection?</summary>
+<p><code>h = h + f(h)</code>. The layer learns a change, not a replacement. Gradients flow better, and in GCNs it reduces over-smoothing.</p>
+</details>
+<details class="q">
+<summary>Q38. What is over-smoothing in GNNs?</summary>
+<p>After many layers every node averages over most of the graph and looks the same. That is why 3 layers plus residuals.</p>
+</details>
+<details class="q">
+<summary>Q39. How would you test whether the GNN gain is real?</summary>
+<p>More seeds, more test incidents, a paired test, and harder data (overlaps, dropped alarms). Q2 did 10 seeds: p about 0.07. I would need a bigger test set.</p>
+</details>
+<details class="q">
+<summary>Q40. Unsupervised vs supervised anomaly detection?</summary>
+<p>Unsupervised (IsolationForest) needs no labels and can find new failure kinds. Supervised needs labels but usually scores better on known kinds. I used labels only to pick the threshold and evaluate.</p>
+</details>
+<h3 id="133-dsa-oop-dbms-tied-to-the-code">13.3 DSA, OOP, DBMS tied to the code</h3>
+<details class="q">
+<summary>Q41. What is the complexity of your hop-distance computation?</summary>
+<p>Level-synchronous BFS with dense matrix products: O(D × N³), D = diameter. For 120 nodes it is instant. An adjacency-list BFS from every node is O(N(N + E)).</p>
+</details>
+<details class="q">
+<summary>Q42. How do you count downstream nodes?</summary>
+<p>DFS with a stack over strictly deeper tiers (<code>dependent_count</code>, <code>agent/flow.py</code>). O(V + E). BFS would give the same count.</p>
+</details>
+<details class="q">
+<summary>Q43. How are alarms clustered?</summary>
+<p>Union-find over pairs within 5 min and 2 hops. O(n²) pair checks, near-constant find with path halving.</p>
+</details>
+<details class="q">
+<summary>Q44. Where is OOP used well?</summary>
+<p>Governance: abstract <code>Check</code> with <code>run()</code>, one subclass per rule, a <code>@register</code> decorator, and <code>evaluate()</code> in the base class that turns exceptions into fail. Open for extension: adding G11 is one class. LLM providers share one interface too.</p>
+</details>
+<details class="q">
+<summary>Q45. Is your schema normalised?</summary>
+<p>Yes for core data: node attributes once in <code>nodes</code>, foreign keys elsewhere. Reports are JSON on purpose (written once, read whole).</p>
+</details>
+<details class="q">
+<summary>Q46. Why the (node_id, ts) index?</summary>
+<p>Every KPI query asks "these nodes, this time range". A composite index on (node_id, ts) seeks to the node, then a time range. Order matters: (ts, node_id) would be worse for one node over time.</p>
+</details>
+<details class="q">
+<summary>Q47. Tell me about a slow query you fixed.</summary>
+<p>The KPI window query took about 1.1 s. <code>EXPLAIN QUERY PLAN</code> showed SQLite scanning 15M rows because it chose the wrong join order. <code>CROSS JOIN</code> forces it to drive from <code>nodes</code> and use the index: 30 ms (36x).</p>
+</details>
+<details class="q">
+<summary>Q48. Write SQL: number of alarms per node type in the last hour.</summary>
+<p><code>SELECT n.node_type, COUNT(*) FROM alarms a JOIN nodes n ON n.node_id = a.node_id WHERE a.ts &gt;= :since GROUP BY n.node_type;</code> The <code>ix_alarms_ts</code> index serves the WHERE.</p>
+</details>
+<details class="q">
+<summary>Q49. How do you prevent SQL injection in the agent&#x27;s SQL tool?</summary>
+<p>Two layers. Parser: one SELECT, allow-listed tables, forbidden words, no labels. Then SQLite authorizer + <code>query_only</code> + timeout. Elsewhere the code binds parameters. Honest: one helper (<code>_node_type</code>) builds a query with an f-string from a node id; it still passes the guard, but I would parameterise it.</p>
+</details>
+<details class="q">
+<summary>Q50. How do you handle two people approving at once?</summary>
+<p>A lock around the decision plus a status check: only <code>proposed</code> (or <code>blocked</code> for a reject) can change. Q3 test: 10 parallel decisions → one 200, nine 409, one audit event.</p>
+</details>
+<h3 id="134-system-design">13.4 System design</h3>
+<details class="q">
+<summary>Q51. Scale this to 100,000 nodes.</summary>
+<ul>
+<li>Ingest: Kafka topics for alarms and KPIs; stream processing for features.</li>
+<li>Storage: time-series DB for KPIs, Postgres for state.</li>
+<li>Validator: stateless, horizontally scaled; features from a streaming store.</li>
+<li>RCA: run on the subgraph around the alarm cluster (k-hop neighbourhood), not the whole graph. Sparse adjacency. Batch on GPU if needed.</li>
+<li>Detector: partition by region.</li>
+<li>API: several workers behind a load balancer; cache; queue long jobs.</li>
+</ul>
+</details>
+<details class="q">
+<summary>Q52. How would you serve models in production?</summary>
+<p>Containerised API with versioned artifacts from a registry, health checks, canary rollout, metrics per version. ONNX Runtime for the GNN.</p>
+</details>
+<details class="q">
+<summary>Q53. How do you monitor in production?</summary>
+<p>Latency and error metrics (Prometheus <code>/metrics</code> exists), input drift (PSI/KS), output drift (validator probability, RCA confidence), and outcome feedback (operator approvals vs rejections as labels).</p>
+</details>
+<details class="q">
+<summary>Q54. SQLite in production?</summary>
+<p>No. One writer. I used WAL and busy timeouts to survive the load test, but production needs Postgres. Note: my SQL guard's second layer is SQLite-only, so Postgres needs a read-only DB role instead.</p>
+</details>
+<details class="q">
+<summary>Q55. How would you make the API secure?</summary>
+<p>Auth (OAuth2/JWT), role-based approval rights, rate limits, input limits (done: window ≤ 6 h, batch ≤ 1000), no secrets in code, audit log (done), TLS.</p>
+</details>
+<h3 id="135-responsible-ai">13.5 Responsible AI</h3>
+<details class="q">
+<summary>Q56. Why a human in the loop?</summary>
+<p>Network actions can cause outages. The model is right most of the time, not always. A human approves high-severity or uncertain cases (G10, G1, G2). The audit log shows who approved what.</p>
+</details>
+<details class="q">
+<summary>Q57. How do you stop hallucinated explanations?</summary>
+<p>G3: every node id and number in the text must come from the RCA output. Otherwise the action is blocked. The default provider uses templates, so it cannot hallucinate.</p>
+</details>
+<details class="q">
+<summary>Q58. What about privacy?</summary>
+<p>Redaction of emails, phones (incl. Indian mobile format), IPs and keys before text is stored or shown; G5 fails if any remains. Serving never reads labels. Serving never reads ground-truth labels either.</p>
+</details>
+<details class="q">
+<summary>Q59. What is a model card for?</summary>
+<p>Tells users what the model is for, how it was tested, and where it fails. Mine list the honest limits (e.g. the shortcut, the small GNN gain).</p>
+</details>
+<details class="q">
+<summary>Q60. Could the model be biased?</summary>
+<p>Yes, by vendor or region if data differs. The drift report has per-vendor latency PSI; the firmware scenario showed one vendor drifting (PSI 4.99). I would report accuracy per vendor and per tier before deployment.</p>
+</details>
+<h3 id="136-what-would-you-do-differently">13.6 What would you do differently</h3>
+<details class="q">
+<summary>Q61. What would you change first?</summary>
+<p>Make the simulator harder before training anything: overlapping incidents, true-alarm flaps, noise near incidents. I would also set the honest metric (noise-class AP) at the start.</p>
+</details>
+<details class="q">
+<summary>Q62. What would you add with one more week?</summary>
+<p>Postgres and two workers, the single-alarm detection rule, a seasonal anomaly baseline, a real LLM behind G3, and actually running Docker.</p>
+</details>
+<details class="q">
+<summary>Q63. What did you learn?</summary>
+<p>Audits find what you do not want to see. Simple baselines must be tuned fairly. Bottlenecks are rarely where you expect (the DB, not the model). State the weak numbers yourself.</p>
+</details>
+<h3 id="137-behavioural-and-ai-tools">13.7 Behavioural and AI-tools</h3>
+<details class="q">
+<summary>Q64. Was this built with AI tools?</summary>
+<p>Yes — see section 2 for the full answer. Short version: "AI-assisted multi-agent workflow. I designed the problem, plan, contracts and audits. I can explain and change every file. Ask me to open any one."</p>
+</details>
+<details class="q">
+<summary>Q65. How do you know the AI-written code is correct?</summary>
+<p>Same way as any code: tests (168), independent audits that reproduced every metric to 1e-4, a real-API end-to-end test, a load test, and reading it. The audits found real bugs, which were fixed.</p>
+</details>
+<details class="q">
+<summary>Q66. Tell me about a time you found a problem in your own work.</summary>
+<p>The Q3 governance bypass: an action was executed after drift turned red. I traced it to <code>decide()</code> not re-running checks, fixed it, and added a test.</p>
+</details>
+<details class="q">
+<summary>Q67. How do you handle a result that looks too good?</summary>
+<p>Suspect it. The 0.976 single-feature AUC and the 0.998 validator PR-AUC were both too good. Probes with one-feature trees found why.</p>
+<hr />
+</details>
+<h2 id="14-exercises-to-do-by-hand">14. Exercises to do by hand</h2>
+<p>Do at least 3 before the interview. Each takes 20-60 minutes. Commit each on a branch.</p>
+<ol>
+<li><strong>Add an 11th governance check.</strong> In <code>prahari/governance/checks.py</code>, add <code>class MaintenanceWindow(Check)</code> with <code>id, name = "G11", "maintenance_window"</code> and <code>@register</code>. Fail if the target node is in a list from <code>policy.yaml</code> (add a <code>G11: {nodes: [AGG-01]}</code> block). Add a test in <code>tests/test_governance.py</code>. Run <code>.venv/bin/pytest tests/test_governance.py</code>. Note: <code>evaluate()</code> sorts by the number after "G", so G11 sorts after G10.</li>
+<li><strong>Change the GNN depth.</strong> In <code>prahari/models/rca/model.py</code>, change <code>range(3)</code> to <code>range(1)</code> and then <code>range(5)</code>. Run <code>.venv/bin/python -m prahari.models.rca.train</code> (about 95 s). Compare <code>root_top1</code> in the new card with the MLP. Expect little change; explain why (features carry most signal). Afterwards put the old version id back in <code>artifacts/rca_gnn/latest</code> (the predictor loads the version named there), and delete the new folder.</li>
+<li><strong>A_hat and PSI by hand.</strong> Compute A_hat for the 3-node line (section 5.1) on paper. Check with <code>python -c "from prahari.models.rca.model import normalised_adjacency; import numpy as np; print(normalised_adjacency(np.array([[0,1,0],[1,0,1],[0,1,0]])))"</code>. Then check the PSI example with <code>psi_from_props</code> from <code>prahari.monitoring.stats</code>.</li>
+<li><strong>Move the validator threshold.</strong> In <code>prahari/models/validator/model.py</code>, change <code>TARGET_RECALL</code> from 0.98 to 0.95. Retrain (<code>python -m prahari.models.validator.train</code>, about 64 s). Compare precision and recall in the new card. Explain the trade-off. Revert.</li>
+<li><strong>SQL and the guard.</strong> Run <code>EXPLAIN QUERY PLAN</code> on a KPI query with plain <code>JOIN</code> vs <code>CROSS JOIN</code> in <code>sqlite3 prahari.db</code>. Then call <code>validate_sql</code> from <code>prahari/agent/sqlguard.py</code> with <code>SELECT label_is_true FROM alarms</code> and with <code>SELECT * FROM nodes, incidents</code>. Explain each rejection.</li>
+</ol>
+<hr />
+<h2 id="15-numbers-sheet-memorise">15. Numbers sheet (memorise)</h2>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Meaning</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>120 / 80</td>
+<td>nodes in main / alt topology</td>
+<td>A1, A3</td>
+</tr>
+<tr>
+<td>584; 408/88/88</td>
+<td>incidents; train/val/test</td>
+<td>A1</td>
+</tr>
+<tr>
+<td>25% / 13.5%</td>
+<td>noise alarms / root alarm missing</td>
+<td>A1</td>
+</tr>
+<tr>
+<td>2.3 GB, ~10 min</td>
+<td>DB size, <code>make seed train</code> time (9 min 41 s)</td>
+<td>A1, Q3</td>
+</tr>
+<tr>
+<td>0.976 → 0.846</td>
+<td>Q1 one-feature AUC before / after fix</td>
+<td>Q1, A1</td>
+</tr>
+<tr>
+<td>96.6% / 100% / 0.957</td>
+<td>RCA top-1 / top-3 / fault F1</td>
+<td>RCA card</td>
+</tr>
+<tr>
+<td>95.5%</td>
+<td>MLP top-1</td>
+<td>RCA card</td>
+</tr>
+<tr>
+<td>+1.0 pt, p ≈ 0.07</td>
+<td>GNN − MLP over 10 seeds</td>
+<td>Q2</td>
+</tr>
+<tr>
+<td>0.962 / 0.991</td>
+<td>validator precision / recall at 0.18</td>
+<td>validator card</td>
+</tr>
+<tr>
+<td>0.998 → 0.9675</td>
+<td>validator PR-AUC → honest noise-class AP</td>
+<td>Q2</td>
+</tr>
+<tr>
+<td>0.8135 / 0.779 vs 0.809</td>
+<td>anomaly PR-AUC / F1 vs tuned 3-sigma F1</td>
+<td>anomaly card</td>
+</tr>
+<tr>
+<td>8/10</td>
+<td>live faults detected; 8/8 correct root</td>
+<td>A4</td>
+</tr>
+<tr>
+<td>0.244 / 0.135 / 0.122 ms</td>
+<td>PyTorch / ONNX / int8 forward p50</td>
+<td>bench.md</td>
+</tr>
+<tr>
+<td>42.2 ms</td>
+<td>end-to-end RCA predict p50</td>
+<td>bench.md</td>
+</tr>
+<tr>
+<td>1078 → 30 ms</td>
+<td>KPI query, plain JOIN → CROSS JOIN</td>
+<td>bench.md</td>
+</tr>
+<tr>
+<td>56 ms → 4.3 s</td>
+<td>validate p50, 1 → 32 clients</td>
+<td>Q3</td>
+</tr>
+<tr>
+<td>0.44</td>
+<td>latency PSI in drift scenario (0.37 in Q3 run)</td>
+<td>A6, Q3</td>
+</tr>
+<tr>
+<td>168</td>
+<td>tests passing</td>
+<td>Q3</td>
+</tr>
+</tbody>
+</table></main>
+</div>
+<script>
+const all=()=>document.querySelectorAll('details.q');
+document.getElementById('open').onclick=()=>all().forEach(d=>d.open=true);
+document.getElementById('close').onclick=()=>all().forEach(d=>d.open=false);
+document.getElementById('print').onclick=()=>window.print();
+let saved=[];
+window.addEventListener('beforeprint',()=>{saved=[...all()].map(d=>d.open);all().forEach(d=>d.open=true)});
+window.addEventListener('afterprint',()=>{all().forEach((d,i)=>d.open=saved[i])});
+document.getElementById('theme').onclick=()=>{const r=document.documentElement;
+const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+r.dataset.theme=dark?'light':'dark'};
+document.querySelectorAll('main table').forEach(t=>{const w=document.createElement('div');w.className='tablewrap';
+t.parentNode.insertBefore(w,t);w.appendChild(t)});
+</script>
+</body>
+</html>
