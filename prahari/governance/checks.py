@@ -81,7 +81,8 @@ class ConfidenceThreshold(Check):
         fault = "pass" if fp >= fok else "warn" if fp >= fbad else "fail"
         status = max(root, fault, key=rank.get)
         detail = (
-            f"root {top:.2f} {'>=' if root == 'pass' else '<'} {ok if root != 'fail' else bad:.2f}; "
+            f"root {top:.2f} {'>=' if root == 'pass' else '<'} "
+            f"{ok if root != 'fail' else bad:.2f}; "
             f"fault_type {fp:.2f} {'>=' if fault == 'pass' else '<'} "
             f"{fok if fault != 'fail' else fbad:.2f}"
         )
