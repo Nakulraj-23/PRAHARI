@@ -1,0 +1,22 @@
+# Governance thresholds. Any check failing -> blocked; G10 or any warn -> needs_approval.
+G1:  # confidence_threshold (top-1 root probability)
+  pass_at: 0.70
+  fail_below: 0.50      # between fail_below and pass_at -> warn
+G2:  # top-1 minus top-2 probability margin
+  pass_at: 0.15
+  fail_below: 0.05
+G3: {}                  # groundedness: no thresholds
+G4:  # action allow-list and blast radius (downstream dependent nodes)
+  allowed_actions: [reroute_traffic, restart_node, rollback_config, dispatch_field_team,
+                    throttle_traffic, no_action]
+  warn_above: 5
+  fail_above: 40
+G5: {}                  # redaction: any remaining email/phone/ip/key -> fail
+G6: {}                  # drift: green pass, amber warn, red fail, unknown warn
+G7: {}                  # model card must exist in artifacts/<name>/<version>.card.json
+G8: {}                  # RCA and agent output must validate against their schemas
+G9:
+  window_minutes: 30    # same target node, any non-no_action action, within window -> fail
+G10:
+  human_required_severities: [major, critical]
+  unknown_severity_requires_human: true

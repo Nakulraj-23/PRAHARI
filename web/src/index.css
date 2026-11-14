@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body { @apply bg-slate-950 text-slate-200 text-sm; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
+.panel { @apply bg-slate-900 border border-slate-800 rounded p-3; }
+.btn { @apply px-3 py-1 rounded border border-slate-600 bg-slate-800 hover:bg-slate-700 text-slate-100 disabled:opacity-50; }
+.h { @apply text-xs uppercase tracking-wider text-slate-400 mb-2; }

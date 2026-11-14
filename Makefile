@@ -15,7 +15,8 @@ train:
 serve:
 	@echo "serve: not built yet"
 web:
-	@echo "web: not built yet"
+	cd web && (test -d node_modules || npm install)
+	cd web && VITE_MOCK=$${VITE_MOCK:-1} npm run dev
 bench:
 	@echo "bench: not built yet"
 
