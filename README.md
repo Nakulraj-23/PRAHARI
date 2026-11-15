@@ -167,3 +167,9 @@ low-confidence fault type through, and database locking under load. Details in `
 ## License
 
 MIT, see [LICENSE](LICENSE).
+
+## Author
+
+Built by **[Nakulraj-23](https://github.com/Nakulraj-23)** as a portfolio project for an AI Engineer role.
+It was built with an AI-assisted workflow: the problem, the scope and every design decision are the author's,
+and the AI agents that wrote and audited code are credited in the commit trailers. See [AUTHORS.md](AUTHORS.md).
