@@ -19,3 +19,4 @@ web/test-results/
 web/dist/
 web/test-results/
 .DS_Store
+.vercel

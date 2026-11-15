@@ -13,6 +13,7 @@ proposes a fix, and asks a human before it acts.
 ![React](https://img.shields.io/badge/React-dashboard-61dafb)
 ![Tests](https://img.shields.io/badge/tests-175%20passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+[![Live demo](https://img.shields.io/badge/live%20demo-prahari--red.vercel.app-black?logo=vercel)](https://prahari-red.vercel.app)
 
 ![Alarm storm and RCA](docs/screens/02-alarm-storm-rca.png)
 
@@ -135,6 +136,8 @@ What production would need: real alarm and topology data with root-cause labels,
 With an AI-assisted multi-agent workflow (builder agents and independent audit agents, see `docs/plan/` and `docs/handoffs/`). The problem, scope and design choices are the author's. Every failed approach is logged in `docs/EXPERIMENTS.md`.
 
 ## Live demo (free, Vercel)
+
+**https://prahari-red.vercel.app** is deployed from `web/`.
 
 The dashboard can be hosted as a static **demo replay**: it shows data captured from a real run
 of this system (real topology, real incident, real governance report, real model cards and drift
