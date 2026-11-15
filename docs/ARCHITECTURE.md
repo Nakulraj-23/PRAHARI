@@ -85,4 +85,4 @@ It keeps a cursor (last alarm id) in `audit_log`, so a restart resumes where it 
 
 ## 6. Known weak points
 
-See the Limitations section of `README.md` and section 9 of `docs/INTERVIEW_GUIDE.md`.
+See the Limitations section of `README.md` and section 6 of `docs/EXPLAIN_LIKE_IM_5.md`.

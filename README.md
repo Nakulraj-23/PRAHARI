@@ -152,9 +152,8 @@ Local preview: `cd web && DEMO_DATA=1 VITE_MOCK=1 VITE_DEMO=1 npm run build && n
 
 | Read this | For |
 |---|---|
-| [docs/EXPLAIN_LIKE_IM_5.md](docs/EXPLAIN_LIKE_IM_5.md) | The whole project in plain language, with test results per component |
+| [docs/EXPLAIN_LIKE_IM_5.md](docs/EXPLAIN_LIKE_IM_5.md) | The whole project in plain language, with test results per component and ten common questions |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Components, data flow, design decisions and rejected alternatives |
-| [docs/INTERVIEW_GUIDE.md](docs/INTERVIEW_GUIDE.md) | Concepts from first principles and a 67-question bank |
 | [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) | Every failed attempt and what was learned |
 | [docs/bench.md](docs/bench.md) · [docs/loadtest.md](docs/loadtest.md) | Latency, model size and load-test numbers |
 

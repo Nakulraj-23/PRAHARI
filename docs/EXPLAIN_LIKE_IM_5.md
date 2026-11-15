@@ -1,6 +1,6 @@
 # PRAHARI explained like you are 5 (and then like you are 25)
 
-Read this first. Then read `INTERVIEW_GUIDE.md`. If you can say this file out loud without looking, you can survive the interview.
+The whole project in plain language: what it does, how it was built and tested, and where it is weak.
 
 ---
 
@@ -56,7 +56,7 @@ I (Claude) acted as the **manager**. I split the work into small jobs and gave e
 
 **Tools used:** Python 3.11, NumPy, pandas, scikit-learn, PyTorch, ONNX Runtime, networkx, SQLAlchemy + SQLite, FastAPI + Pydantic, React + Vite + Cytoscape.js + Recharts, pytest, Playwright, ruff, Git/GitHub, Docker files (written, **not run**).
 
-**Be honest in the interview:** this was an **AI-assisted build**. You chose the problem and own the design. The guide has an answer ready. Do the 5 hands-on exercises in `INTERVIEW_GUIDE.md` so you can change the code yourself, in front of them.
+**AI-assisted build:** the author chose the problem and owns the design; AI agents wrote and audited code under that direction.
 
 ---
 
@@ -78,7 +78,7 @@ I (Claude) acted as the **manager**. I split the work into small jobs and gave e
 
 ---
 
-## 5. The part that makes you look good: the checkers found problems and we fixed them
+## 5. The checkers found problems and we fixed them
 
 This is real evidence of engineering discipline. Tell it as a story.
 
@@ -88,7 +88,7 @@ This is real evidence of engineering discipline. Tell it as a story.
 
 ---
 
-## 6. Weak spots. Say them before they ask
+## 6. Weak spots
 
 - **All data is synthetic.** Real networks are messier. Real data would need privacy review, labelling by engineers, and probably retraining.
 - **Validator 0.998 PR-AUC is inflated** by a simulator shortcut (noise alarms never have a neighbour alarm). Quote **0.9675** (noise-class average precision).
@@ -97,7 +97,7 @@ This is real evidence of engineering discipline. Tell it as a story.
 - **2 of 10 live injected faults were missed** (leaf nodes with fewer than 2 valid alarms).
 - **Slow under heavy load.** `/v1/alarms/validate` slows down with many users on one worker.
 - **Docker and Postgres were never run.** SQLite is the tested path.
-- **Scale:** 120 nodes. For 100,000 nodes you would shard by region, use sparse adjacency and neighbour sampling, and stream alarms (see the guide's system-design answer).
+- **Scale:** 120 nodes. For 100,000 nodes you would shard by region, use sparse adjacency and neighbour sampling, and stream alarms.
 
 ---
 
@@ -122,7 +122,7 @@ Note: plain `make web` starts in **mock mode** (reads fixture files). Use the `V
 
 ---
 
-## 8. Ten questions you will probably get (short answers)
+## 8. Ten common questions (short answers)
 
 1. **What does it do?** Filters noise alarms, finds the root cause with a graph model, proposes a fix, asks a human, with 10 safety checks in between.
 2. **Why a graph model?** Faults spread along connections. The graph tells each node who its neighbours are.
@@ -135,14 +135,3 @@ Note: plain `make web` starts in **mock mode** (reads fixture files). Use the `V
 9. **What would you do differently?** Real data, more seeds, per-region models, a proper queue for alarms, Postgres in production.
 10. **Was it built with AI?** Yes, an AI-assisted multi-agent workflow. I designed the problem, I can explain every file and change it, and I reviewed the audits.
 
----
-
-## 9. Your 7-day plan (short)
-
-- **Day 1:** Read this file twice, then sections 1-6 of `INTERVIEW_GUIDE.md`. Run the project on your laptop (section 7).
-- **Day 2:** Re-read the GNN and metrics sections. Do exercises 1-2 yourself.
-- **Day 3:** Read the question bank, aloud. Do exercises 3-5.
-- **Day 4:** Explain the project to a friend in 2 minutes without notes. Record yourself.
-- **Day 5:** Revise Python, SQL, OOP, DSA basics using this repo's code as examples (BFS in the simulator, class hierarchy in `governance/`, indexes in `db.py`).
-- **Day 6:** Mock interview using the question bank. Read the company links.
-- **Day 7:** Rest. Re-run the demo once. Have the backup video ready.
