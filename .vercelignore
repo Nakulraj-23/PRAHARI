@@ -1,0 +1,7 @@
+# Only the dashboard demo (web/) is deployed to Vercel; everything else stays out of the upload.
+*
+!web
+!web/**
+web/node_modules
+web/dist
+web/test-results
